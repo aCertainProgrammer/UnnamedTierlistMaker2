@@ -1,15 +1,15 @@
 <script lang="ts">
-
-type ProgramState = "main_screen" | "settings"
-const program_state:ProgramState = "main_screen"
+	import MainScreen from "./MainScreen.svelte";
+	import SettingsScreen from "./SettingsScreen.svelte";
+	import { state } from "./state.svelte";
 </script>
 
 <main>
-    {#if program_state == "main_screen"}
-        <MainScreen />
-        {:else if program_state == "settings"}
-        <SettingsScreen />
-    {/if}
+	{#if state.current_screen == "main_screen"}
+		<MainScreen />
+	{:else if state.current_screen == "settings_screen"}
+		<SettingsScreen />
+	{/if}
 </main>
 
 <style></style>
