@@ -12,4 +12,11 @@
 	{/if}
 </main>
 
-<style></style>
+<style>
+	main {
+		height: 100%;
+		width: 100%;
+		max-height: 100%;
+		max-width: 100%;
+	}
+</style>

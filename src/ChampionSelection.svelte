@@ -14,8 +14,16 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
+		justify-content: center;
+		align-items: start;
+
+		gap: 2px;
+
 		overflow-y: auto;
-		min-height: 0;
+
+		width: 50%;
 		max-height: 100%;
+		padding-top: 20px;
+		padding-bottom: 10px;
 	}
 </style>

@@ -7,6 +7,14 @@
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	overflow: hidden;
+
+	--championIconWidth: 80px;
+}
+
+:root [data-theme="dark"] {
+	--scrollbarColor: white;
 }
 
 body {
@@ -28,4 +36,10 @@ body {
 
 * {
 	color: #cccccc;
+	box-sizing: border-box;
+	scrollbar-color: var(--scrollbarColor);
+}
+
+img {
+	max-width: 100%;
 }

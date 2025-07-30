@@ -1,23 +1,14 @@
-/** Capitalizes a string
- * @param {string}
- * @returns {string}
- */
-export function capitalize(string) {
+export function capitalize(string: string): string {
 	if (string == null) return "";
 	let newString = "";
 	newString += string[0].toUpperCase();
 	for (let i = 1; i < string.length; i++) {
-		newString += string[i];
+		newString += string[i].toLowerCase();
 	}
 	return newString;
 }
 
-/**
- * Prettifies champion names
- * @param {string} name
- * @returns {string} pretty_name
- */
-export function prettifyChampionName(name) {
+export function prettifyChampionName(name: string): string {
 	switch (name) {
 		case "aurelionsol":
 			name = "Aurelion Sol";
@@ -73,12 +64,12 @@ export function prettifyChampionName(name) {
 	return name;
 }
 
-export async function readFile(file) {
+export async function readFile(file: File): Promise<string> {
 	const text = file.text();
 	return text;
 }
 
-export function exportData(data, fileName) {
+export function exportData(data: JSON, fileName: string): void {
 	const blob = new Blob([JSON.stringify(data, null, 4)], {
 		type: "plain/text",
 	});
@@ -92,7 +83,7 @@ export function exportData(data, fileName) {
 	document.body.removeChild(downloadElement);
 }
 
-export function exportImage(dataUrl, fileName) {
+export function exportImage(dataUrl: string, fileName: string): void {
 	const downloadElement = document.createElement("a");
 	downloadElement.href = dataUrl;
 	downloadElement.download = fileName;

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ChampionSelection from "./ChampionSelection.svelte";
 	import TextButton from "./lib/TextButton.svelte";
+	import Tierlist from "./Tierlist.svelte";
 	import { state } from "./state.svelte";
 </script>
 
@@ -14,17 +15,17 @@
 		/>
 	</div>
 	<div class="middle-container">
+		<Tierlist />
 		<ChampionSelection />
-		<div class="champion-selection">champion-selection</div>
 	</div>
 </div>
 
 <style>
 	.main-content {
-		height: 100vh;
-		width: 100vw;
-		max-height: 100vh;
-		max-width: 100vw;
+		height: 100%;
+		width: 100%;
+		max-height: 100%;
+		max-width: 100%;
 		display: flex;
 		flex-direction: column;
 	}
@@ -36,5 +37,9 @@
 	.middle-container {
 		display: flex;
 		align-items: center;
+		height: 100%;
+		width: 100%;
+
+		overflow: hidden;
 	}
 </style>
