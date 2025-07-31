@@ -1,3 +1,11 @@
+export type ChampionDataSource = "tier" | "champion_selection";
+
+export type ChampionDragDataType = {
+	champion: string;
+	source: ChampionDataSource;
+	tier_id?: number | undefined;
+};
+
 export type TierlistType = {
 	name: string;
 	tiers: Array<TierType>;
@@ -35,7 +43,7 @@ const default_tierlist: TierlistType = {
 			color: "deepskyblue",
 		},
 		{
-			name: "A very long and interesting name",
+			name: "A very long and interesting name that stretches",
 			champions: ["ahri", "renekton"],
 			color: "limegreen",
 		},
@@ -65,4 +73,11 @@ export function getTierlist(): TierlistType {
 
 export function setTierlist(t: TierlistType): void {
 	tierlist = t;
+}
+
+export function clearTierlist(): void {
+	tierlist = {
+		name: tierlist.name,
+		tiers: default_tierlist.tiers,
+	};
 }

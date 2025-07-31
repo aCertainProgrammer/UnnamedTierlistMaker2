@@ -1,22 +1,56 @@
 <script lang="ts">
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import type { TierType } from "./tierlist.svelte";
+	import { dndzone, TRIGGERS } from "svelte-dnd-action";
+	import type { ChampionDragDataType, TierType } from "./tierlist.svelte";
 
 	type Props = {
 		tier: TierType;
+		tier_id: number;
 	};
 
-	const { tier }: Props = $props();
-	$inspect(tier);
+	const { tier, tier_id }: Props = $props();
+
+	let items = $derived.by(() => {
+		const arr = [];
+		for (let i = 0; i < tier.champions.length; i++) {
+			arr.push({
+				id: `id_${i}_of_champ_${tier.champions[i]}_in_tier_${tier_id}`,
+				champion: tier.champions[i],
+			});
+		}
+
+		return arr;
+	});
+
+	function handleDndConsider(e: any) {
+		const { trigger, id } = e.detail.info;
+		if (trigger === TRIGGERS.DRAG_STARTED) {
+			const index = items.findIndex((item) => item.id === id);
+			const new_id = `${id}_copy_${Math.round(Math.random() * 1000000)}`;
+
+			e.detail.items.splice(index, 0, { ...items[index], id: new_id });
+		}
+
+		items = e.detail.items;
+	}
+
+	function handleDndFinalize(e: any) {
+		items = e.detail.items;
+	}
 </script>
 
 <div class="tier">
 	<div class="tier-name" style="background: {tier.color};">
 		<span>{tier.name}</span>
 	</div>
-	<div class="tier-champions">
-		{#each tier.champions as champion}
-			<ChampionIcon {champion} />
+	<div
+		class="tier-champions"
+		use:dndzone={{ items, dropTargetStyle: {} }}
+		onconsider={handleDndConsider}
+		onfinalize={handleDndFinalize}
+	>
+		{#each items as item (item.id)}
+			<ChampionIcon champion={item.champion} source="tier" {tier_id} />
 		{/each}
 	</div>
 </div>
