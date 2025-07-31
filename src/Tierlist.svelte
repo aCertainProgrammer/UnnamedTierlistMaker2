@@ -10,7 +10,7 @@
 <div class="tierlist">
 	{#each tierlist.tiers as tier, key}
 		{#key key}
-			<Tier {tier} />
+			<Tier {tier} tier_id={key} />
 		{/key}
 	{/each}
 </div>
