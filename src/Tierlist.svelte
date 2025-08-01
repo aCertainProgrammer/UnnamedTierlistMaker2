@@ -1,16 +1,31 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
-	import { getTierlist } from "./tierlist.svelte";
+	import TextInput from "./lib/TextInput.svelte";
+	import { getTierlist, setTierlist } from "./tierlist.svelte";
 	import type { TierlistType } from "./tierlist.svelte";
 
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
-	$inspect(tierlist);
+	function changeTierlistName(event: any) {
+		if (event.target == null) {
+			console.error("Tierlist name input is null");
+			return;
+		}
+
+		tierlist.name = event.target.value.trim();
+		setTierlist(tierlist);
+	}
 </script>
 
 <div class="tierlist">
-	{#each tierlist.tiers as tier, key}
+	<TextInput
+		oninput={changeTierlistName}
+		value={tierlist.name}
+		placeholder="Tierlist name"
+		style="width:100%"
+	/>
+	{#each tierlist.tiers as _, key}
 		{#key key}
-			<Tier {tier} tier_id={key} />
+			<Tier tier_id={key} />
 		{/key}
 	{/each}
 </div>

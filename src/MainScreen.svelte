@@ -3,6 +3,7 @@
 	import TextButton from "./lib/TextButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { state } from "./state.svelte";
+	import { resetTierlist } from "./tierlist.svelte";
 </script>
 
 <div class="main-content">
@@ -11,6 +12,12 @@
 			text="Open settings"
 			onclick={() => {
 				state.current_screen = "settings_screen";
+			}}
+		/>
+		<TextButton
+			text="Reset tierlist"
+			onclick={() => {
+				resetTierlist();
 			}}
 		/>
 	</div>

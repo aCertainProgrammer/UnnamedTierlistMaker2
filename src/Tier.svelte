@@ -1,14 +1,20 @@
 <script lang="ts">
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
 	import { dndzone, TRIGGERS } from "svelte-dnd-action";
-	import type { ChampionDragDataType, TierType } from "./tierlist.svelte";
+	import {
+		getTierlist,
+		setTierlist,
+		type TierlistType,
+		type TierType,
+	} from "./tierlist.svelte";
 
 	type Props = {
-		tier: TierType;
 		tier_id: number;
 	};
 
-	const { tier, tier_id }: Props = $props();
+	const { tier_id }: Props = $props();
+	let tierlist: TierlistType = $derived.by(() => getTierlist());
+	let tier: TierType = $derived(tierlist.tiers[tier_id]);
 
 	let items = $derived.by(() => {
 		const arr = [];
@@ -23,19 +29,31 @@
 	});
 
 	function handleDndConsider(e: any) {
-		const { trigger, id } = e.detail.info;
-		if (trigger === TRIGGERS.DRAG_STARTED) {
-			const index = items.findIndex((item) => item.id === id);
-			const new_id = `${id}_copy_${Math.round(Math.random() * 1000000)}`;
-
-			e.detail.items.splice(index, 0, { ...items[index], id: new_id });
-		}
-
 		items = e.detail.items;
 	}
 
 	function handleDndFinalize(e: any) {
 		items = e.detail.items;
+
+		const { trigger, id } = e.detail.info;
+		if (trigger == TRIGGERS.DROPPED_OUTSIDE_OF_ANY) {
+			items.splice(
+				items.findIndex((item_id) => id === item_id),
+				1,
+			);
+		}
+
+		updateChampions(items);
+	}
+
+	function updateChampions(items: any) {
+		const tier_champions = [];
+		for (const item of items) {
+			tier_champions.push(item.champion);
+		}
+
+		tierlist.tiers[tier_id].champions = tier_champions;
+		setTierlist(tierlist);
 	}
 </script>
 
@@ -45,12 +63,18 @@
 	</div>
 	<div
 		class="tier-champions"
-		use:dndzone={{ items, dropTargetStyle: {} }}
+		use:dndzone={{ items }}
 		onconsider={handleDndConsider}
 		onfinalize={handleDndFinalize}
 	>
 		{#each items as item (item.id)}
-			<ChampionIcon champion={item.champion} source="tier" {tier_id} />
+			<div>
+				<ChampionIcon
+					champion={item.champion}
+					source="tier"
+					{tier_id}
+				/>
+			</div>
 		{/each}
 	</div>
 </div>
@@ -87,7 +111,6 @@
 		flex-wrap: wrap;
 		gap: 2px;
 
-		padding: 2px 4px;
 		min-height: var(--championIconWidth);
 
 		background: #0a0440;

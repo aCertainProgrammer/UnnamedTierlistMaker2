@@ -91,4 +91,8 @@
 		flex-direction: column;
 		align-items: center;
 	}
+
+	:global(#dnd-action-dragged-el .champion-icon) {
+		opacity: 0.5;
+	}
 </style>
