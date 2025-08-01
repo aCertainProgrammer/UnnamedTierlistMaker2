@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ChampionSelection from "./ChampionSelection.svelte";
 	import TextButton from "./lib/TextButton.svelte";
+	import ImageButton from "./lib/ImageButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { state } from "./state.svelte";
 	import { resetTierlist } from "./tierlist.svelte";
@@ -8,10 +9,25 @@
 
 <div class="main-content">
 	<div class="top-buttons">
-		<TextButton
-			text="Open settings"
+		<ImageButton
+			src="./img/settings-cog.webp"
+			alt="Open settings button"
 			onclick={() => {
 				state.current_screen = "settings_screen";
+			}}
+		/>
+		<ImageButton
+			src="./img/question-mark.webp"
+			alt="Open manual button"
+			onclick={() => {
+				console.log("Opening manual");
+			}}
+		/>
+		<ImageButton
+			src="./img/screenshot.webp"
+			alt="Take screenshot button"
+			onclick={() => {
+				console.log("Taking a screenshot");
 			}}
 		/>
 		<TextButton
