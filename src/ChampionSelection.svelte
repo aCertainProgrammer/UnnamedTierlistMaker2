@@ -6,6 +6,7 @@
 		SHADOW_ITEM_MARKER_PROPERTY_NAME,
 	} from "svelte-dnd-action";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
+	import Tierlist from "./Tierlist.svelte";
 
 	let items = $derived.by(() => {
 		const arr = [];
@@ -51,12 +52,17 @@
 
 <div
 	class="champions"
-	use:dndzone={{ items, dropFromOthersDisabled: true, dropTargetStyle: {} }}
+	use:dndzone={{ items, dropTargetStyle: {}, dropFromOthersDisabled: true }}
 	onconsider={handleDndConsider}
 	onfinalize={handleDndFinalize}
 >
 	{#each items as item (item.id)}
-		<ChampionIcon champion={item.champion} source="champion_selection" />
+		<div>
+			<ChampionIcon
+				champion={item.champion}
+				source="champion_selection"
+			/>
+		</div>
 	{/each}
 </div>
 

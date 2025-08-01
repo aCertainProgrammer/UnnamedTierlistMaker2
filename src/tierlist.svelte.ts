@@ -1,3 +1,5 @@
+import { SaverLoader } from "./saverloader.svelte";
+
 export type ChampionDataSource = "tier" | "champion_selection";
 
 export type ChampionDragDataType = {
@@ -25,26 +27,17 @@ export type TierColorType =
 	| "yellow"
 	| "orange";
 
-const default_tierlist: TierlistType = {
-	name: "Tierlist name",
+export const default_tierlist: TierlistType = {
+	name: "",
 	tiers: [
 		{
 			name: "S",
-			champions: [
-				"ahri",
-				"renekton",
-				"ahri",
-				"renekton",
-				"ahri",
-				"renekton",
-				"ahri",
-				"renekton",
-			],
+			champions: [],
 			color: "deepskyblue",
 		},
 		{
-			name: "A very long and interesting name that stretches",
-			champions: ["ahri", "renekton"],
+			name: "A",
+			champions: [],
 			color: "limegreen",
 		},
 		{
@@ -65,7 +58,7 @@ const default_tierlist: TierlistType = {
 	],
 };
 
-let tierlist: TierlistType = $state(default_tierlist);
+let tierlist: TierlistType = $state(SaverLoader.getTierlist());
 
 export function getTierlist(): TierlistType {
 	return tierlist;
@@ -73,6 +66,7 @@ export function getTierlist(): TierlistType {
 
 export function setTierlist(t: TierlistType): void {
 	tierlist = t;
+	SaverLoader.saveTierlist(tierlist);
 }
 
 export function clearTierlist(): void {
@@ -80,4 +74,10 @@ export function clearTierlist(): void {
 		name: tierlist.name,
 		tiers: default_tierlist.tiers,
 	};
+
+	setTierlist(tierlist);
+}
+
+export function resetTierlist(): void {
+	setTierlist(default_tierlist);
 }
