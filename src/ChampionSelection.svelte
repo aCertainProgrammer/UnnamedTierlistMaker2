@@ -5,12 +5,29 @@
 		TRIGGERS,
 		SHADOW_ITEM_MARKER_PROPERTY_NAME,
 	} from "svelte-dnd-action";
+	import { passesLegacyQuery } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
 	import Tierlist from "./Tierlist.svelte";
+	import TextInput from "./lib/TextInput.svelte";
+
+	type Role =
+		| "toplane"
+		| "jungle"
+		| "midlane"
+		| "botlane"
+		| "support"
+		| "none";
+
+	let search_query = $state("");
 
 	let items = $derived.by(() => {
 		const arr = [];
 		for (let i = 0; i < default_data.length; i++) {
+			let champion = default_data[i];
+			if (!passesLegacyQuery(champion, search_query)) {
+				continue;
+			}
+
 			arr.push({
 				id: i,
 				champion: default_data[i],
@@ -48,25 +65,55 @@
 			shouldIgnoreDndEvents = false;
 		}
 	}
+
+	function setSearchQuery(event: any) {
+		if (event.target == null) {
+			console.error(
+				"Champion selection search bar null when it shouldn't be",
+			);
+			return;
+		}
+
+		search_query = event.target.value;
+	}
 </script>
 
-<div
-	class="champions"
-	use:dndzone={{ items, dropTargetStyle: {}, dropFromOthersDisabled: true }}
-	onconsider={handleDndConsider}
-	onfinalize={handleDndFinalize}
->
-	{#each items as item (item.id)}
-		<div>
-			<ChampionIcon
-				champion={item.champion}
-				source="champion_selection"
-			/>
-		</div>
-	{/each}
+<div class="champion-selection">
+	<TextInput
+		oninput={setSearchQuery}
+		value={search_query}
+		placeholder="Search for champions"
+		style="width:100%"
+	/>
+	<div
+		class="champions"
+		use:dndzone={{
+			items,
+			dropTargetStyle: {},
+			dropFromOthersDisabled: true,
+		}}
+		onconsider={handleDndConsider}
+		onfinalize={handleDndFinalize}
+	>
+		{#each items as item (item.id)}
+			<div>
+				<ChampionIcon
+					champion={item.champion}
+					source="champion_selection"
+				/>
+			</div>
+		{/each}
+	</div>
 </div>
 
 <style>
+	.champion-selection {
+		width: 50%;
+		height: 100%;
+		max-height: 100%;
+		padding-top: 20px;
+	}
+
 	.champions {
 		display: flex;
 		flex-direction: row;
@@ -78,9 +125,9 @@
 
 		overflow-y: auto;
 
-		width: 50%;
+		width: 100%;
 		max-height: 100%;
 		padding-top: 20px;
-		padding-bottom: 10px;
+		padding-bottom: 30px;
 	}
 </style>
