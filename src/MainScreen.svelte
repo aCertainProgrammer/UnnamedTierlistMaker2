@@ -63,6 +63,7 @@
 		height: 100%;
 		width: 100%;
 
+		gap: 40px;
 		overflow: hidden;
 	}
 </style>
