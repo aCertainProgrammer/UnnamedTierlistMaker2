@@ -17,15 +17,12 @@
 	let tier: TierType = $derived(tierlist.tiers[tier_id]);
 
 	let items = $derived.by(() => {
-		const arr = [];
-		for (let i = 0; i < tier.champions.length; i++) {
-			arr.push({
-				id: `id_${i}_of_champ_${tier.champions[i]}_in_tier_${tier_id}`,
-				champion: tier.champions[i],
-			});
-		}
-
-		return arr;
+		return tier.champions.map((champion, i) => {
+			return {
+				id: `id_${i}_of_champ_${champion}_in_tier_${tier_id}`,
+				champion: champion,
+			};
+		});
 	});
 
 	function handleDndConsider(e: any) {

@@ -7,32 +7,25 @@
 	} from "svelte-dnd-action";
 	import { passesLegacyQuery } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import Tierlist from "./Tierlist.svelte";
 	import TextInput from "./lib/TextInput.svelte";
-
-	type Role =
-		| "toplane"
-		| "jungle"
-		| "midlane"
-		| "botlane"
-		| "support"
-		| "none";
 
 	let search_query = $state("");
 
 	let items = $derived.by(() => {
-		const arr = [];
-		for (let i = 0; i < default_data.length; i++) {
-			let champion = default_data[i];
+		const arr: Array<{
+			id: number;
+			champion: string;
+		}> = [];
+		default_data.forEach((champion, i) => {
 			if (!passesLegacyQuery(champion, search_query)) {
-				continue;
+				return;
 			}
 
 			arr.push({
 				id: i,
 				champion: default_data[i],
 			});
-		}
+		});
 
 		return arr;
 	});
