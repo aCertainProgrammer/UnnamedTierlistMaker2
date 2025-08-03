@@ -3,8 +3,19 @@
 	import TextInput from "./lib/TextInput.svelte";
 	import { getTierlist, setTierlist } from "./tierlist.svelte";
 	import type { TierlistType } from "./tierlist.svelte";
+	import { dndzone } from "svelte-dnd-action";
 
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
+
+	let items = $derived.by(() =>
+		tierlist.tiers.map((tier, index) => {
+			return {
+				id: index,
+				tier: tier,
+			};
+		}),
+	);
+
 	function changeTierlistName(event: any) {
 		if (event.target == null) {
 			console.error("Tierlist name input is null");
@@ -12,6 +23,22 @@
 		}
 
 		tierlist.name = event.target.value.trim();
+		setTierlist(tierlist);
+	}
+
+	function handleDndConsider(e: any) {
+		items = e.detail.items;
+	}
+
+	function handleDndFinalize(e: any) {
+		items = e.detail.items;
+
+		const tierlist = getTierlist();
+		items.forEach((item, index) => {
+			item.tier.id = index;
+			tierlist.tiers[index] = item.tier;
+		});
+
 		setTierlist(tierlist);
 	}
 </script>
@@ -24,11 +51,16 @@
 		style="width:100%"
 		id="tierlist-name-input"
 	/>
-	{#each tierlist.tiers as _, key}
-		{#key key}
-			<Tier tier_id={key} />
-		{/key}
-	{/each}
+	<div
+		class="tiers-container"
+		use:dndzone={{ items, type: "tierlist" }}
+		onconsider={handleDndConsider}
+		onfinalize={handleDndFinalize}
+	>
+		{#each items as item (item.id)}
+			<Tier tier_id={item.tier.id} />
+		{/each}
+	</div>
 </div>
 
 <style>
@@ -45,5 +77,9 @@
 
 		padding-top: 20px;
 		padding-bottom: 10px;
+	}
+
+	.tiers-container {
+		width: 100%;
 	}
 </style>

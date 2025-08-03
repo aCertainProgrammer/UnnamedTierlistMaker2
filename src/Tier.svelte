@@ -109,6 +109,7 @@
 		gap: 2px;
 
 		min-height: var(--championIconWidth);
+		width: 100%;
 
 		background: #0a0440;
 		flex: 1;
