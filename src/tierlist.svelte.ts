@@ -14,6 +14,7 @@ export type TierlistType = {
 };
 
 export type TierType = {
+	id: number;
 	name: string;
 	champions: Array<string>;
 	color: TierColorType;
@@ -31,30 +32,20 @@ export const default_tierlist: TierlistType = {
 	name: "",
 	tiers: [
 		{
+			id: 0,
 			name: "S",
 			champions: [],
 			color: "deepskyblue",
 		},
 		{
+			id: 1,
 			name: "A",
 			champions: [],
 			color: "limegreen",
 		},
-		{
-			name: "B",
-			champions: [],
-			color: "yellow",
-		},
-		{
-			name: "C",
-			champions: [],
-			color: "orange",
-		},
-		{
-			name: "F",
-			champions: [],
-			color: "tomato",
-		},
+		{ id: 2, name: "B", champions: [], color: "yellow" },
+		{ id: 3, name: "C", champions: [], color: "orange" },
+		{ id: 4, name: "F", champions: [], color: "tomato" },
 	],
 };
 

@@ -7,6 +7,7 @@
 		type TierlistType,
 		type TierType,
 	} from "./tierlist.svelte";
+	import Tierlist from "./Tierlist.svelte";
 
 	type Props = {
 		tier_id: number;
@@ -17,15 +18,12 @@
 	let tier: TierType = $derived(tierlist.tiers[tier_id]);
 
 	let items = $derived.by(() => {
-		const arr = [];
-		for (let i = 0; i < tier.champions.length; i++) {
-			arr.push({
-				id: `id_${i}_of_champ_${tier.champions[i]}_in_tier_${tier_id}`,
-				champion: tier.champions[i],
-			});
-		}
-
-		return arr;
+		return tier.champions.map((champion, i) => {
+			return {
+				id: `id_${i}_of_champ_${champion}_in_tier_${tier_id}`,
+				champion: champion,
+			};
+		});
 	});
 
 	function handleDndConsider(e: any) {
@@ -41,6 +39,23 @@
 				items.findIndex((item_id) => id === item_id),
 				1,
 			);
+		} else if (trigger == TRIGGERS.DROPPED_INTO_ZONE) {
+			let champion_to_validate = "";
+			for (const item of items) {
+				if (item.id == id) {
+					champion_to_validate = item.champion;
+				}
+			}
+
+			if (champion_to_validate !== "") {
+				items = items.filter(
+					(item) =>
+						!(
+							item.champion === champion_to_validate &&
+							item.id != id
+						),
+				);
+			}
 		}
 
 		updateChampions(items);
@@ -63,7 +78,7 @@
 	</div>
 	<div
 		class="tier-champions"
-		use:dndzone={{ items }}
+		use:dndzone={{ items, dropTargetStyle: {} }}
 		onconsider={handleDndConsider}
 		onfinalize={handleDndFinalize}
 	>
@@ -112,8 +127,11 @@
 		gap: 2px;
 
 		min-height: var(--championIconWidth);
+		width: 100%;
 
 		background: #0a0440;
 		flex: 1;
+
+		padding-right: 25px;
 	}
 </style>

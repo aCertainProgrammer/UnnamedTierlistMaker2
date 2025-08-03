@@ -81,6 +81,7 @@
 	.champion-icon {
 		cursor: pointer;
 		width: var(--championIconWidth);
+		padding: 2px;
 	}
 
 	.relative {
