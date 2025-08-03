@@ -64,10 +64,7 @@
 			<div>
 				<Tier tier_id={item.tier.id} />
 				<div use:dragHandle class="drag-handle">
-					<img
-						src="./public/img/drag_handle.webp"
-						alt="drag-handle"
-					/>
+					<img src="./img/drag_handle.webp" alt="drag-handle" />
 				</div>
 			</div>
 		{/each}
