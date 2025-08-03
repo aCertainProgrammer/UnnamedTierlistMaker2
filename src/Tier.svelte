@@ -1,17 +1,13 @@
 <script lang="ts">
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import {
-		dndzone,
-		TRIGGERS,
-		dragHandle,
-		dragHandleZone,
-	} from "svelte-dnd-action";
+	import { dndzone, TRIGGERS } from "svelte-dnd-action";
 	import {
 		getTierlist,
 		setTierlist,
 		type TierlistType,
 		type TierType,
 	} from "./tierlist.svelte";
+	import Tierlist from "./Tierlist.svelte";
 
 	type Props = {
 		tier_id: number;
@@ -43,6 +39,23 @@
 				items.findIndex((item_id) => id === item_id),
 				1,
 			);
+		} else if (trigger == TRIGGERS.DROPPED_INTO_ZONE) {
+			let champion_to_validate = "";
+			for (const item of items) {
+				if (item.id == id) {
+					champion_to_validate = item.champion;
+				}
+			}
+
+			if (champion_to_validate !== "") {
+				items = items.filter(
+					(item) =>
+						!(
+							item.champion === champion_to_validate &&
+							item.id != id
+						),
+				);
+			}
 		}
 
 		updateChampions(items);
@@ -118,5 +131,7 @@
 
 		background: #0a0440;
 		flex: 1;
+
+		padding-right: 25px;
 	}
 </style>

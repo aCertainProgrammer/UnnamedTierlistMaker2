@@ -3,8 +3,7 @@
 	import TextInput from "./lib/TextInput.svelte";
 	import { getTierlist, setTierlist } from "./tierlist.svelte";
 	import type { TierlistType } from "./tierlist.svelte";
-	import { dndzone, dragHandleZone, dragHandle } from "svelte-dnd-action";
-
+	import { dragHandleZone, dragHandle } from "svelte-dnd-action";
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 
 	let items = $derived.by(() =>
@@ -53,7 +52,11 @@
 	/>
 	<div
 		class="tiers-container"
-		use:dragHandleZone={{ items, type: "tierlist", dropTargetStyle: {} }}
+		use:dragHandleZone={{
+			items,
+			type: "tierlist",
+			dropTargetStyle: {},
+		}}
 		onconsider={handleDndConsider}
 		onfinalize={handleDndFinalize}
 	>
@@ -97,10 +100,10 @@
 	}
 
 	.drag-handle {
+		height: 15px;
 		position: absolute;
-		top: 30px;
+		top: calc(50% - 7.5px);
 		right: 10px;
-		height: 100%;
 		opacity: 0.7;
 	}
 </style>
