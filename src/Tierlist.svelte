@@ -53,7 +53,7 @@
 	/>
 	<div
 		class="tiers-container"
-		use:dndzone={{ items, type: "tierlist" }}
+		use:dndzone={{ items, type: "tierlist", dropTargetStyle: {} }}
 		onconsider={handleDndConsider}
 		onfinalize={handleDndFinalize}
 	>

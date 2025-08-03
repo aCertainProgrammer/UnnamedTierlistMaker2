@@ -4,7 +4,13 @@
 	import ImageButton from "./lib/ImageButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { state } from "./state.svelte";
-	import { resetTierlist } from "./tierlist.svelte";
+	import { getTierlist, resetTierlist } from "./tierlist.svelte";
+	import { exportTierlistAsImage } from "./images.svelte";
+
+	function takeScreenshot() {
+		const tierlist = getTierlist();
+		exportTierlistAsImage(tierlist);
+	}
 </script>
 
 <div class="main-content">
@@ -26,9 +32,7 @@
 		<ImageButton
 			src="./img/screenshot.webp"
 			alt="Take screenshot button"
-			onclick={() => {
-				console.log("Taking a screenshot");
-			}}
+			onclick={takeScreenshot}
 		/>
 		<TextButton
 			text="Reset tierlist"
