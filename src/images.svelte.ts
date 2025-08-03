@@ -29,6 +29,8 @@ const tier_background_color = "#0a0440";
 const tier_name_color = "#000000";
 const tierlist_name_color = "#06145e";
 
+const champion_icon_padding_px = 2;
+
 export async function exportTierlistAsImage(tierlist: TierlistType) {
 	let canvas = document.createElement("canvas");
 
@@ -125,14 +127,19 @@ async function drawTier(
 			const image = await loadImage(src);
 
 			const start_x =
-				padding_x_px + tier_name_width_px + champion_width_px * column;
+				padding_x_px +
+				tier_name_width_px +
+				champion_width_px * column +
+				champion_icon_padding_px;
 
 			ctx.drawImage(
 				image,
 				start_x,
-				row * champion_height_px + start_height_px,
-				champion_width_px,
-				champion_height_px,
+				row * champion_height_px +
+					start_height_px +
+					champion_icon_padding_px,
+				champion_width_px - champion_icon_padding_px * 2,
+				champion_height_px - champion_icon_padding_px * 2,
 			);
 		}),
 	);
@@ -154,15 +161,12 @@ function getTierYPositionInTierlist(
 	let y = 0;
 
 	for (let i = 0; i < index; i++) {
-		const tier = tierlist.tiers[index];
+		const tier = tierlist.tiers[i];
 		const rows = getTierRowCount(tier);
 
 		y += rows * champion_height_px;
 	}
 
-	console.log(
-		`We are looking for tier ${tierlist.tiers[index].name}, and the y is ${y}, index is ${index}`,
-	);
 	return y;
 }
 
