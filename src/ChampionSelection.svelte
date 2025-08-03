@@ -77,6 +77,7 @@
 		value={search_query}
 		placeholder="Search for champions"
 		style="width:100%"
+		id="champion-selection-search-bar"
 	/>
 	<div
 		class="champions"
@@ -113,8 +114,6 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: start;
-
-		gap: 2px;
 
 		overflow-y: auto;
 

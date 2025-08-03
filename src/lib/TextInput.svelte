@@ -1,8 +1,22 @@
 <script lang="ts">
-	const { oninput, value = "", placeholder = "", style = "" } = $props();
+	const {
+		oninput,
+		value = "",
+		placeholder = "",
+		style = "",
+		id = "",
+	} = $props();
 </script>
 
-<input {oninput} type="text" class="text-input" {value} {placeholder} {style} />
+<input
+	{id}
+	{oninput}
+	type="text"
+	class="text-input"
+	{value}
+	{placeholder}
+	{style}
+/>
 
 <style>
 	.text-input {

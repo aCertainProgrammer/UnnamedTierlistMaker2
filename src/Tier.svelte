@@ -60,7 +60,7 @@
 	</div>
 	<div
 		class="tier-champions"
-		use:dndzone={{ items }}
+		use:dndzone={{ items, dropTargetStyle: {} }}
 		onconsider={handleDndConsider}
 		onfinalize={handleDndFinalize}
 	>

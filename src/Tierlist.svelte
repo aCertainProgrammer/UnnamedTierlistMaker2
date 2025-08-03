@@ -22,6 +22,7 @@
 		value={tierlist.name}
 		placeholder="Tierlist name"
 		style="width:100%"
+		id="tierlist-name-input"
 	/>
 	{#each tierlist.tiers as _, key}
 		{#key key}
