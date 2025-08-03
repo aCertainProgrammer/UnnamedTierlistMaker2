@@ -1,6 +1,11 @@
 <script lang="ts">
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import { dndzone, TRIGGERS } from "svelte-dnd-action";
+	import {
+		dndzone,
+		TRIGGERS,
+		dragHandle,
+		dragHandleZone,
+	} from "svelte-dnd-action";
 	import {
 		getTierlist,
 		setTierlist,
