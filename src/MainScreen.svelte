@@ -4,12 +4,37 @@
 	import ImageButton from "./lib/ImageButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { state } from "./state.svelte";
-	import { getTierlist, resetTierlist } from "./tierlist.svelte";
+	import {
+		getTierlist,
+		resetTierlist,
+		setTierlist,
+		exportTierlist,
+	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
 		exportTierlistAsImage(tierlist);
+	}
+
+	function madeDraftPoolTemplate() {
+		const tierlist = getTierlist();
+		let five_tiers = tierlist.tiers.slice(0, 5);
+
+		const tier_names = [
+			"Toplane",
+			"Jungle",
+			"Midlane",
+			"Botlane",
+			"Support",
+		];
+		five_tiers.forEach((current, index) => {
+			current.name = tier_names[index];
+		});
+
+		tierlist.tiers = five_tiers;
+
+		setTierlist(tierlist);
 	}
 </script>
 
@@ -38,6 +63,17 @@
 			text="Reset tierlist"
 			onclick={() => {
 				resetTierlist();
+			}}
+		/>
+		<TextButton
+			text="Use draft pool template"
+			onclick={madeDraftPoolTemplate}
+		/>
+		<TextButton
+			text="Export tierlist"
+			onclick={() => {
+				const tierlist = getTierlist();
+				exportTierlist(tierlist);
 			}}
 		/>
 	</div>

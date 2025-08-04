@@ -71,7 +71,7 @@ export async function readFile(file: File): Promise<string> {
 	return text;
 }
 
-export function exportData(data: JSON, fileName: string): void {
+export function exportData(data: object, fileName: string): void {
 	const blob = new Blob([JSON.stringify(data, null, 4)], {
 		type: "plain/text",
 	});

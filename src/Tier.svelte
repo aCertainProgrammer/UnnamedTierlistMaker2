@@ -125,6 +125,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 2px;
+		padding-left: 4px;
 
 		min-height: var(--championIconWidth);
 		width: 100%;
