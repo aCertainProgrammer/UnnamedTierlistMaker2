@@ -1,8 +1,13 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
+	import TextButton from "./lib/TextButton.svelte";
 	import TextInput from "./lib/TextInput.svelte";
-	import { getTierlist, setTierlist } from "./tierlist.svelte";
-	import type { TierlistType } from "./tierlist.svelte";
+	import {
+		getNewTierName,
+		getTierlist,
+		setTierlist,
+	} from "./tierlist.svelte";
+	import type { TierlistType, TierType } from "./tierlist.svelte";
 	import { dragHandleZone, dragHandle } from "svelte-dnd-action";
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 
@@ -40,6 +45,18 @@
 
 		setTierlist(tierlist);
 	}
+
+	function addTier() {
+		const tierlist = getTierlist();
+		const new_tier: TierType = {
+			id: tierlist.tiers.length,
+			name: getNewTierName(tierlist),
+			champions: [],
+			color: "tomato",
+		};
+
+		tierlist.tiers.push(new_tier);
+	}
 </script>
 
 <div class="tierlist">
@@ -68,6 +85,11 @@
 				</div>
 			</div>
 		{/each}
+		<TextButton
+			style="width:100%; height:80px"
+			text="+"
+			onclick={addTier}
+		/>
 	</div>
 </div>
 

@@ -1,8 +1,8 @@
 <script lang="ts">
-	const { text = "text", onclick } = $props();
+	const { text = "text", onclick, style = "" } = $props();
 </script>
 
-<button class="text-button" {onclick}>{text}</button>
+<button {style} class="text-button" {onclick}>{text}</button>
 
 <style>
 	.text-button {

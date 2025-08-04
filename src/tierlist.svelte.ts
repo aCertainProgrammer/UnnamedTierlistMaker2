@@ -72,3 +72,22 @@ export function clearTierlist(): void {
 export function resetTierlist(): void {
 	setTierlist(default_tierlist);
 }
+
+export function getNewTierName(tierlist: TierlistType): string {
+	let name = "Z";
+	if (tierlist.tiers.length == 0) {
+		name = "S";
+	} else if (tierlist.tiers.length == 1) {
+		name = "A";
+	} else {
+		const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		const lastTier = tierlist.tiers[tierlist.tiers.length - 1];
+		const lastName = lastTier.name;
+
+		for (let i = 0; i < alphabet.length - 1; i++) {
+			if (lastName.toUpperCase() == alphabet[i]) name = alphabet[i + 1];
+		}
+	}
+
+	return name;
+}
