@@ -1,4 +1,5 @@
 import { SaverLoader } from "./saverloader.svelte";
+import { exportData } from "./util";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -71,4 +72,35 @@ export function clearTierlist(): void {
 
 export function resetTierlist(): void {
 	setTierlist(default_tierlist);
+}
+
+export function getNewTierName(tierlist: TierlistType): string {
+	let name = "Z";
+	if (tierlist.tiers.length == 0) {
+		name = "S";
+	} else if (tierlist.tiers.length == 1) {
+		name = "A";
+	} else {
+		const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		const lastTier = tierlist.tiers[tierlist.tiers.length - 1];
+		const lastName = lastTier.name;
+
+		for (let i = 0; i < alphabet.length - 1; i++) {
+			if (lastName.toUpperCase() == alphabet[i]) name = alphabet[i + 1];
+		}
+	}
+
+	return name;
+}
+
+export function exportTierlist(tierlist: TierlistType) {
+	try {
+		const name =
+			tierlist.name.length < 200 && tierlist.name.length > 0
+				? `${tierlist.name}.json`
+				: "tierlist.json";
+		exportData(tierlist, name);
+	} catch (e) {
+		console.error(e);
+	}
 }

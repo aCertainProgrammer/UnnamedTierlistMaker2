@@ -79,7 +79,7 @@
 
 <style>
 	.champion-icon {
-		cursor: pointer;
+		cursor: grab;
 		width: var(--championIconWidth);
 		padding: 2px;
 	}
