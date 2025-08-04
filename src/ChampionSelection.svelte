@@ -5,25 +5,38 @@
 		TRIGGERS,
 		SHADOW_ITEM_MARKER_PROPERTY_NAME,
 	} from "svelte-dnd-action";
-	import { passesLegacyQuery } from "./filtering.svelte";
+	import { all_champions, getFilteredChampions } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
 	import TextInput from "./lib/TextInput.svelte";
+	import ImageButton from "./lib/ImageButton.svelte";
+
+	type Role = "top" | "jungle" | "mid" | "adc" | "support" | "none";
 
 	let search_query = $state("");
+	let role_query: Role = $state("none");
 
 	let items = $derived.by(() => {
 		const arr: Array<{
 			id: number;
 			champion: string;
+			visible: boolean;
 		}> = [];
-		default_data.forEach((champion, i) => {
-			if (!passesLegacyQuery(champion, search_query)) {
-				return;
+
+		const filtered_champions = getFilteredChampions(
+			search_query,
+			role_query,
+		);
+
+		all_champions.forEach((champion, i) => {
+			let visible = true;
+			if (!filtered_champions.includes(champion)) {
+				visible = false;
 			}
 
 			arr.push({
 				id: i,
-				champion: default_data[i],
+				champion: champion,
+				visible: visible,
 			});
 		});
 
@@ -69,16 +82,55 @@
 
 		search_query = event.target.value;
 	}
+
+	function setRoleFilter(event: any, role: Role) {
+		const role_icon_container = document.getElementById("role-icons");
+		if (role_icon_container == null) {
+			console.error("Role icon container null when it shouldn't be");
+			return;
+		}
+		if (role_icon_container?.children.length == null) {
+			console.error(
+				"Role icon container children null when it shouldn't be",
+			);
+			return;
+		}
+
+		if (event.target == null) {
+			console.error("Role icon null when it shouldn't be");
+			return;
+		}
+
+		if (role_query === role) {
+			role_query = "none";
+		} else {
+			role_query = role;
+		}
+	}
+
+	const roles: Array<Role> = ["top", "jungle", "mid", "adc", "support"];
 </script>
 
 <div class="champion-selection">
-	<TextInput
-		oninput={setSearchQuery}
-		value={search_query}
-		placeholder="Search for champions"
-		style="width:100%"
-		id="champion-selection-search-bar"
-	/>
+	<div class="champion-selection-top-bar">
+		<div id="role-icons">
+			{#each roles as role}
+				<ImageButton
+					src="./img/{role}_icon.webp"
+					alt="{role} filter button"
+					onclick={(event: any) => setRoleFilter(event, role)}
+					classList={role_query === role ? "selected" : ""}
+				/>
+			{/each}
+		</div>
+		<TextInput
+			oninput={setSearchQuery}
+			value={search_query}
+			placeholder="Search for champions"
+			style="width:50%"
+			id="champion-selection-search-bar"
+		/>
+	</div>
 	<div
 		class="champions"
 		use:dndzone={{
@@ -90,7 +142,7 @@
 		onfinalize={handleDndFinalize}
 	>
 		{#each items as item (item.id)}
-			<div>
+			<div class={item.visible ? "" : "hidden"}>
 				<ChampionIcon
 					champion={item.champion}
 					source="champion_selection"
@@ -121,5 +173,11 @@
 		max-height: 100%;
 		padding-top: 20px;
 		padding-bottom: 30px;
+	}
+	.champion-selection-top-bar {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: start;
 	}
 </style>

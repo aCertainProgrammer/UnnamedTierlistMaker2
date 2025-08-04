@@ -13,8 +13,9 @@
 	--championIconWidth: 80px;
 }
 
-:root [data-theme="dark"] {
+:root[data-theme="dark"] {
 	--scrollbarColor: white;
+	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
 }
 
 body {
@@ -42,4 +43,12 @@ body {
 
 img {
 	max-width: 100%;
+}
+
+.selected {
+	box-shadow: var(--selectionBoxShadow);
+}
+
+.hidden {
+	display: none !important;
 }
