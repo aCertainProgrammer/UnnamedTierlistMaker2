@@ -6,8 +6,10 @@
 		setTierlist,
 		type TierlistType,
 		type TierType,
+		all_colors,
 	} from "./tierlist.svelte";
-	import Tierlist from "./Tierlist.svelte";
+	import TextButton from "./lib/TextButton.svelte";
+	import { state } from "./state.svelte";
 
 	type Props = {
 		tier_id: number;
@@ -70,12 +72,24 @@
 		tierlist.tiers[tier_id].champions = tier_champions;
 		setTierlist(tierlist);
 	}
+
+	function showTierEditor() {
+		state.currently_edited_tier_id = tier_id;
+		state.tier_editor_open = true;
+	}
+	function closeTierEditor() {
+		state.tier_editor_open = false;
+	}
 </script>
 
 <div class="tier">
-	<div class="tier-name" style="background: {tier.color};">
+	<button
+		class="tier-name"
+		style="background: {tier.color};"
+		onclick={showTierEditor}
+	>
 		<span>{tier.name}</span>
-	</div>
+	</button>
 	<div
 		class="tier-champions"
 		use:dndzone={{ items, dropTargetStyle: {} }}
@@ -92,6 +106,42 @@
 			</div>
 		{/each}
 	</div>
+
+	{#if state.tier_editor_open && state.currently_edited_tier_id == tier_id}
+		<div class="tier-editor" onclick={closeTierEditor} role="none">
+			<TextButton
+				text="Close"
+				onclick={(event: any) => {
+					event?.stopPropagation();
+					closeTierEditor();
+				}}
+			/>
+			<div class="color-container">
+				{#each all_colors as color}
+					<input
+						type="button"
+						class="color-picker-button"
+						style="background-color: {color};"
+						onclick={(event: any) => {
+							event?.stopPropagation();
+							tierlist.tiers[tier_id].color = color;
+							setTierlist(tierlist);
+						}}
+					/>
+				{/each}
+			</div>
+			<input
+				class="tier-name-input"
+				type="text"
+				placeholder="Tier name"
+				bind:value={tier.name}
+				onclick={(event: any) => {
+					console.log(tier.name);
+					event?.stopPropagation();
+				}}
+			/>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -111,7 +161,9 @@
 		justify-content: center;
 		align-items: center;
 
+		border: none;
 		border-left: 1px solid black;
+		cursor: pointer;
 	}
 
 	.tier-name > span {
@@ -134,5 +186,30 @@
 		flex: 1;
 
 		padding-right: 25px;
+	}
+
+	.tier-editor {
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		height: 100vh;
+		width: 100vw;
+		background-color: rgba(0, 0, 0, 0.3);
+		z-index: 1;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.color-picker-button {
+		border: 1px solid black;
+		border-radius: 4px;
+		height: 40px;
+		width: 40px;
+	}
+
+	.tier-name-input {
+		color: black;
 	}
 </style>

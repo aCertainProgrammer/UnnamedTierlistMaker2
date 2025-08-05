@@ -52,3 +52,8 @@ img {
 .hidden {
 	display: none !important;
 }
+
+button,
+input[type="button"] {
+	cursor: pointer;
+}

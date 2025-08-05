@@ -29,6 +29,15 @@ export type TierColorType =
 	| "yellow"
 	| "orange";
 
+export const all_colors: Array<TierColorType> = [
+	"tomato",
+	"deepskyblue",
+	"limegreen",
+	"greenyellow",
+	"yellow",
+	"orange",
+];
+
 export const default_tierlist: TierlistType = {
 	name: "",
 	tiers: [
