@@ -9,12 +9,9 @@
 		resetTierlist,
 		setTierlist,
 		exportTierlist,
-		validateTierlist,
 		importTierlist,
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
-	import { readFile } from "./util";
-	import type { FormEventHandler } from "svelte/elements";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
