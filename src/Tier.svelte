@@ -9,7 +9,7 @@
 		all_colors,
 	} from "./tierlist.svelte";
 	import TextButton from "./lib/TextButton.svelte";
-	import { state } from "./state.svelte";
+	import { program_state } from "./state.svelte";
 
 	type Props = {
 		tier_id: number;
@@ -74,11 +74,11 @@
 	}
 
 	function showTierEditor() {
-		state.currently_edited_tier_id = tier_id;
-		state.tier_editor_open = true;
+		program_state.currently_edited_tier_id = tier_id;
+		program_state.tier_editor_open = true;
 	}
 	function closeTierEditor() {
-		state.tier_editor_open = false;
+		program_state.tier_editor_open = false;
 	}
 </script>
 
@@ -107,7 +107,7 @@
 		{/each}
 	</div>
 
-	{#if state.tier_editor_open && state.currently_edited_tier_id == tier_id}
+	{#if program_state.tier_editor_open && program_state.currently_edited_tier_id == tier_id}
 		<div class="tier-editor" onclick={closeTierEditor} role="none">
 			<TextButton
 				text="Close"

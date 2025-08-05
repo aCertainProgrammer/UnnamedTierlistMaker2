@@ -3,7 +3,7 @@
 	import TextButton from "./lib/TextButton.svelte";
 	import ImageButton from "./lib/ImageButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
-	import { state } from "./state.svelte";
+	import { program_state } from "./state.svelte";
 	import {
 		getTierlist,
 		resetTierlist,
@@ -12,6 +12,7 @@
 		importTierlist,
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
+	import ExportDraftPool from "./ExportDraftPool.svelte";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
@@ -54,7 +55,7 @@
 			src="./img/settings-cog.webp"
 			alt="Open settings button"
 			onclick={() => {
-				state.current_screen = "settings_screen";
+				program_state.current_screen = "settings_screen";
 			}}
 		/>
 		<ImageButton
@@ -107,6 +108,15 @@
 			oninput={wrapImportTierlist}
 			id="import-tierlist-file-input"
 		/>
+		<TextButton
+			text="Export draft pool"
+			onclick={() => {
+				program_state.export_pool_overlay_open = true;
+			}}
+		/>
+		{#if program_state.export_pool_overlay_open}
+			<ExportDraftPool />
+		{/if}
 	</div>
 	<div class="middle-container">
 		<Tierlist />
