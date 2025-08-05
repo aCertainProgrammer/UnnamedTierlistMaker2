@@ -11,4 +11,10 @@ export default defineConfig({
 		strictPort: false,
 	},
 	plugins: [svelte()],
+	test: {
+		coverage: {
+			all: true,
+			include: ["src/*"],
+		},
+	},
 });
