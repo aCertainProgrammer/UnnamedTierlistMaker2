@@ -12,9 +12,10 @@ const tier_name_width_px = 120;
 const tierlist_name_height_px = 50;
 
 const tierlist_name_font_size = 32;
-const tier_name_font_size = 72;
+const tier_name_font_size = 24;
 const max_image_width_px = 1920;
 const max_image_heigth_px = 1920;
+const min_image_width_px = 600;
 
 let image_width_px = max_image_width_px;
 let image_heigth_px = max_image_heigth_px;
@@ -30,6 +31,10 @@ const tier_name_color = "#000000";
 const tierlist_name_color = "#06145e";
 
 const champion_icon_padding_px = 2;
+
+function getFont(font_size: number): string {
+	return `${font_size}px Helvetica, Arial, sans-serif`;
+}
 
 export async function exportTierlistAsImage(tierlist: TierlistType) {
 	let canvas = document.createElement("canvas");
@@ -75,7 +80,7 @@ function drawTierlistName(
 	ctx.fillRect(padding_x_px, padding_y_px, width_px, tierlist_name_height_px);
 
 	ctx.fillStyle = text_color;
-	ctx.font = `${tierlist_name_font_size}px serif`;
+	ctx.font = getFont(tierlist_name_font_size);
 	ctx.textAlign = "center";
 	ctx.textBaseline = "middle";
 	ctx.fillText(
@@ -97,6 +102,7 @@ async function drawTier(
 	ctx.fillStyle = tier.color;
 	ctx.fillRect(padding_x_px, start_height_px, tier_name_width_px, height_px);
 
+	ctx.font = getFont(tier_name_font_size);
 	ctx.fillStyle = tier_name_color;
 	ctx.textAlign = "center";
 	ctx.fillText(
@@ -209,6 +215,9 @@ function getAndSetImageSize(tierlist: TierlistType): void {
 
 	if (should_change_width) {
 		image_width_px = max_width;
+	}
+	if (image_width_px < min_image_width_px) {
+		image_width_px = min_image_width_px;
 	}
 
 	const start_y = 2 * padding_y_px + tierlist_name_height_px;
