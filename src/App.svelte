@@ -4,6 +4,15 @@
 	import { state } from "./state.svelte";
 
 	function onkeydown(event: KeyboardEvent) {
+		event.stopPropagation();
+		const key = event.key;
+		if (state.tier_editor_open) {
+			if (key == "Escape") {
+				state.tier_editor_open = false;
+			}
+			return;
+		}
+
 		switch (state.current_screen) {
 			case "main_screen": {
 				const tierlistNameInput = document.getElementById(
