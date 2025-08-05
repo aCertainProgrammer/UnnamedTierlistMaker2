@@ -1,19 +1,24 @@
 <script lang="ts">
 	import MainScreen from "./MainScreen.svelte";
 	import SettingsScreen from "./SettingsScreen.svelte";
-	import { state } from "./state.svelte";
+	import { program_state } from "./state.svelte";
 
 	function onkeydown(event: KeyboardEvent) {
 		event.stopPropagation();
 		const key = event.key;
-		if (state.tier_editor_open) {
+
+		if (program_state.export_pool_overlay_open) {
+			return;
+		}
+
+		if (program_state.tier_editor_open) {
 			if (key == "Escape") {
-				state.tier_editor_open = false;
+				program_state.tier_editor_open = false;
 			}
 			return;
 		}
 
-		switch (state.current_screen) {
+		switch (program_state.current_screen) {
 			case "main_screen": {
 				const tierlistNameInput = document.getElementById(
 					"tierlist-name-input",
@@ -57,9 +62,9 @@
 </script>
 
 <main>
-	{#if state.current_screen == "main_screen"}
+	{#if program_state.current_screen == "main_screen"}
 		<MainScreen />
-	{:else if state.current_screen == "settings_screen"}
+	{:else if program_state.current_screen == "settings_screen"}
 		<SettingsScreen />
 	{/if}
 </main>

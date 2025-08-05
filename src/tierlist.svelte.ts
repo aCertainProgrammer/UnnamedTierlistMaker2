@@ -1,5 +1,6 @@
 import { SaverLoader } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
+import { udt1_default_data } from "./UDT1_default_data";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -28,6 +29,8 @@ export type TierColorType =
 	| "greenyellow"
 	| "yellow"
 	| "orange";
+
+export type DraftPoolTeam = "ally" | "enemy" | "all" | null;
 
 export const all_colors: Array<TierColorType> = [
 	"tomato",
@@ -160,4 +163,65 @@ export function validateTierlist(tierlist: TierlistType): TierlistType {
 	}
 
 	return tierlist;
+}
+
+type ChampionPool = {
+	top: Array<String>;
+	jungle: Array<String>;
+	mid: Array<String>;
+	adc: Array<String>;
+	support: Array<String>;
+};
+
+type UDT1Data = {
+	all: ChampionPool;
+	ally: ChampionPool;
+	enemy: ChampionPool;
+};
+
+export function exportDraftPool(
+	tierlist: TierlistType,
+	team: DraftPoolTeam,
+): void {
+	const pool: ChampionPool = {
+		top: tierlist.tiers[0].champions,
+		jungle: tierlist.tiers[1].champions,
+		mid: tierlist.tiers[2].champions,
+		adc: tierlist.tiers[3].champions,
+		support: tierlist.tiers[4].champions,
+	};
+
+	if (team == null) {
+		exportData(pool, "pool.json");
+		return;
+	}
+
+	const UDT1_USERDATA_LOCALSTORAGE_STRING = "user_data";
+
+	const user_json = localStorage.getItem(UDT1_USERDATA_LOCALSTORAGE_STRING);
+
+	let data: UDT1Data = udt1_default_data;
+	data = udt1_default_data;
+
+	if (user_json != null) {
+		try {
+			data = JSON.parse(user_json);
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	if (data == null) {
+		console.error("Failed to retrieve or construct UDT1 data");
+	}
+
+	data[team] = pool;
+	try {
+		localStorage.setItem(
+			UDT1_USERDATA_LOCALSTORAGE_STRING,
+			JSON.stringify(data),
+		);
+	} catch (e) {
+		console.error(e);
+	}
 }
