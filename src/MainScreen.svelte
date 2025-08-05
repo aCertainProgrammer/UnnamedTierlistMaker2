@@ -9,8 +9,12 @@
 		resetTierlist,
 		setTierlist,
 		exportTierlist,
+		validateTierlist,
+		importTierlist,
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
+	import { readFile } from "./util";
+	import type { FormEventHandler } from "svelte/elements";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
@@ -35,6 +39,15 @@
 		tierlist.tiers = five_tiers;
 
 		setTierlist(tierlist);
+	}
+
+	async function wrapImportTierlist(event: any) {
+		if (event.target.files == null || event.target.files.length == 0) {
+			console.error("Files null when they shouldn't be");
+			return;
+		}
+
+		importTierlist(event.target.files[0]);
 	}
 </script>
 
@@ -75,6 +88,27 @@
 				const tierlist = getTierlist();
 				exportTierlist(tierlist);
 			}}
+		/>
+		<TextButton
+			text="Import tierlist"
+			onclick={() => {
+				const fileInput = document.getElementById(
+					"import-tierlist-file-input",
+				);
+
+				if (fileInput == null) {
+					console.error("fileInput null when it shouldn't be");
+					return;
+				}
+
+				fileInput.click();
+			}}
+		/>
+		<input
+			style="display:none"
+			type="file"
+			oninput={wrapImportTierlist}
+			id="import-tierlist-file-input"
 		/>
 	</div>
 	<div class="middle-container">

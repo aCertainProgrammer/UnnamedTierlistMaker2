@@ -1,5 +1,5 @@
 import { SaverLoader } from "./saverloader.svelte";
-import { exportData } from "./util";
+import { exportData, readFile } from "./util";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -103,4 +103,52 @@ export function exportTierlist(tierlist: TierlistType) {
 	} catch (e) {
 		console.error(e);
 	}
+}
+
+export async function importTierlist(file: File) {
+	const tierlist_json = await readFile(file);
+
+	try {
+		const tierlist_data = JSON.parse(tierlist_json);
+		const tierlist = validateTierlist(tierlist_data);
+		setTierlist(tierlist);
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+export function validateTierlist(tierlist: TierlistType): TierlistType {
+	if (tierlist.tiers == undefined) {
+		throw "tierlist.tiers is undefined";
+		return default_tierlist;
+	}
+	if (tierlist.name == undefined) {
+		tierlist.name = "";
+	}
+
+	let i = 0;
+	for (const tier of tierlist.tiers) {
+		if (tier.champions == undefined) {
+			tier.champions = [];
+			console.warn(
+				"Couldn't read the tier champions array, assigning empty array",
+			);
+		}
+		if (tier.name == undefined) {
+			throw `Tier name in the ${i + 1} tier is undefined`;
+			return default_tierlist;
+		}
+		if (tier.color == undefined) {
+			tier.color = "limegreen";
+			console.warn(
+				"Couldn't read the tier color, assigning " + tier.color,
+			);
+		}
+
+		tier.id = i;
+
+		i += 1;
+	}
+
+	return tierlist;
 }
