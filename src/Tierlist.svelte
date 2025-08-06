@@ -109,6 +109,10 @@
 		padding-bottom: 10px;
 	}
 
+	.tiers-container {
+		overflow-y: auto;
+	}
+
 	.tiers-container,
 	.tiers-container > div {
 		width: 100%;
