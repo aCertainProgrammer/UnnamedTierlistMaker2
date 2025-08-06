@@ -85,11 +85,10 @@
 				</div>
 			</div>
 		{/each}
-		<TextButton
-			style="width:100%; height:80px"
-			text="+"
-			onclick={addTier}
-		/>
+		<button class="new-tier-button" onclick={addTier}>
+			<span>+</span>
+			<span>Add new tier</span>
+		</button>
 	</div>
 </div>
 
@@ -128,5 +127,27 @@
 		top: calc(50% - 7.5px);
 		right: 10px;
 		opacity: 0.7;
+	}
+
+	.new-tier-button {
+		width: 100%;
+		height: var(--championIconWidth);
+
+		border-radius: 8px;
+		border: 1px solid #707070;
+		padding: 0.6em 1.2em;
+
+		font-size: 1.5em;
+		font-weight: 500;
+		font-family: inherit;
+
+		background-color: #06145e;
+
+		cursor: pointer;
+
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		justify-content: center;
 	}
 </style>
