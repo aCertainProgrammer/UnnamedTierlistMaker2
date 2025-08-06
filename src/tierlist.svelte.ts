@@ -1,4 +1,4 @@
-import { SaverLoader } from "./saverloader.svelte";
+import { SaverLoader, type Snapshot } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
 
@@ -224,4 +224,39 @@ export function exportDraftPool(
 	} catch (e) {
 		console.error(e);
 	}
+}
+
+export function changeSnapshotName(name: string, id: number) {
+	const snapshots = SaverLoader.getSnapshots();
+	const snapshot = snapshots.find((current) => current.id === id);
+
+	if (snapshot == null) {
+		throw "Couldn't find snapshot to edit";
+		return;
+	}
+	snapshot.tierlist.name = name;
+
+	SaverLoader.updateSnapshots(snapshots);
+}
+
+export function loadSnapshot(id: number) {
+	const snapshot = getSnapshotById(id);
+
+	if (snapshot == null) {
+		throw "Snapshot is null";
+		return;
+	}
+
+	setTierlist(snapshot.tierlist);
+}
+
+function getSnapshotById(id: number): Snapshot {
+	const snapshots = SaverLoader.getSnapshots();
+	const snapshot = snapshots.find((current) => current.id === id);
+
+	if (snapshot == null) {
+		throw "Snapshot not found";
+	}
+
+	return snapshot;
 }
