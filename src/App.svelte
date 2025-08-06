@@ -11,6 +11,10 @@
 			return;
 		}
 
+		if (program_state.snapshot_overlay_open) {
+			return;
+		}
+
 		if (program_state.tier_editor_open) {
 			if (key == "Escape") {
 				program_state.tier_editor_open = false;

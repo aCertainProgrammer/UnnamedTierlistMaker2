@@ -13,6 +13,8 @@
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
 	import ExportDraftPool from "./ExportDraftPool.svelte";
+	import { SaverLoader } from "./saverloader.svelte";
+	import SnapshotsOverlay from "./SnapshotsOverlay.svelte";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
@@ -46,6 +48,15 @@
 		}
 
 		importTierlist(event.target.files[0]);
+	}
+
+	function openSnapshotOverlay() {
+		program_state.snapshot_overlay_open = true;
+	}
+
+	function saveSnapshot() {
+		const tierlist = getTierlist();
+		SaverLoader.saveSnapshot(tierlist);
 	}
 </script>
 
@@ -117,6 +128,9 @@
 		{#if program_state.export_pool_overlay_open}
 			<ExportDraftPool />
 		{/if}
+		<TextButton text="Save snapshot" onclick={saveSnapshot} />
+		<TextButton text="Open snapshots" onclick={openSnapshotOverlay} />
+		{#if program_state.snapshot_overlay_open}<SnapshotsOverlay />{/if}
 	</div>
 	<div class="middle-container">
 		<Tierlist />

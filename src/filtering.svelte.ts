@@ -1,4 +1,6 @@
 import { default_data } from "./default_data";
+import type { Snapshots } from "./saverloader.svelte";
+import type { TierlistType } from "./tierlist.svelte";
 
 type Key = keyof typeof default_data;
 export let all_champions: Array<string> = [];
@@ -11,7 +13,10 @@ function passesLegacyQuery(string: string, query: string): boolean {
 	let clean_query = query.replace(/\s/g, "");
 	clean_query = clean_query.toLowerCase();
 
-	if (string.includes(clean_query)) {
+	let clean_string = string.replace(/\s/g, "");
+	clean_string = string.toLowerCase();
+
+	if (clean_string.includes(clean_query)) {
 		return true;
 	}
 	return false;
@@ -40,4 +45,24 @@ export function getFilteredChampions(
 	}
 
 	return filtered_champions;
+}
+
+export function getFilteredSnapshots(
+	query: string,
+	snapshots: Snapshots,
+): Snapshots {
+	let clean_query = query.replace(/\s/g, "");
+	clean_query = clean_query.toLowerCase();
+
+	const filtered_snapshots = snapshots.filter((current) => {
+		let clean_name = current.tierlist.name.replace(/\s/g, "");
+		clean_name = current.tierlist.name.toLowerCase();
+
+		if (clean_name.includes(clean_query)) {
+			return true;
+		}
+		return false;
+	});
+
+	return filtered_snapshots;
 }

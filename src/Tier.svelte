@@ -208,8 +208,4 @@
 		height: 40px;
 		width: 40px;
 	}
-
-	.tier-name-input {
-		color: black;
-	}
 </style>
