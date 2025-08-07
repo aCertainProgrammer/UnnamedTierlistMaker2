@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { capitalize } from "./util";
-	import { changeSnapshotName } from "./tierlist.svelte";
+	import {
+		changeSnapshotName,
+		getSnapshotById,
+		removeSnapshot,
+	} from "./tierlist.svelte";
 	import type { Snapshot } from "./saverloader.svelte";
+	import ImageButton from "./lib/ImageButton.svelte";
+	import { exportTierlistAsImage } from "./images.svelte";
 
 	const {
 		snapshot,
@@ -19,9 +25,30 @@
 
 		changeSnapshotName(event.target.value, snapshot.id);
 	}
+
+	let hidden = $state(false);
 </script>
 
-<button class="tierlist-preview" {onclick}>
+<button class="tierlist-preview" {onclick} style={hidden ? "display:none" : ""}>
+	<div
+		class="image-button snapshot-remove-button"
+		onclick={(event: any) => {
+			event.stopPropagation();
+			hidden = true;
+			removeSnapshot(snapshot.id);
+		}}
+	>
+		<img src="./img/trash-icon.webp" alt="trash icon" />
+	</div>
+	<div
+		class="image-button snapshot-screenshot-button"
+		onclick={(event: any) => {
+			event.stopPropagation();
+			exportTierlistAsImage(getSnapshotById(snapshot.id).tierlist);
+		}}
+	>
+		<img src="./img/screenshot.webp" alt="trash icon" />
+	</div>
 	<input
 		type="text"
 		class="tierlist-name-preview"
@@ -60,6 +87,7 @@
 
 <style>
 	.tierlist-preview {
+		position: relative;
 		max-height: var(--snapshotContainerHeight);
 		max-width: var(--snapshotContainerHeight);
 		height: var(--snapshotContainerHeight);
@@ -88,6 +116,20 @@
 		max-height: 20px;
 		font-size: 15px;
 		background: #06145e;
+		margin-top: 30px;
+	}
+
+	.snapshot-remove-button {
+		position: absolute;
+		top: 5px;
+		right: 10px;
+	}
+
+	.snapshot-screenshot-button {
+		position: absolute;
+		top: 5px;
+		left: 10px;
+		max-width: 25px;
 	}
 
 	.preview-tiers-container {

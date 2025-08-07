@@ -216,7 +216,7 @@ export function changeSnapshotName(name: string, id: number) {
 	}
 	snapshot.tierlist.name = name;
 
-	SaverLoader.updateSnapshots(snapshots);
+	SaverLoader.saveSnapshots(snapshots);
 }
 
 export function loadSnapshot(id: number) {
@@ -230,12 +230,33 @@ export function loadSnapshot(id: number) {
 	setTierlist(snapshot.tierlist);
 }
 
-function getSnapshotById(id: number): Snapshot {
+export function removeSnapshot(id: number) {
+	try {
+		const snapshot = getSnapshotById(id);
+
+		if (snapshot == null) {
+			throw "Snapshot is null";
+			return;
+		}
+
+		const snapshots = SaverLoader.getSnapshots();
+		snapshots.splice(
+			snapshots.findIndex((current) => snapshot.id === current.id),
+			1,
+		);
+
+		SaverLoader.saveSnapshots(snapshots);
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+export function getSnapshotById(id: number): Snapshot {
 	const snapshots = SaverLoader.getSnapshots();
 	const snapshot = snapshots.find((current) => current.id === id);
 
 	if (snapshot == null) {
-		throw "Snapshot not found";
+		throw "Snapshot not found, id: " + id;
 	}
 
 	return snapshot;

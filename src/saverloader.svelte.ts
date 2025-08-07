@@ -98,7 +98,7 @@ export class SaverLoader {
 		this.saveAllData(save_data);
 	}
 
-	static updateSnapshots(snapshots: Snapshots) {
+	static saveSnapshots(snapshots: Snapshots) {
 		if (snapshots == null) {
 			throw "Null snapshots passed to update function";
 			return;
