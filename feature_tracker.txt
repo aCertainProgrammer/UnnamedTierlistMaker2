@@ -1,4 +1,3 @@
 - Fix snapshot display when champions overflow the tier
 - Add champion search to snapshot handling
-- remove code coverage from version control
 - Keyboard handling
