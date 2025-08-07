@@ -154,8 +154,8 @@
 	}
 
 	.tier-name {
-		min-width: calc(1.5 * var(--championIconWidth));
-		width: calc(1.5 * var(--championIconWidth));
+		min-width: var(--championIconWidth);
+		width: var(--championIconWidth);
 
 		display: flex;
 		justify-content: center;

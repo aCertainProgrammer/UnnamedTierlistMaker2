@@ -6,6 +6,9 @@
 	import { loadSnapshot } from "./tierlist.svelte";
 	import TextButton from "./lib/TextButton.svelte";
 
+	let current_page = $state(1);
+	let items_per_page = $state(SaverLoader.getItemsPerPage());
+
 	let search_query = $state("");
 	let snapshots = $derived.by(() => {
 		const snapshots = SaverLoader.getSnapshots();
@@ -24,8 +27,6 @@
 		}
 	}) as Snapshots;
 
-	let current_page = $state(1);
-
 	function closeOverlay() {
 		program_state.snapshot_overlay_open = false;
 	}
@@ -34,7 +35,6 @@
 		event.stopPropagation();
 	}
 
-	const items_per_page = 10;
 	function setPage(x: number) {
 		const snapshots = SaverLoader.getSnapshots();
 		const filtered_snapshots = getFilteredSnapshots(
@@ -57,12 +57,17 @@
 	function changePage(x: number) {
 		setPage(current_page + x);
 	}
+
+	function saveItemsPerPage() {
+		SaverLoader.saveItemsPerPage(items_per_page);
+	}
 </script>
 
 <div class="snapshots-overlay" role="none" onclick={closeOverlay}>
 	<div class="snapshots-panel" onclick={stopPropagation} role="none">
 		<div class="snapshots-top-bar">
 			<input
+				id="snapshots-search-bar"
 				type="text"
 				onclick={stopPropagation}
 				bind:value={search_query}
@@ -84,6 +89,19 @@
 			{/each}
 		</div>
 		<div class="snapshots-bot-bar">
+			<div style="height:100%">
+				<label for="page-items-select">Items per page</label>
+				<select
+					id="page-items-select"
+					class="page-items-select"
+					bind:value={items_per_page}
+					onchange={saveItemsPerPage}
+				>
+					<option selected={items_per_page == 20}>20</option>
+					<option selected={items_per_page == 50}>50</option>
+					<option selected={items_per_page == 100}>100</option>
+				</select>
+			</div>
 			<TextButton
 				text="<"
 				onclick={() => {
@@ -114,7 +132,6 @@
 		left: 0px;
 		height: 100vh;
 		width: 100vw;
-		background-color: rgba(0, 0, 0, 0.3);
 		z-index: 1;
 
 		display: flex;
@@ -123,16 +140,19 @@
 	}
 
 	.snapshots-panel {
-		height: 80%;
-		width: 80%;
+		height: 90%;
+		width: 90%;
 
-		background: rgba(0, 0, 0, 0.5);
+		background: rgba(0, 0, 0, 0.8);
 
 		display: flex;
 		flex-flow: column nowrap;
 		align-items: center;
 		justify-content: center;
 
+		gap: 10px;
+
+		padding: 2rem 4rem;
 		overflow: hidden;
 	}
 
@@ -143,6 +163,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+
+		background: none;
+
+		gap: 4px;
+	}
+
+	#snapshots-search-bar {
+		height: 100%;
+		font-size: 1rem;
 	}
 
 	.snapshots-container {
@@ -158,11 +187,20 @@
 		justify-content: center;
 
 		overflow-y: auto;
-		background: rgba(30, 30, 30, 0.4);
 	}
 
 	.page-counter {
 		width: 50px;
 		height: 100%;
+		font-size: 1rem;
+	}
+
+	.page-items-select {
+		background-color: var(--buttonBackgroundColor);
+		border-radius: var(--generalBorderRadius);
+		border: 1px solid var(--generalBorderColor);
+		height: 100%;
+		font-size: 1rem;
+		text-align: center;
 	}
 </style>

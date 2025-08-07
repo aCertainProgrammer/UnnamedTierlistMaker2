@@ -1,6 +1,7 @@
 import { SaverLoader, type Snapshot } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
+import { default_tierlist } from "./defaults.svelte";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -40,27 +41,6 @@ export const all_colors: Array<TierColorType> = [
 	"yellow",
 	"orange",
 ];
-
-export const default_tierlist: TierlistType = {
-	name: "",
-	tiers: [
-		{
-			id: 0,
-			name: "S",
-			champions: [],
-			color: "deepskyblue",
-		},
-		{
-			id: 1,
-			name: "A",
-			champions: [],
-			color: "limegreen",
-		},
-		{ id: 2, name: "B", champions: [], color: "yellow" },
-		{ id: 3, name: "C", champions: [], color: "orange" },
-		{ id: 4, name: "F", champions: [], color: "tomato" },
-	],
-};
 
 let tierlist: TierlistType = $state(SaverLoader.getTierlist());
 

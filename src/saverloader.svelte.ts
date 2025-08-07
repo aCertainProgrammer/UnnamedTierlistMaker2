@@ -1,5 +1,5 @@
 import type { TierlistType } from "./tierlist.svelte";
-import { default_tierlist } from "./tierlist.svelte";
+import { default_tierlist, default_config } from "./defaults.svelte";
 
 const local_storage_string = "UTM2";
 const tierlist_string = "tierlist";
@@ -13,22 +13,20 @@ export type Snapshots = Array<Snapshot>;
 export type SaveData = {
 	tierlist: TierlistType;
 	snapshots: Snapshots;
+	items_per_page: number;
 };
 export class SaverLoader {
 	static getSaveData(): SaveData {
 		let json = localStorage.getItem(local_storage_string);
 		try {
 			if (json == null) {
-				throw "localStorage JSON is null";
+				throw "localStorage JSON is null, loading default config";
 			}
 			const data = JSON.parse(json);
 			return data;
 		} catch (e) {
 			console.error(e);
-			return {
-				tierlist: JSON.parse(JSON.stringify(default_tierlist)),
-				snapshots: [],
-			};
+			return default_config;
 		}
 	}
 
@@ -55,7 +53,11 @@ export class SaverLoader {
 	static getTierlist(): TierlistType {
 		const save_data = this.getSaveData();
 		if (save_data.tierlist == null) {
-			save_data.tierlist = default_tierlist;
+			console.warn(
+				"Couldn't read save_data.tierlist, using default value",
+			);
+			save_data.tierlist = default_config.tierlist;
+			this.saveTierlist(default_config.tierlist);
 		}
 
 		return save_data.tierlist;
@@ -63,6 +65,16 @@ export class SaverLoader {
 
 	static getSnapshots(): Snapshots {
 		const save_data = this.getSaveData();
+
+		if (save_data.snapshots == null) {
+			console.warn(
+				"Couldn't read save_data.snapshots, using default value",
+			);
+
+			save_data.snapshots = default_config.snapshots;
+			this.saveAllData(save_data);
+		}
+
 		return save_data.snapshots;
 	}
 
@@ -94,6 +106,27 @@ export class SaverLoader {
 
 		const save_data = this.getSaveData();
 		save_data.snapshots = snapshots;
+
+		this.saveAllData(save_data);
+	}
+
+	static getItemsPerPage(): number {
+		const save_data = this.getSaveData();
+
+		if (save_data.items_per_page == null) {
+			console.warn(
+				"Couldn't read save_data.items_per_page, using default value",
+			);
+			save_data.items_per_page = default_config.items_per_page;
+			this.saveItemsPerPage(default_config.items_per_page);
+		}
+
+		return save_data.items_per_page;
+	}
+
+	static saveItemsPerPage(x: number): void {
+		const save_data = this.getSaveData();
+		save_data.items_per_page = x;
 
 		this.saveAllData(save_data);
 	}
