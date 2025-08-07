@@ -10,7 +10,6 @@
 		snapshot: Snapshot;
 		onclick?: any;
 	} = $props();
-	$inspect(snapshot);
 
 	function changeSnapshotTierlistName(event: any) {
 		if (event.target == null) {

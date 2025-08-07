@@ -146,10 +146,12 @@
 		max-width: 100%;
 		display: flex;
 		flex-direction: column;
+		gap: 40px;
 	}
 
 	.top-buttons {
 		display: flex;
+		flex-flow: row wrap;
 	}
 
 	.middle-container {
@@ -158,7 +160,9 @@
 		height: 100%;
 		width: 100%;
 
-		gap: 40px;
+		gap: 100px;
 		overflow: hidden;
+
+		padding: 0px 30px;
 	}
 </style>

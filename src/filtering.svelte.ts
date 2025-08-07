@@ -61,6 +61,18 @@ export function getFilteredSnapshots(
 		if (clean_name.includes(clean_query)) {
 			return true;
 		}
+
+		let champions_string = "";
+		for (const tier of current.tierlist.tiers) {
+			for (const champion of tier.champions) {
+				champions_string += champion;
+			}
+		}
+
+		if (champions_string.includes(clean_query)) {
+			return true;
+		}
+
 		return false;
 	});
 

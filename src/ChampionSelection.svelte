@@ -172,7 +172,7 @@
 		width: 100%;
 		max-height: 100%;
 		padding-top: 20px;
-		padding-bottom: 30px;
+		padding-bottom: 40px;
 	}
 	.champion-selection-top-bar {
 		width: 100%;

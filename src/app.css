@@ -19,6 +19,8 @@
 :root[data-theme="dark"] {
 	--scrollbarColor: white;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
+	--buttonBackgroundColor: #06145e;
+	--generalBorderColor: #707070;
 }
 
 body {
