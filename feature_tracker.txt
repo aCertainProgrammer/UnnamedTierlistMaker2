@@ -1,3 +1,2 @@
 - Fix snapshot display when champions overflow the tier
-- Add champion search to snapshot handling
 - Keyboard handling

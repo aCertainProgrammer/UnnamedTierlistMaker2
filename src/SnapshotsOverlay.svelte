@@ -14,14 +14,48 @@
 			snapshots,
 		);
 
-		return filtered_snapshots;
+		if (filtered_snapshots.length < items_per_page) {
+			return filtered_snapshots;
+		} else {
+			return filtered_snapshots.slice(
+				(current_page - 1) * items_per_page,
+				current_page * items_per_page,
+			);
+		}
 	}) as Snapshots;
+
+	let current_page = $state(1);
 
 	function closeOverlay() {
 		program_state.snapshot_overlay_open = false;
 	}
+
 	function stopPropagation(event: any) {
 		event.stopPropagation();
+	}
+
+	const items_per_page = 10;
+	function setPage(x: number) {
+		const snapshots = SaverLoader.getSnapshots();
+		const filtered_snapshots = getFilteredSnapshots(
+			search_query,
+			snapshots,
+		);
+
+		current_page = x;
+
+		if (x <= 0) {
+			current_page = 1;
+		}
+		const pages = Math.ceil(filtered_snapshots.length / items_per_page);
+
+		if (x > pages) {
+			current_page = pages;
+		}
+	}
+
+	function changePage(x: number) {
+		setPage(current_page + x);
 	}
 </script>
 
@@ -33,6 +67,9 @@
 				onclick={stopPropagation}
 				bind:value={search_query}
 				placeholder="Filter snapshots"
+				oninput={() => {
+					setPage(1);
+				}}
 			/>
 			<TextButton text="Close" onclick={closeOverlay} />
 		</div>
@@ -45,6 +82,27 @@
 					}}
 				/>
 			{/each}
+		</div>
+		<div class="snapshots-bot-bar">
+			<TextButton
+				text="<"
+				onclick={() => {
+					changePage(-1);
+				}}
+			/>
+			<input
+				type="text"
+				onclick={stopPropagation}
+				bind:value={current_page}
+				placeholder="Page"
+				class="page-counter"
+			/>
+			<TextButton
+				text=">"
+				onclick={() => {
+					changePage(1);
+				}}
+			/>
 		</div>
 	</div>
 </div>
@@ -78,7 +136,8 @@
 		overflow: hidden;
 	}
 
-	.snapshots-top-bar {
+	.snapshots-top-bar,
+	.snapshots-bot-bar {
 		width: 100%;
 
 		display: flex;
@@ -100,5 +159,10 @@
 
 		overflow-y: auto;
 		background: rgba(30, 30, 30, 0.4);
+	}
+
+	.page-counter {
+		width: 50px;
+		height: 100%;
 	}
 </style>
