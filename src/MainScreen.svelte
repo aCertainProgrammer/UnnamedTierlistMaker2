@@ -152,6 +152,7 @@
 	.top-buttons {
 		display: flex;
 		flex-flow: row wrap;
+		gap: 4px;
 	}
 
 	.middle-container {
