@@ -4,10 +4,19 @@ import type { TierlistType } from "./tierlist.svelte";
 
 type Key = keyof typeof default_data;
 export let all_champions: Array<string> = [];
+
+let temp_champions: Array<string> = [];
 for (const role in default_data) {
 	const key = role as Key;
-	all_champions = [...all_champions, ...default_data[key]];
+	temp_champions = [...temp_champions, ...default_data[key]];
 }
+
+for (const champion of temp_champions) {
+	if (!all_champions.includes(champion)) {
+		all_champions.push(champion);
+	}
+}
+all_champions.sort();
 
 function passesLegacyQuery(string: string, query: string): boolean {
 	let clean_query = query.replace(/\s/g, "");
@@ -44,7 +53,16 @@ export function getFilteredChampions(
 		);
 	}
 
-	return filtered_champions;
+	let no_duplicates: Array<string> = [];
+
+	for (const champion of filtered_champions) {
+		if (!no_duplicates.includes(champion)) {
+			no_duplicates.push(champion);
+		}
+	}
+	no_duplicates.sort();
+
+	return no_duplicates;
 }
 
 export function getFilteredSnapshots(
