@@ -38,7 +38,7 @@
 		const { trigger, id } = e.detail.info;
 		if (trigger == TRIGGERS.DROPPED_OUTSIDE_OF_ANY) {
 			items.splice(
-				items.findIndex((item_id) => id === item_id),
+				items.findIndex((item) => id === item.id),
 				1,
 			);
 		} else if (trigger == TRIGGERS.DROPPED_INTO_ZONE) {
