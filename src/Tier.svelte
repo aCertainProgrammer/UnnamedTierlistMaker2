@@ -168,7 +168,7 @@
 
 	.tier-name > span {
 		color: black;
-		font-size: 1.3rem;
+		font-size: 1.2rem;
 		text-align: center;
 		word-break: break-all;
 	}
