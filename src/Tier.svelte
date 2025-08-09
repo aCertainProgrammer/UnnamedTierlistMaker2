@@ -10,14 +10,12 @@
 		removeTier,
 	} from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
-	import { stopPropagation } from "svelte/legacy";
 
 	type Props = {
 		tier_id: number;
 	};
 
 	const { tier_id }: Props = $props();
-	$inspect(tier_id);
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 	let tier: TierType = $derived(tierlist.tiers[tier_id]);
 
