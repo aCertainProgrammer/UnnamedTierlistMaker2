@@ -19,27 +19,41 @@
 	}}
 	role="none"
 >
-	<button class="text-button">Cancel</button>
-	<button
-		class="text-button"
-		onclick={() => {
-			exportDraftPool(tierlist, null);
-		}}>Download pool</button
-	>
-	<button
-		class="text-button"
-		onclick={() => {
-			exportDraftPool(tierlist, "ally");
-		}}>Set ally pool in Unnamed Drafting Tool</button
-	>
-	<button
-		class="text-button"
-		onclick={() => {
-			exportDraftPool(tierlist, "enemy");
+	<div
+		class="panel export-draft-pool-panel"
+		role="none"
+		onclick={(event: any) => {
+			event.stopPropagation();
 		}}
 	>
-		Set enemy pool in Unnamed Drafting Tool</button
-	>
+		<button
+			class="text-button"
+			style="align-self:end"
+			onclick={() => {
+				program_state.export_pool_overlay_open = false;
+			}}>Cancel</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, null);
+			}}>Download pool</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, "ally");
+			}}>Set ally pool in Unnamed Drafting Tool</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, "enemy");
+			}}
+		>
+			Set enemy pool in Unnamed Drafting Tool</button
+		>
+	</div>
 </div>
 
 <style>
@@ -55,5 +69,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.export-draft-pool-panel {
+		padding: 20px 30px;
+		display: flex;
+		flex-flow: column wrap;
+		align-items: start;
+		justify-content: start;
+
+		gap: 10px;
 	}
 </style>
