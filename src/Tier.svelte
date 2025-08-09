@@ -9,7 +9,6 @@
 		all_colors,
 		removeTier,
 	} from "./tierlist.svelte";
-	import TextButton from "./lib/TextButton.svelte";
 	import { program_state } from "./state.svelte";
 
 	type Props = {
@@ -112,13 +111,13 @@
 
 	{#if program_state.tier_editor_open && program_state.currently_edited_tier_id == tier_id}
 		<div class="tier-editor" onclick={closeTierEditor} role="none">
-			<TextButton
-				text="Close"
+			<button
+				class="text-button"
 				onclick={(event: any) => {
 					event?.stopPropagation();
 					closeTierEditor();
-				}}
-			/>
+				}}>Close</button
+			>
 			<div class="color-container">
 				{#each all_colors as color}
 					<input

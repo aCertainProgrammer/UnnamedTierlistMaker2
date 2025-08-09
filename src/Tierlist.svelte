@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
-	import TextButton from "./lib/TextButton.svelte";
 	import TextInput from "./lib/TextInput.svelte";
 	import {
 		getNewTierName,

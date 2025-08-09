@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TextButton from "./lib/TextButton.svelte";
 	import {
 		exportDraftPool,
 		getTierlist,
@@ -21,25 +20,27 @@
 	}}
 	role="none"
 >
-	<TextButton text="Cancel" onclick={() => {}} />
-	<TextButton
-		text="Download pool"
+	<button class="text-button">Cancel</button>
+	<button
+		class="text-button"
 		onclick={() => {
 			exportDraftPool(tierlist, null);
-		}}
-	/>
-	<TextButton
-		text="Set ally pool in Unnamed Drafting Tool"
+		}}>Download pool</button
+	>
+	<button
+		class="text-button"
 		onclick={() => {
 			exportDraftPool(tierlist, "ally");
-		}}
-	/>
-	<TextButton
-		text="Set enemy pool in Unnamed Drafting Tool"
+		}}>Set ally pool in Unnamed Drafting Tool</button
+	>
+	<button
+		class="text-button"
 		onclick={() => {
 			exportDraftPool(tierlist, "enemy");
 		}}
-	/>
+	>
+		Set enemy pool in Unnamed Drafting Tool</button
+	>
 </div>
 
 <style>

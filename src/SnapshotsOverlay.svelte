@@ -4,7 +4,6 @@
 	import { getFilteredSnapshots } from "./filtering.svelte";
 	import TierlistPreview from "./TierlistPreview.svelte";
 	import { loadSnapshot } from "./tierlist.svelte";
-	import TextButton from "./lib/TextButton.svelte";
 
 	let current_page = $state(1);
 	let items_per_page = $state(SaverLoader.getItemsPerPage());
@@ -76,7 +75,7 @@
 					setPage(1);
 				}}
 			/>
-			<TextButton text="Close" onclick={closeOverlay} />
+			<button class="text-button" onclick={closeOverlay}>Close</button>
 		</div>
 		<div class="snapshots-container">
 			{#each snapshots as snapshot}
@@ -102,12 +101,12 @@
 					<option selected={items_per_page == 100}>100</option>
 				</select>
 			</div>
-			<TextButton
-				text="<"
+			<button
+				class="text-button"
 				onclick={() => {
 					changePage(-1);
-				}}
-			/>
+				}}>&lt;</button
+			>
 			<input
 				type="text"
 				onclick={stopPropagation}
@@ -115,12 +114,12 @@
 				placeholder="Page"
 				class="page-counter"
 			/>
-			<TextButton
-				text=">"
+			<button
+				class="text-button"
 				onclick={() => {
 					changePage(1);
-				}}
-			/>
+				}}>&gt;</button
+			>
 		</div>
 	</div>
 </div>
