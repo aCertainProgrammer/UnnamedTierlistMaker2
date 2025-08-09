@@ -6,7 +6,6 @@
 	} from "./tierlist.svelte";
 
 	import { program_state } from "./state.svelte";
-	import TextInput from "./lib/TextInput.svelte";
 
 	let tierlist: TierlistType = $derived.by(() => {
 		return getTierlist();
