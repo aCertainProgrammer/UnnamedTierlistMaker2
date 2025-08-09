@@ -7,7 +7,6 @@
 	} from "svelte-dnd-action";
 	import { all_champions, getFilteredChampions } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import TextInput from "./lib/TextInput.svelte";
 	import ImageButton from "./lib/ImageButton.svelte";
 
 	type Role = "top" | "jungle" | "mid" | "adc" | "support" | "none";
@@ -123,7 +122,9 @@
 				/>
 			{/each}
 		</div>
-		<TextInput
+		<input
+			type="text"
+			class="text-input"
 			oninput={setSearchQuery}
 			value={search_query}
 			placeholder="Search for champions"

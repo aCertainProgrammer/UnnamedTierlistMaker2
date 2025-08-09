@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
-	import TextInput from "./lib/TextInput.svelte";
 	import {
 		getNewTierName,
 		getTierlist,
@@ -59,7 +58,9 @@
 </script>
 
 <div class="tierlist">
-	<TextInput
+	<input
+		type="text"
+		class="text-input"
 		oninput={changeTierlistName}
 		value={tierlist.name}
 		placeholder="Tierlist name"
