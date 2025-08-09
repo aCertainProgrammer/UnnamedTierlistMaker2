@@ -10,6 +10,7 @@
 		removeTier,
 	} from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
+	import { stopPropagation } from "svelte/legacy";
 
 	type Props = {
 		tier_id: number;
@@ -111,42 +112,53 @@
 
 	{#if program_state.tier_editor_open && program_state.currently_edited_tier_id == tier_id}
 		<div class="tier-editor" onclick={closeTierEditor} role="none">
-			<button
-				class="text-button"
+			<div
+				class="panel tier-editor-panel"
+				role="none"
 				onclick={(event: any) => {
-					event?.stopPropagation();
-					closeTierEditor();
-				}}>Close</button
-			>
-			<div class="color-container">
-				{#each all_colors as color}
-					<input
-						type="button"
-						class="color-picker-button"
-						style="background-color: {color};"
-						onclick={(event: any) => {
-							event?.stopPropagation();
-							tierlist.tiers[tier_id].color = color;
-							setTierlist(tierlist);
-						}}
-					/>
-				{/each}
-			</div>
-			<input
-				class="tier-name-input"
-				type="text"
-				placeholder="Tier name"
-				bind:value={tier.name}
-				onclick={(event: any) => {
-					event?.stopPropagation();
+					event.stopPropagation();
 				}}
-			/>
-			<button
-				class="text-button"
-				onclick={() => {
-					removeTier(tier_id);
-				}}>Delete</button
 			>
+				<div class="tier-editor-top-buttons">
+					<button class="text-button" onclick={closeTierEditor}
+						>Close</button
+					>
+				</div>
+				<div class="color-choice-container">
+					<div>Pick tier color:</div>
+					<div class="color-container">
+						{#each all_colors as color}
+							<input
+								type="button"
+								class="color-picker-button"
+								style="background-color: {color};"
+								onclick={() => {
+									tierlist.tiers[tier_id].color = color;
+									setTierlist(tierlist);
+								}}
+							/>
+						{/each}
+					</div>
+				</div>
+				<div class="tier-name-input-container">
+					<label for="tier-name-input">Change tier name:</label>
+					<input
+						id="tier-name-input"
+						class="tier-name-input"
+						type="text"
+						placeholder="Tier name"
+						bind:value={tier.name}
+					/>
+				</div>
+				<button
+					class="text-button"
+					style="width:100%"
+					onclick={() => {
+						removeTier(tier_id);
+						closeTierEditor();
+					}}>Delete tier</button
+				>
+			</div>
 		</div>
 	{/if}
 </div>
@@ -209,10 +221,47 @@
 		justify-content: center;
 	}
 
+	.tier-editor-panel {
+		height: 30vh;
+		width: min(90vw, 500px);
+
+		display: flex;
+		flex-flow: column nowrap;
+
+		align-items: center;
+		justify-content: start;
+		gap: 10px;
+	}
+
 	.color-picker-button {
 		border: 1px solid black;
 		border-radius: 4px;
 		height: 40px;
 		width: 40px;
+	}
+
+	.tier-editor-top-buttons {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: end;
+	}
+
+	.color-choice-container {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: start;
+
+		gap: 72px;
+	}
+
+	.tier-name-input-container {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: start;
+
+		gap: 40px;
 	}
 </style>
