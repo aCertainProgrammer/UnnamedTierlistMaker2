@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TextButton from "./lib/TextButton.svelte";
 	import {
 		exportDraftPool,
 		getTierlist,
@@ -7,7 +6,6 @@
 	} from "./tierlist.svelte";
 
 	import { program_state } from "./state.svelte";
-	import TextInput from "./lib/TextInput.svelte";
 
 	let tierlist: TierlistType = $derived.by(() => {
 		return getTierlist();
@@ -21,25 +19,41 @@
 	}}
 	role="none"
 >
-	<TextButton text="Cancel" onclick={() => {}} />
-	<TextButton
-		text="Download pool"
-		onclick={() => {
-			exportDraftPool(tierlist, null);
+	<div
+		class="panel export-draft-pool-panel"
+		role="none"
+		onclick={(event: any) => {
+			event.stopPropagation();
 		}}
-	/>
-	<TextButton
-		text="Set ally pool in Unnamed Drafting Tool"
-		onclick={() => {
-			exportDraftPool(tierlist, "ally");
-		}}
-	/>
-	<TextButton
-		text="Set enemy pool in Unnamed Drafting Tool"
-		onclick={() => {
-			exportDraftPool(tierlist, "enemy");
-		}}
-	/>
+	>
+		<button
+			class="text-button"
+			style="align-self:end"
+			onclick={() => {
+				program_state.export_pool_overlay_open = false;
+			}}>Cancel</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, null);
+			}}>Download pool</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, "ally");
+			}}>Set ally pool in Unnamed Drafting Tool</button
+		>
+		<button
+			class="text-button"
+			onclick={() => {
+				exportDraftPool(tierlist, "enemy");
+			}}
+		>
+			Set enemy pool in Unnamed Drafting Tool</button
+		>
+	</div>
 </div>
 
 <style>
@@ -55,5 +69,15 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+	}
+
+	.export-draft-pool-panel {
+		padding: 20px 30px;
+		display: flex;
+		flex-flow: column wrap;
+		align-items: start;
+		justify-content: start;
+
+		gap: 10px;
 	}
 </style>

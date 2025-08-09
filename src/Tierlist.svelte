@@ -1,13 +1,7 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
-	import TextButton from "./lib/TextButton.svelte";
-	import TextInput from "./lib/TextInput.svelte";
-	import {
-		getNewTierName,
-		getTierlist,
-		setTierlist,
-	} from "./tierlist.svelte";
-	import type { TierlistType, TierType } from "./tierlist.svelte";
+	import { getTierlist, setTierlist, addTier } from "./tierlist.svelte";
+	import type { TierlistType } from "./tierlist.svelte";
 	import { dragHandleZone, dragHandle } from "svelte-dnd-action";
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 
@@ -45,22 +39,12 @@
 
 		setTierlist(tierlist);
 	}
-
-	function addTier() {
-		const tierlist = getTierlist();
-		const new_tier: TierType = {
-			id: tierlist.tiers.length,
-			name: getNewTierName(tierlist),
-			champions: [],
-			color: "tomato",
-		};
-
-		tierlist.tiers.push(new_tier);
-	}
 </script>
 
 <div class="tierlist">
-	<TextInput
+	<input
+		type="text"
+		class="text-input"
 		oninput={changeTierlistName}
 		value={tierlist.name}
 		placeholder="Tierlist name"

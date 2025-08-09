@@ -42,6 +42,17 @@ export const all_colors: Array<TierColorType> = [
 	"orange",
 ];
 
+export function getRandomColor(): TierColorType {
+	const max = all_colors.length - 1;
+
+	let index = Math.round(Math.random() * max);
+	if (index > max) {
+		index = max;
+	}
+
+	return all_colors[index];
+}
+
 let tierlist: TierlistType = $state(SaverLoader.getTierlist());
 
 export function getTierlist(): TierlistType {
@@ -260,4 +271,26 @@ export function getSnapshotById(id: number): Snapshot {
 	}
 
 	return snapshot;
+}
+
+export function removeTier(id: number): void {
+	const filtered_tiers = tierlist.tiers.filter((tier) => tier.id !== id);
+
+	filtered_tiers.forEach((tier, index) => (tier.id = index));
+
+	tierlist.tiers = filtered_tiers;
+	setTierlist(tierlist);
+}
+
+export function addTier() {
+	const tierlist = getTierlist();
+	const new_tier: TierType = {
+		id: tierlist.tiers.length,
+		name: getNewTierName(tierlist),
+		champions: [],
+		color: getRandomColor(),
+	};
+
+	tierlist.tiers.push(new_tier);
+	setTierlist(tierlist);
 }

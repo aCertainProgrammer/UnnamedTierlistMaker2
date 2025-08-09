@@ -21,6 +21,7 @@
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
 	--buttonBackgroundColor: #06145e;
 	--generalBorderColor: #707070;
+	--bodyBackgroundColor: #0d1117;
 }
 
 body {
@@ -37,7 +38,7 @@ body {
 	margin: 0 auto;
 	padding: 0.5rem;
 	text-align: center;
-	background-color: #0d1117;
+	background-color: var(--bodyBackgroundColor);
 }
 
 * {
@@ -87,4 +88,48 @@ input[type="text"] {
 	cursor: pointer;
 	background: none;
 	border: none;
+}
+
+.text-button {
+	height: 40px;
+
+	border-radius: 8px;
+	border: 1px solid #707070;
+	padding: 0.3em 0.7em;
+
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+
+	background-color: #06145e;
+
+	cursor: pointer;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.text-input {
+	height: 2em;
+
+	border-radius: 8px;
+	border: 1px solid #707070;
+	padding: 0.2em 0.4em;
+
+	font-size: 1em;
+	font-weight: 500;
+	font-family: inherit;
+	text-align: center;
+
+	background-color: #06145e;
+
+	cursor: text;
+}
+
+.panel {
+	padding: 20px;
+	border-radius: 20px;
+	opacity: 0.9;
+	background: var(--bodyBackgroundColor);
 }

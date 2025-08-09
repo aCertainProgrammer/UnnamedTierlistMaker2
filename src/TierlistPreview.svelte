@@ -6,7 +6,6 @@
 		removeSnapshot,
 	} from "./tierlist.svelte";
 	import type { Snapshot } from "./saverloader.svelte";
-	import ImageButton from "./lib/ImageButton.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
 
 	const {

@@ -1,7 +1,5 @@
 <script lang="ts">
 	import ChampionSelection from "./ChampionSelection.svelte";
-	import TextButton from "./lib/TextButton.svelte";
-	import ImageButton from "./lib/ImageButton.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { program_state } from "./state.svelte";
 	import {
@@ -62,44 +60,48 @@
 
 <div class="main-content">
 	<div class="top-buttons">
-		<ImageButton
-			src="./img/settings-cog.webp"
-			alt="Open settings button"
+		<button
+			class="image-button"
 			onclick={() => {
 				program_state.current_screen = "settings_screen";
 			}}
-		/>
-		<ImageButton
-			src="./img/question-mark.webp"
-			alt="Open manual button"
+			><img src="./img/settings-cog.webp" alt="Open settings button" />
+		</button>
+
+		<button
+			class="image-button"
 			onclick={() => {
 				console.log("Opening manual");
 			}}
-		/>
-		<ImageButton
-			src="./img/screenshot.webp"
-			alt="Take screenshot button"
-			onclick={takeScreenshot}
-		/>
-		<TextButton
-			text="Reset tierlist"
+		>
+			<img src="./img/question-mark.webp" alt="Open manual button" />
+		</button>
+
+		<button class="image-button" onclick={takeScreenshot}>
+			<img src="./img/screenshot.webp" alt="Take screenshot button" />
+		</button>
+		<button
+			class="text-button"
 			onclick={() => {
 				resetTierlist();
 			}}
-		/>
-		<TextButton
-			text="Use draft pool template"
-			onclick={madeDraftPoolTemplate}
-		/>
-		<TextButton
-			text="Export tierlist"
+		>
+			Reset tierlist</button
+		>
+		<button onclick={madeDraftPoolTemplate} class="text-button">
+			Use draft pool template</button
+		>
+		<button
+			class="text-button"
 			onclick={() => {
 				const tierlist = getTierlist();
 				exportTierlist(tierlist);
 			}}
-		/>
-		<TextButton
-			text="Import tierlist"
+		>
+			Export tierlist</button
+		>
+		<button
+			class="text-button"
 			onclick={() => {
 				const fileInput = document.getElementById(
 					"import-tierlist-file-input",
@@ -112,24 +114,31 @@
 
 				fileInput.click();
 			}}
-		/>
+		>
+			Import tierlist</button
+		>
 		<input
 			style="display:none"
 			type="file"
 			oninput={wrapImportTierlist}
 			id="import-tierlist-file-input"
 		/>
-		<TextButton
-			text="Export draft pool"
+		<button
+			class="text-button"
 			onclick={() => {
 				program_state.export_pool_overlay_open = true;
 			}}
-		/>
+		>
+			Export draft pool</button
+		>
 		{#if program_state.export_pool_overlay_open}
 			<ExportDraftPool />
 		{/if}
-		<TextButton text="Save snapshot" onclick={saveSnapshot} />
-		<TextButton text="Open snapshots" onclick={openSnapshotOverlay} />
+		<button class="text-button" onclick={saveSnapshot}>Save snapshot</button
+		>
+		<button class="text-button" onclick={openSnapshotOverlay}
+			>Open snapshots</button
+		>
 		{#if program_state.snapshot_overlay_open}<SnapshotsOverlay />{/if}
 	</div>
 	<div class="middle-container">

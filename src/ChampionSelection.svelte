@@ -7,8 +7,6 @@
 	} from "svelte-dnd-action";
 	import { all_champions, getFilteredChampions } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
-	import TextInput from "./lib/TextInput.svelte";
-	import ImageButton from "./lib/ImageButton.svelte";
 
 	type Role = "top" | "jungle" | "mid" | "adc" | "support" | "none";
 
@@ -115,15 +113,20 @@
 	<div class="champion-selection-top-bar">
 		<div id="role-icons">
 			{#each roles as role}
-				<ImageButton
-					src="./img/{role}_icon.webp"
-					alt="{role} filter button"
+				<button
 					onclick={(event: any) => setRoleFilter(event, role)}
-					classList={role_query === role ? "selected" : ""}
-				/>
+					class="image-button {role_query === role ? 'selected' : ''}"
+				>
+					<img
+						src="./img/{role}_icon.webp"
+						alt="{role} filter button"
+					/>
+				</button>
 			{/each}
 		</div>
-		<TextInput
+		<input
+			type="text"
+			class="text-input"
 			oninput={setSearchQuery}
 			value={search_query}
 			placeholder="Search for champions"
