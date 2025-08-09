@@ -261,3 +261,12 @@ export function getSnapshotById(id: number): Snapshot {
 
 	return snapshot;
 }
+
+export function removeTier(id: number): void {
+	const filtered_tiers = tierlist.tiers.filter((tier) => tier.id !== id);
+
+	filtered_tiers.forEach((tier, index) => (tier.id = index));
+
+	tierlist.tiers = filtered_tiers;
+	setTierlist(tierlist);
+}
