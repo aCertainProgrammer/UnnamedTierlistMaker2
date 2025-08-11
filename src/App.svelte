@@ -1,11 +1,28 @@
 <script lang="ts">
+	import { setContext } from "svelte";
 	import MainScreen from "./MainScreen.svelte";
 	import SettingsScreen from "./SettingsScreen.svelte";
 	import { program_state } from "./state.svelte";
+	import { pickChampion } from "./tierlist.svelte";
+	import { first_champion } from "./filtering.svelte";
+
+	setContext("role-filter", "none");
 
 	function onkeydown(event: KeyboardEvent) {
 		event.stopPropagation();
 		const key = event.key;
+
+		let isLetter = false;
+		let isNumber = false;
+
+		const letterRegex = /^[A-Za-z]$/;
+		if (key.match(letterRegex)) {
+			isLetter = true;
+		}
+		const numberRegex = /^[0-9]$/;
+		if (key.match(numberRegex)) {
+			isNumber = true;
+		}
 
 		if (program_state.export_pool_overlay_open) {
 			return;
@@ -16,9 +33,24 @@
 		}
 
 		if (program_state.tier_editor_open) {
+			const tierNameInput = document.getElementById(
+				"tier-name-input",
+			) as HTMLInputElement;
+			if (tierNameInput == null) {
+				console.error("tierNameInput null when it shouldn't be");
+				return;
+			}
+
 			if (key == "Escape") {
 				program_state.tier_editor_open = false;
+			} else if (document.activeElement != tierNameInput) {
+				tierNameInput.value = "";
+				tierNameInput.dispatchEvent(
+					new Event("input", { bubbles: true }),
+				);
+				tierNameInput.focus();
 			}
+
 			return;
 		}
 
@@ -50,6 +82,15 @@
 						new Event("input", { bubbles: true }),
 					);
 					championSelectionSearchBar.blur();
+				} else if (isNumber) {
+					championSelectionSearchBar.blur();
+
+					const champion = first_champion;
+					if (champion == null) {
+						return;
+					}
+
+					pickChampion(champion, Number(key) - 1);
 				} else if (
 					document.activeElement != championSelectionSearchBar
 				) {

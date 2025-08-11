@@ -7,6 +7,7 @@
 	} from "svelte-dnd-action";
 	import { all_champions, getFilteredChampions } from "./filtering.svelte";
 	import ChampionIcon from "./lib/ChampionIcon.svelte";
+	import { setContext } from "svelte";
 
 	type Role = "top" | "jungle" | "mid" | "adc" | "support" | "none";
 

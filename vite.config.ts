@@ -8,7 +8,7 @@ export default defineConfig({
 	base: "/UnnamedTierlistMaker2/",
 	server: {
 		port: 8080,
-		host: "localhost",
+		host: "127.0.0.1",
 		open: true,
 		strictPort: false,
 	},

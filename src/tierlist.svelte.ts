@@ -306,7 +306,7 @@ export function exportSnapshots() {
 	exportData(snapshots, "snapshots.json");
 }
 
-export async function importSnapshots(file: File): Promise<Snapshots> {
+export async function importSnapshots(file: File): Promise<Snapshots | null> {
 	let snapshots = SaverLoader.getSnapshots();
 	const new_snapshots_json = await readFile(file);
 
@@ -355,4 +355,16 @@ export function screenshotAllSnapshots() {
 
 export function clearAllSnapshots() {
 	SaverLoader.saveSnapshots([]);
+}
+
+export function pickChampion(champion: string, index: number): void {
+	if (index >= tierlist.tiers.length) {
+		return;
+	}
+
+	tierlist.tiers[index].champions = tierlist.tiers[index].champions.filter(
+		(picked_champion) => champion != picked_champion,
+	);
+
+	tierlist.tiers[index].champions.push(champion);
 }
