@@ -4,6 +4,7 @@ import type { TierlistType } from "./tierlist.svelte";
 
 type Key = keyof typeof default_data;
 export let all_champions: Array<string> = [];
+export let first_champion: string | null = null;
 
 let temp_champions: Array<string> = [];
 for (const role in default_data) {
@@ -61,6 +62,12 @@ export function getFilteredChampions(
 		}
 	}
 	no_duplicates.sort();
+
+	if (no_duplicates.length > 0) {
+		first_champion = no_duplicates[0];
+	} else {
+		first_champion = null;
+	}
 
 	return no_duplicates;
 }

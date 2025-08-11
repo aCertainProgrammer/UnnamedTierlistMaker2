@@ -81,6 +81,14 @@
 	function closeTierEditor() {
 		program_state.tier_editor_open = false;
 	}
+
+	function changeTierName(event: any) {
+		const tierlist = getTierlist();
+		const tier_name = event.target.value.trim();
+
+		tierlist.tiers[tier_id].name = tier_name;
+		setTierlist(tierlist);
+	}
 </script>
 
 <div class="tier">
@@ -145,7 +153,7 @@
 						class="tier-name-input"
 						type="text"
 						placeholder="Tier name"
-						bind:value={tier.name}
+						oninput={changeTierName}
 					/>
 				</div>
 				<button

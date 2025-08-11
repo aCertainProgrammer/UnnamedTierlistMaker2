@@ -1,7 +1,12 @@
-import { SaverLoader, type Snapshot } from "./saverloader.svelte";
+import {
+	SaverLoader,
+	type Snapshot,
+	type Snapshots,
+} from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
 import { default_tierlist } from "./defaults.svelte";
+import { exportTierlistAsImage } from "./images.svelte";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -293,4 +298,73 @@ export function addTier() {
 
 	tierlist.tiers.push(new_tier);
 	setTierlist(tierlist);
+}
+
+export function exportSnapshots() {
+	const snapshots = SaverLoader.getSnapshots();
+
+	exportData(snapshots, "snapshots.json");
+}
+
+export async function importSnapshots(file: File): Promise<Snapshots | null> {
+	let snapshots = SaverLoader.getSnapshots();
+	const new_snapshots_json = await readFile(file);
+
+	try {
+		const new_snapshots = JSON.parse(new_snapshots_json);
+		const validated_snapshots = validateSnapshots(
+			new_snapshots,
+			snapshots.length,
+		);
+
+		snapshots = [...snapshots, ...new_snapshots];
+		SaverLoader.saveSnapshots(snapshots);
+		return snapshots;
+	} catch (e) {
+		console.trace(e);
+		return null;
+	}
+}
+
+function validateSnapshots(
+	snapshots: Snapshots,
+	first_available_id: number,
+): Snapshots {
+	snapshots.forEach((snapshot, index) => {
+		const id = first_available_id + index;
+		snapshot.id = id;
+
+		if (snapshot.tierlist == null) {
+			console.warn(
+				`Couldn't read tierlist in snapshot with id=${snapshot.id}`,
+			);
+			snapshot.tierlist = JSON.parse(JSON.stringify(default_tierlist));
+		}
+	});
+
+	return snapshots;
+}
+
+export function screenshotAllSnapshots() {
+	const snapshots = SaverLoader.getSnapshots();
+
+	for (const snapshot of snapshots) {
+		exportTierlistAsImage(snapshot.tierlist);
+	}
+}
+
+export function clearAllSnapshots() {
+	SaverLoader.saveSnapshots([]);
+}
+
+export function pickChampion(champion: string, index: number): void {
+	if (index >= tierlist.tiers.length) {
+		return;
+	}
+
+	tierlist.tiers[index].champions = tierlist.tiers[index].champions.filter(
+		(picked_champion) => champion != picked_champion,
+	);
+
+	tierlist.tiers[index].champions.push(champion);
 }
