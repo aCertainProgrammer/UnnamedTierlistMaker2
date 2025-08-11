@@ -3,7 +3,13 @@
 	import { program_state } from "./state.svelte";
 	import { getFilteredSnapshots } from "./filtering.svelte";
 	import TierlistPreview from "./TierlistPreview.svelte";
-	import { loadSnapshot } from "./tierlist.svelte";
+	import {
+		clearAllSnapshots,
+		exportSnapshots,
+		importSnapshots,
+		loadSnapshot,
+		screenshotAllSnapshots,
+	} from "./tierlist.svelte";
 
 	let current_page = $state(1);
 	let items_per_page = $state(SaverLoader.getItemsPerPage());
@@ -65,16 +71,84 @@
 <div class="snapshots-overlay" role="none" onclick={closeOverlay}>
 	<div class="snapshots-panel" onclick={stopPropagation} role="none">
 		<div class="snapshots-top-bar">
-			<input
-				id="snapshots-search-bar"
-				type="text"
-				onclick={stopPropagation}
-				bind:value={search_query}
-				placeholder="Filter snapshots"
-				oninput={() => {
-					setPage(1);
-				}}
-			/>
+			<div class="snapshots-top-bar-center">
+				<button class="text-button" onclick={screenshotAllSnapshots}
+					>Screenshot all</button
+				>
+				<button
+					class="text-button"
+					onclick={() => {
+						const ok = confirm(
+							"Do you want to clear all snapshots?",
+						);
+						if (ok) {
+							clearAllSnapshots();
+							current_page = 1;
+							snapshots = [];
+						}
+					}}>Clear all</button
+				>
+				<input
+					id="snapshots-search-bar"
+					type="text"
+					onclick={stopPropagation}
+					bind:value={search_query}
+					placeholder="Filter snapshots"
+					oninput={() => {
+						setPage(1);
+					}}
+				/>
+				<button class="text-button" onclick={exportSnapshots}
+					>Export snapshots</button
+				>
+				<button
+					class="text-button"
+					onclick={() => {
+						const file_input = document.getElementById(
+							"import-snapshots-file-input",
+						);
+
+						if (file_input == null) {
+							console.error(
+								"Import snapshots input null when it shouldn't be",
+							);
+							return;
+						}
+
+						file_input.click();
+					}}
+					>Import snapshots
+				</button>
+				<input
+					id="import-snapshots-file-input"
+					type="file"
+					class="hidden"
+					oninput={async (event: any) => {
+						if (event.target == null) {
+							console.error(
+								"Import snapshots input null when it shouldn't be",
+							);
+							return;
+						}
+
+						if (event.target.files == null) {
+							console.error(
+								"event.target.files null when it shouldn't be",
+							);
+							return;
+						}
+
+						const files = event.target.files;
+						const imported_snapshots = await importSnapshots(
+							files[0],
+						);
+
+						if (imported_snapshots != null) {
+							snapshots = imported_snapshots;
+						}
+					}}
+				/>
+			</div>
 			<button class="text-button" onclick={closeOverlay}>Close</button>
 		</div>
 		<div class="snapshots-container">
@@ -160,6 +234,7 @@
 		width: 100%;
 
 		display: flex;
+		flex-direction: row;
 		align-items: center;
 		justify-content: center;
 
@@ -201,5 +276,16 @@
 		height: 100%;
 		font-size: 1rem;
 		text-align: center;
+	}
+
+	.snapshots-top-bar-center {
+		width: 100%;
+
+		display: flex;
+		flex-flow: row wrap;
+		align-items: center;
+		justify-content: center;
+
+		gap: 4px;
 	}
 </style>
