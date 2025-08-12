@@ -24,11 +24,36 @@
 			isNumber = true;
 		}
 
+		if (program_state.import_pool_overlay_open) {
+			return;
+		}
+
 		if (program_state.export_pool_overlay_open) {
 			return;
 		}
 
 		if (program_state.snapshot_overlay_open) {
+			const snapshotSearchBar = document.getElementById(
+				"snapshots-search-bar",
+			) as HTMLInputElement;
+
+			if (
+				document.activeElement?.classList.contains(
+					"tierlist-name-preview",
+				)
+			) {
+				return;
+			} else if (key == "Escape") {
+				snapshotSearchBar.value = "";
+				snapshotSearchBar.dispatchEvent(
+					new Event("input", { bubbles: true }),
+				);
+				snapshotSearchBar.blur();
+			} else if (document.activeElement != snapshotSearchBar) {
+				snapshotSearchBar.value = "";
+				snapshotSearchBar.focus();
+			}
+
 			return;
 		}
 
