@@ -70,18 +70,6 @@
 		>
 			Reset tierlist</button
 		>
-		<button onclick={useDraftPoolTemplate} class="text-button">
-			Use draft pool template</button
-		>
-		<button
-			class="text-button"
-			onclick={() => {
-				const tierlist = getTierlist();
-				exportTierlist(tierlist);
-			}}
-		>
-			Export tierlist</button
-		>
 		<button
 			class="text-button"
 			onclick={() => {
@@ -108,14 +96,15 @@
 		<button
 			class="text-button"
 			onclick={() => {
-				program_state.export_pool_overlay_open = true;
+				const tierlist = getTierlist();
+				exportTierlist(tierlist);
 			}}
 		>
-			Export draft pool</button
+			Export tierlist</button
 		>
-		{#if program_state.export_pool_overlay_open}
-			<ExportDraftPool />
-		{/if}
+		<button onclick={useDraftPoolTemplate} class="text-button">
+			Use draft pool template</button
+		>
 		<button
 			class="text-button"
 			onclick={() => {
@@ -126,6 +115,17 @@
 		>
 		{#if program_state.import_pool_overlay_open}
 			<ImportDraftPool />
+		{/if}
+		<button
+			class="text-button"
+			onclick={() => {
+				program_state.export_pool_overlay_open = true;
+			}}
+		>
+			Export draft pool</button
+		>
+		{#if program_state.export_pool_overlay_open}
+			<ExportDraftPool />
 		{/if}
 		<button class="text-button" onclick={saveSnapshot}>Save snapshot</button
 		>
