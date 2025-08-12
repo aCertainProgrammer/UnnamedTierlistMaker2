@@ -8,35 +8,17 @@
 		setTierlist,
 		exportTierlist,
 		importTierlist,
+		useDraftPoolTemplate,
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
 	import ExportDraftPool from "./ExportDraftPool.svelte";
 	import { SaverLoader } from "./saverloader.svelte";
 	import SnapshotsOverlay from "./SnapshotsOverlay.svelte";
+	import ImportDraftPool from "./ImportDraftPool.svelte";
 
 	function takeScreenshot() {
 		const tierlist = getTierlist();
 		exportTierlistAsImage(tierlist);
-	}
-
-	function madeDraftPoolTemplate() {
-		const tierlist = getTierlist();
-		let five_tiers = tierlist.tiers.slice(0, 5);
-
-		const tier_names = [
-			"Toplane",
-			"Jungle",
-			"Midlane",
-			"Botlane",
-			"Support",
-		];
-		five_tiers.forEach((current, index) => {
-			current.name = tier_names[index];
-		});
-
-		tierlist.tiers = five_tiers;
-
-		setTierlist(tierlist);
 	}
 
 	async function wrapImportTierlist(event: any) {
@@ -88,7 +70,7 @@
 		>
 			Reset tierlist</button
 		>
-		<button onclick={madeDraftPoolTemplate} class="text-button">
+		<button onclick={useDraftPoolTemplate} class="text-button">
 			Use draft pool template</button
 		>
 		<button
@@ -133,6 +115,17 @@
 		>
 		{#if program_state.export_pool_overlay_open}
 			<ExportDraftPool />
+		{/if}
+		<button
+			class="text-button"
+			onclick={() => {
+				program_state.import_pool_overlay_open = true;
+			}}
+		>
+			Import draft pool</button
+		>
+		{#if program_state.import_pool_overlay_open}
+			<ImportDraftPool />
 		{/if}
 		<button class="text-button" onclick={saveSnapshot}>Save snapshot</button
 		>
