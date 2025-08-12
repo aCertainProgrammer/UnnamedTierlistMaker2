@@ -4,12 +4,11 @@
 	import {
 		getTierlist,
 		setTierlist,
-		type TierlistType,
-		type TierType,
 		all_colors,
 		removeTier,
 	} from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
+	import { type TierlistType, type TierType } from "./types";
 
 	type Props = {
 		tier_id: number;

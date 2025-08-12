@@ -1,9 +1,9 @@
 import { default_data } from "./default_data";
 import type { Snapshots } from "./saverloader.svelte";
-import type { TierlistType } from "./tierlist.svelte";
+import type { TierlistType } from "./types";
 
 type Key = keyof typeof default_data;
-export let all_champions: Array<string> = [];
+export const all_champions: Array<string> = [];
 export let first_champion: string | null = null;
 
 let temp_champions: Array<string> = [];
@@ -54,7 +54,7 @@ export function getFilteredChampions(
 		);
 	}
 
-	let no_duplicates: Array<string> = [];
+	const no_duplicates: Array<string> = [];
 
 	for (const champion of filtered_champions) {
 		if (!no_duplicates.includes(champion)) {

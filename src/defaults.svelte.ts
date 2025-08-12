@@ -1,5 +1,5 @@
 import type { SaveData } from "./saverloader.svelte";
-import { type TierlistType } from "./tierlist.svelte";
+import { type TierlistType } from "./types";
 
 export const default_tierlist: TierlistType = {
 	name: "",

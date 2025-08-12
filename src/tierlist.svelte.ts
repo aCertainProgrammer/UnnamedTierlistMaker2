@@ -7,6 +7,7 @@ import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
 import { default_tierlist } from "./defaults.svelte";
 import { exportTierlistAsImage } from "./images.svelte";
+import type { TierColorType, TierlistType, TierType } from "./types";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 
@@ -15,26 +16,6 @@ export type ChampionDragDataType = {
 	source: ChampionDataSource;
 	tier_id?: number | undefined;
 };
-
-export type TierlistType = {
-	name: string;
-	tiers: Array<TierType>;
-};
-
-export type TierType = {
-	id: number;
-	name: string;
-	champions: Array<string>;
-	color: TierColorType;
-};
-
-export type TierColorType =
-	| "tomato"
-	| "deepskyblue"
-	| "limegreen"
-	| "greenyellow"
-	| "yellow"
-	| "orange";
 
 export type DraftPoolTeam = "ally" | "enemy" | "all" | null;
 
@@ -355,7 +336,7 @@ export async function importSnapshots(file: File): Promise<Snapshots | null> {
 			snapshots.length,
 		);
 
-		snapshots = [...snapshots, ...new_snapshots];
+		snapshots = [...snapshots, ...validated_snapshots];
 		SaverLoader.saveSnapshots(snapshots);
 		return snapshots;
 	} catch (e) {
@@ -409,7 +390,7 @@ export function pickChampion(champion: string, index: number): void {
 
 export function useDraftPoolTemplate() {
 	const tierlist = getTierlist();
-	let five_tiers: Array<TierType> = JSON.parse(
+	const five_tiers: Array<TierType> = JSON.parse(
 		JSON.stringify(default_tierlist.tiers),
 	);
 
@@ -427,6 +408,14 @@ export function useDraftPoolTemplate() {
 	});
 
 	tierlist.tiers = five_tiers;
+
+	setTierlist(tierlist);
+}
+
+export function clearAllTiers() {
+	tierlist.tiers.forEach((tier) => {
+		tier.champions = [];
+	});
 
 	setTierlist(tierlist);
 }

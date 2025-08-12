@@ -1,4 +1,4 @@
-import type { TierlistType } from "./tierlist.svelte";
+import type { TierlistType } from "./types";
 import { default_tierlist, default_config } from "./defaults.svelte";
 
 const local_storage_string = "UTM2";
@@ -29,7 +29,7 @@ export type SaveData = {
 
 export class SaverLoader {
 	static getSaveData(): SaveData {
-		let json = localStorage.getItem(local_storage_string);
+		const json = localStorage.getItem(local_storage_string);
 		try {
 			if (json == null) {
 				throw "localStorage JSON is null, loading default config";
