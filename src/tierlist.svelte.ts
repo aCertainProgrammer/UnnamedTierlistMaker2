@@ -162,11 +162,11 @@ export function validateTierlist(tierlist: TierlistType): TierlistType {
 }
 
 type ChampionPool = {
-	top: Array<String>;
-	jungle: Array<String>;
-	mid: Array<String>;
-	adc: Array<String>;
-	support: Array<String>;
+	top: Array<string>;
+	jungle: Array<string>;
+	mid: Array<string>;
+	adc: Array<string>;
+	support: Array<string>;
 };
 
 type UDT1Data = {
@@ -175,10 +175,51 @@ type UDT1Data = {
 	enemy: ChampionPool;
 };
 
+const UDT1_USERDATA_LOCALSTORAGE_STRING = "user_data";
+export function importDraftPool(team: DraftPoolTeam): void {
+	if (team == null) {
+		throw "Team is null when it shouldn't be";
+	}
+
+	const user_json = localStorage.getItem(UDT1_USERDATA_LOCALSTORAGE_STRING);
+
+	if (user_json == null) {
+		throw "Failed to retrieve UDT1 data, likely there are no custom champion pools set";
+	}
+
+	let data: UDT1Data;
+
+	try {
+		data = JSON.parse(user_json);
+	} catch (e) {
+		throw "Failed to parse draft pool data";
+	}
+
+	if (data == null) {
+		throw "Failed to retrieve UDT1 data";
+	}
+
+	useDraftPoolTemplate();
+
+	const team_data: ChampionPool = data[team];
+
+	tierlist.tiers[0].champions = team_data["top"];
+	tierlist.tiers[1].champions = team_data["jungle"];
+	tierlist.tiers[2].champions = team_data["mid"];
+	tierlist.tiers[3].champions = team_data["adc"];
+	tierlist.tiers[4].champions = team_data["support"];
+
+	setTierlist(tierlist);
+}
+
 export function exportDraftPool(
 	tierlist: TierlistType,
 	team: DraftPoolTeam,
 ): void {
+	if (tierlist.tiers.length < 5) {
+		throw "The tierlist is too short, please use the draft pool template";
+	}
+
 	const pool: ChampionPool = {
 		top: tierlist.tiers[0].champions,
 		jungle: tierlist.tiers[1].champions,
@@ -192,23 +233,20 @@ export function exportDraftPool(
 		return;
 	}
 
-	const UDT1_USERDATA_LOCALSTORAGE_STRING = "user_data";
-
 	const user_json = localStorage.getItem(UDT1_USERDATA_LOCALSTORAGE_STRING);
 
 	let data: UDT1Data = udt1_default_data;
-	data = udt1_default_data;
 
 	if (user_json != null) {
 		try {
 			data = JSON.parse(user_json);
 		} catch (e) {
-			console.error(e);
+			throw e;
 		}
 	}
 
 	if (data == null) {
-		console.error("Failed to retrieve or construct UDT1 data");
+		throw "Failed to retrieve or construct UDT1 data";
 	}
 
 	data[team] = pool;
@@ -218,7 +256,7 @@ export function exportDraftPool(
 			JSON.stringify(data),
 		);
 	} catch (e) {
-		console.error(e);
+		throw e;
 	}
 }
 
@@ -367,4 +405,28 @@ export function pickChampion(champion: string, index: number): void {
 	);
 
 	tierlist.tiers[index].champions.push(champion);
+}
+
+export function useDraftPoolTemplate() {
+	const tierlist = getTierlist();
+	let five_tiers: Array<TierType> = JSON.parse(
+		JSON.stringify(default_tierlist.tiers),
+	);
+
+	while (five_tiers.length > 5) {
+		five_tiers.pop();
+	}
+
+	const tier_names = ["Toplane", "Jungle", "Midlane", "Botlane", "Support"];
+	five_tiers.forEach((current, index) => {
+		current.name = tier_names[index];
+
+		if (tierlist.tiers[index] != null) {
+			current.champions = tierlist.tiers[index].champions;
+		}
+	});
+
+	tierlist.tiers = five_tiers;
+
+	setTierlist(tierlist);
 }

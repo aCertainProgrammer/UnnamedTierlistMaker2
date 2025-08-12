@@ -26,6 +26,7 @@ export class SaverLoader {
 			return data;
 		} catch (e) {
 			console.error(e);
+			this.saveAllData(default_config);
 			return default_config;
 		}
 	}
