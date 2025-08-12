@@ -10,11 +10,23 @@ export type Snapshot = {
 };
 export type Snapshots = Array<Snapshot>;
 
+export type Theme = "legacy-dark" | "modern-dark";
+
+export type Settings = {
+	disableDelete: boolean;
+	clearSearchBarsOnFocus: boolean;
+	showChampionNamesOnHover: boolean;
+	useLegacySearch: boolean;
+	appendToSnapshotsOnImport: boolean;
+};
+
 export type SaveData = {
 	tierlist: TierlistType;
 	snapshots: Snapshots;
 	items_per_page: number;
+	settings: Settings;
 };
+
 export class SaverLoader {
 	static getSaveData(): SaveData {
 		let json = localStorage.getItem(local_storage_string);
@@ -129,6 +141,41 @@ export class SaverLoader {
 		const save_data = this.getSaveData();
 		save_data.items_per_page = x;
 
+		this.saveAllData(save_data);
+	}
+
+	static getSettings(): Settings {
+		const save_data = this.getSaveData();
+		const valid_settings = this.validateSettings(save_data.settings);
+
+		return valid_settings;
+	}
+
+	static validateSettings(settings: Settings): Settings {
+		if (settings == null) {
+			console.warn(
+				"Couldn't read the program settings, using the default ones",
+			);
+			this.saveSettings(default_config.settings);
+			return default_config.settings;
+		}
+
+		type SettingsKey = keyof typeof default_config.settings;
+		for (const property in default_config.settings) {
+			if (settings[property as SettingsKey] == null) {
+				settings[property as SettingsKey] =
+					default_config.settings[property as SettingsKey];
+			}
+		}
+
+		return settings;
+	}
+
+	static saveSettings(settings: Settings) {
+		const save_data = this.getSaveData();
+		const valid_settings = this.validateSettings(settings);
+
+		save_data.settings = settings;
 		this.saveAllData(save_data);
 	}
 }

@@ -1,7 +1,10 @@
 <script lang="ts">
+	import { SaverLoader } from "../saverloader.svelte";
 	import type { ChampionDragDataType } from "../tierlist.svelte";
 	import { capitalize, prettifyChampionName } from "../util";
 	import HoverTextPopup from "./HoverTextPopup.svelte";
+
+	let settings = SaverLoader.getSettings();
 
 	const {
 		champion,
@@ -59,7 +62,7 @@
 </script>
 
 <div class="relative">
-	{#if should_show_hover}
+	{#if should_show_hover && settings.showChampionNamesOnHover}
 		<HoverTextPopup text={hoverText} />
 	{/if}
 	<img

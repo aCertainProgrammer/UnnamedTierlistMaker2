@@ -141,3 +141,11 @@ input[type="text"] {
 .error {
 	background: darkred !important;
 }
+
+.on {
+	background: darkgreen;
+}
+
+.off {
+	background: darkred;
+}

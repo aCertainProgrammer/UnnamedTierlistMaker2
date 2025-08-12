@@ -26,4 +26,11 @@ export const default_config: SaveData = {
 	tierlist: JSON.parse(JSON.stringify(default_tierlist)),
 	snapshots: [],
 	items_per_page: 20,
+	settings: {
+		disableDelete: false,
+		clearSearchBarsOnFocus: true,
+		showChampionNamesOnHover: true,
+		useLegacySearch: false,
+		appendToSnapshotsOnImport: true,
+	},
 };
