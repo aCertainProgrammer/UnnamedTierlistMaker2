@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
 	import { getTierlist, setTierlist, addTier } from "./tierlist.svelte";
-	import type { TierlistType } from "./tierlist.svelte";
+	import type { TierlistType } from "./types";
 	import { dragHandleZone, dragHandle } from "svelte-dnd-action";
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 

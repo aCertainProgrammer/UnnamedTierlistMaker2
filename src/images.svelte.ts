@@ -1,4 +1,4 @@
-import type { TierlistType, TierType } from "./tierlist.svelte";
+import type { TierlistType, TierType } from "./types";
 import { capitalize, exportImage } from "./util";
 import { getTierlist } from "./tierlist.svelte";
 
@@ -20,7 +20,7 @@ const min_image_width_px = 600;
 let image_width_px = max_image_width_px;
 let image_heigth_px = max_image_heigth_px;
 
-let tier_champions_max_width_px = $derived(
+const tier_champions_max_width_px = $derived(
 	image_width_px - 2 * padding_x_px - tier_name_width_px,
 );
 
@@ -37,9 +37,9 @@ function getFont(font_size: number): string {
 }
 
 export async function exportTierlistAsImage(tierlist: TierlistType) {
-	let canvas = document.createElement("canvas");
+	const canvas = document.createElement("canvas");
 
-	let ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+	const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 	ctx.textBaseline = "middle";
 
 	getAndSetImageSize(tierlist);

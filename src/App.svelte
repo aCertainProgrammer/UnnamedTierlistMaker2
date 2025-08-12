@@ -3,14 +3,16 @@
 	import MainScreen from "./MainScreen.svelte";
 	import SettingsScreen from "./SettingsScreen.svelte";
 	import { program_state } from "./state.svelte";
-	import { pickChampion } from "./tierlist.svelte";
+	import { clearAllTiers, pickChampion } from "./tierlist.svelte";
 	import { first_champion } from "./filtering.svelte";
+	import { SaverLoader } from "./saverloader.svelte";
 
 	setContext("role-filter", "none");
 
 	function onkeydown(event: KeyboardEvent) {
 		event.stopPropagation();
 		const key = event.key;
+		const settings = SaverLoader.getSettings();
 
 		let isLetter = false;
 		let isNumber = false;
@@ -84,6 +86,7 @@
 				const tierlistNameInput = document.getElementById(
 					"tierlist-name-input",
 				) as HTMLInputElement;
+
 				const championSelectionSearchBar = document.getElementById(
 					"champion-selection-search-bar",
 				) as HTMLInputElement;
@@ -101,26 +104,41 @@
 					return;
 				}
 
-				if (event.key == "Escape") {
-					championSelectionSearchBar.value = "";
-					championSelectionSearchBar.dispatchEvent(
-						new Event("input", { bubbles: true }),
-					);
-					championSelectionSearchBar.blur();
-				} else if (isNumber) {
-					championSelectionSearchBar.blur();
+				switch (event.key) {
+					case "Delete": {
+						if (settings.disableDelete) {
+							break;
+						}
 
-					const champion = first_champion;
-					if (champion == null) {
-						return;
+						clearAllTiers();
+						championSelectionSearchBar.blur();
+						break;
 					}
+					case "Escape": {
+						championSelectionSearchBar.value = "";
+						championSelectionSearchBar.dispatchEvent(
+							new Event("input", { bubbles: true }),
+						);
+						championSelectionSearchBar.blur();
+						break;
+					}
+					default: {
+						if (isNumber) {
+							championSelectionSearchBar.blur();
 
-					pickChampion(champion, Number(key) - 1);
-				} else if (
-					document.activeElement != championSelectionSearchBar
-				) {
-					championSelectionSearchBar.value = "";
-					championSelectionSearchBar.focus();
+							const champion = first_champion;
+							if (champion == null) {
+								return;
+							}
+
+							pickChampion(champion, Number(key) - 1);
+						} else if (
+							document.activeElement != championSelectionSearchBar
+						) {
+							championSelectionSearchBar.value = "";
+							championSelectionSearchBar.focus();
+						}
+					}
 				}
 
 				break;

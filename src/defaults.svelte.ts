@@ -1,5 +1,5 @@
 import type { SaveData } from "./saverloader.svelte";
-import { type TierlistType } from "./tierlist.svelte";
+import { type TierlistType } from "./types";
 
 export const default_tierlist: TierlistType = {
 	name: "",
@@ -26,4 +26,11 @@ export const default_config: SaveData = {
 	tierlist: JSON.parse(JSON.stringify(default_tierlist)),
 	snapshots: [],
 	items_per_page: 20,
+	settings: {
+		disableDelete: false,
+		clearSearchBarsOnFocus: true,
+		showChampionNamesOnHover: true,
+		useLegacySearch: false,
+		appendToSnapshotsOnImport: true,
+	},
 };

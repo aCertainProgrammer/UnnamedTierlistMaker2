@@ -1,2 +1,4 @@
 - Fix snapshot display when champions overflow the tier
 - Keyboard handling
+- Themes
+- Settings
