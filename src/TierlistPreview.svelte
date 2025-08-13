@@ -59,7 +59,12 @@
 	/>
 	<div class="preview-tiers-container">
 		{#each snapshot.tierlist.tiers as tier (tier.id)}
-			<div class="tier-preview">
+			<div
+				class="tier-preview"
+				style={tier.id == 0
+					? "border-top:2px solid var(--tierBorderColor);"
+					: ""}
+			>
 				<div
 					class="preview-tier-name"
 					style="background: {tier.color};"
@@ -96,7 +101,7 @@
 
 		overflow-y: auto;
 
-		border: 1px solid #aaaaaa;
+		border: 1px solid var(--snapshotBorderColor);
 		border-radius: var(--generalBorderRadius);
 		padding: 4px 4px;
 
@@ -114,7 +119,7 @@
 		min-height: 20px;
 		max-height: 20px;
 		font-size: 15px;
-		background: #06145e;
+		background: var(--inputElementBackground);
 		margin-top: 30px;
 	}
 
@@ -144,8 +149,9 @@
 		width: 100%;
 		display: flex;
 
-		border: 1px solid black;
-		background: #0a0440;
+		border: 2px solid var(--tierBorderColor);
+		border-top: none;
+		background: var(--tierBackground);
 	}
 
 	.preview-tier-name {
@@ -157,10 +163,10 @@
 		align-items: center;
 
 		border: none;
-		border-left: 1px solid black;
+		border-right: 2px solid var(--tierBorderColor);
 	}
 	.preview-tier-name > span {
-		color: black;
+		color: var(--tierNameColor);
 
 		text-align: center;
 		word-break: break-all;

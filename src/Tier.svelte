@@ -90,7 +90,10 @@
 	}
 </script>
 
-<div class="tier">
+<div
+	class="tier"
+	style={tier_id == 0 ? "border-top: 2px solid var(--tierBorderColor);" : ""}
+>
 	<button
 		class="tier-name"
 		style="background: {tier.color};"
@@ -116,7 +119,7 @@
 	</div>
 
 	{#if program_state.tier_editor_open && program_state.currently_edited_tier_id == tier_id}
-		<div class="tier-editor" onclick={closeTierEditor} role="none">
+		<div class="overlay" onclick={closeTierEditor} role="none">
 			<div
 				class="panel tier-editor-panel"
 				role="none"
@@ -174,7 +177,8 @@
 		width: 100%;
 
 		display: flex;
-		border: 1px solid black;
+		border: 2px solid var(--tierBorderColor);
+		border-top: none;
 	}
 
 	.tier-name {
@@ -186,12 +190,12 @@
 		align-items: center;
 
 		border: none;
-		border-left: 1px solid black;
+		border-right: 2px solid var(--tierBorderColor);
 		cursor: pointer;
 	}
 
 	.tier-name > span {
-		color: black;
+		color: var(--tierNameColor);
 		font-size: 1.2rem;
 		text-align: center;
 		word-break: break-all;
@@ -206,24 +210,10 @@
 		min-height: var(--championIconWidth);
 		width: 100%;
 
-		background: #0a0440;
+		background: var(--tierBackground);
 		flex: 1;
 
 		padding-right: 25px;
-	}
-
-	.tier-editor {
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		height: 100vh;
-		width: 100vw;
-		background-color: rgba(0, 0, 0, 0.3);
-		z-index: 1;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
 	}
 
 	.tier-editor-panel {

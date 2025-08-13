@@ -13,15 +13,28 @@
 	--championIconWidth: 80px;
 	--previewChampionIconWidth: 40px;
 	--snapshotContainerHeight: 360px;
-	--generalBorderRadius: 6px;
+	--generalBorderRadius: 8px;
 }
 
 :root[data-theme="legacy-dark"] {
 	--scrollbarColor: white;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
-	--buttonBackgroundColor: #06145e;
+	--inputElementBackground: #06145e;
 	--generalBorderColor: #707070;
 	--bodyBackgroundColor: #0d1117;
+	--errorColor: darkred;
+	--successColor: darkgreen;
+	--offColor: darkred;
+	--onColor: darkgreen;
+	--overlayBackground: rgba(0, 0, 0, 0.3);
+	--panelOpacity: 0.9;
+	--dragHandleOpacity: 0.7;
+	--hoverTextBackground: black;
+	--tierBackground: #0a0440;
+	--tierNameColor: black;
+	--tierBorderColor: black;
+
+	--snapshotBorderColor: #aaaaaa;
 }
 
 body {
@@ -67,8 +80,8 @@ input[type="button"] {
 input[type="text"] {
 	height: 2em;
 
-	border-radius: 8px;
-	border: 1px solid #707070;
+	border-radius: var(--generalBorderRadius);
+	border: 1px solid var(--generalBorderColor);
 	padding: 0.2em 0.4em;
 
 	font-size: 1em;
@@ -76,7 +89,7 @@ input[type="text"] {
 	font-family: inherit;
 	text-align: center;
 
-	background-color: #06145e;
+	background: var(--inputElementBackground);
 
 	cursor: text;
 }
@@ -93,15 +106,15 @@ input[type="text"] {
 .text-button {
 	height: 40px;
 
-	border-radius: 8px;
-	border: 1px solid #707070;
+	border-radius: var(--generalBorderRadius);
+	border: 1px solid var(--generalBorderColor);
 	padding: 0.3em 0.7em;
 
 	font-size: 1em;
 	font-weight: 500;
 	font-family: inherit;
 
-	background-color: #06145e;
+	background: var(--inputElementBackground);
 
 	cursor: pointer;
 
@@ -113,8 +126,8 @@ input[type="text"] {
 .text-input {
 	height: 2em;
 
-	border-radius: 8px;
-	border: 1px solid #707070;
+	border-radius: var(--generalBorderRadius);
+	border: 1px solid var(--generalBorderColor);
 	padding: 0.2em 0.4em;
 
 	font-size: 1em;
@@ -122,7 +135,7 @@ input[type="text"] {
 	font-family: inherit;
 	text-align: center;
 
-	background-color: #06145e;
+	background: var(--inputElementBackground);
 
 	cursor: text;
 }
@@ -130,31 +143,45 @@ input[type="text"] {
 .panel {
 	padding: 20px;
 	border-radius: 20px;
-	opacity: 0.9;
+	opacity: var(--panelOpacity);
 	background: var(--bodyBackgroundColor);
 }
 
 .success {
-	background: darkgreen !important;
+	background: var(--successColor);
 }
 
 .error {
-	background: darkred !important;
+	background: var(--errorColor);
 }
 
 .on {
-	background: darkgreen;
+	background: var(--onColor);
 }
 
 .off {
-	background: darkred;
+	background: var(--offColor);
 }
 
 select {
-	background-color: var(--buttonBackgroundColor);
+	background: var(--inputElementBackground);
 	border-radius: var(--generalBorderRadius);
 	border: 1px solid var(--generalBorderColor);
 	height: 1.5rem;
 	font-size: 1rem;
 	text-align: center;
+}
+
+.overlay {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100vh;
+	width: 100vw;
+	background: var(--overlayBackground);
+	z-index: 1;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
