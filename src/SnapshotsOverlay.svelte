@@ -69,7 +69,7 @@
 </script>
 
 <div class="snapshots-overlay" role="none" onclick={closeOverlay}>
-	<div class="snapshots-panel" onclick={stopPropagation} role="none">
+	<div class="panel snapshots-panel" onclick={stopPropagation} role="none">
 		<div class="snapshots-top-bar">
 			<div class="snapshots-top-bar-center">
 				<button class="text-button" onclick={screenshotAllSnapshots}
@@ -216,8 +216,6 @@
 		height: 90%;
 		width: 90%;
 
-		background: rgba(0, 0, 0, 0.8);
-
 		display: flex;
 		flex-flow: column nowrap;
 		align-items: center;
@@ -225,7 +223,6 @@
 
 		gap: 10px;
 
-		padding: 2rem 4rem;
 		overflow: hidden;
 	}
 
@@ -267,15 +264,6 @@
 		width: 50px;
 		height: 100%;
 		font-size: 1rem;
-	}
-
-	.page-items-select {
-		background-color: var(--buttonBackgroundColor);
-		border-radius: var(--generalBorderRadius);
-		border: 1px solid var(--generalBorderColor);
-		height: 100%;
-		font-size: 1rem;
-		text-align: center;
 	}
 
 	.snapshots-top-bar-center {

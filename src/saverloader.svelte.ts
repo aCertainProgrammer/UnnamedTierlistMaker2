@@ -1,4 +1,4 @@
-import type { TierlistType } from "./types";
+import type { TierlistType } from "./tierlist.svelte";
 import { default_tierlist, default_config } from "./defaults.svelte";
 
 const local_storage_string = "UTM2";
@@ -18,6 +18,7 @@ export type Settings = {
 	showChampionNamesOnHover: boolean;
 	useLegacySearch: boolean;
 	appendToSnapshotsOnImport: boolean;
+	theme: Theme;
 };
 
 export type SaveData = {
@@ -28,6 +29,10 @@ export type SaveData = {
 };
 
 export class SaverLoader {
+	static getAllThemes(): Array<Theme> {
+		return ["legacy-dark", "modern-dark"];
+	}
+
 	static getSaveData(): SaveData {
 		const json = localStorage.getItem(local_storage_string);
 		try {
@@ -177,5 +182,17 @@ export class SaverLoader {
 
 		save_data.settings = settings;
 		this.saveAllData(save_data);
+	}
+
+	static getTheme(): Theme {
+		const settings = this.getSettings();
+		if (settings.theme == null) {
+			settings.theme = default_config.settings.theme;
+			this.saveSettings(settings);
+
+			return settings.theme;
+		}
+
+		return settings.theme;
 	}
 }

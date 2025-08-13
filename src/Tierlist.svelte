@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Tier from "./Tier.svelte";
 	import { getTierlist, setTierlist, addTier } from "./tierlist.svelte";
-	import type { TierlistType } from "./types";
+	import type { TierlistType } from "./tierlist.svelte";
 	import { dragHandleZone, dragHandle } from "svelte-dnd-action";
 	let tierlist: TierlistType = $derived.by(() => getTierlist());
 
@@ -88,6 +88,8 @@
 		width: 50%;
 		height: 100%;
 
+		gap: 4px;
+
 		padding-top: 20px;
 		padding-bottom: 10px;
 	}
@@ -110,22 +112,22 @@
 		position: absolute;
 		top: calc(50% - 7.5px);
 		right: 10px;
-		opacity: 0.7;
+		opacity: var(--dragHandleOpacity);
 	}
 
 	.new-tier-button {
 		width: 100%;
 		height: var(--championIconWidth);
 
-		border-radius: 8px;
-		border: 1px solid #707070;
+		border-radius: var(--generalBorderRadius);
+		border: 1px solid var(--generalBorderColor);
 		padding: 0.6em 1.2em;
 
 		font-size: 1.5em;
 		font-weight: 500;
 		font-family: inherit;
 
-		background-color: #06145e;
+		background: var(--inputElementBackground);
 
 		cursor: pointer;
 
@@ -133,5 +135,7 @@
 		flex-flow: column nowrap;
 		align-items: center;
 		justify-content: center;
+
+		margin-top: 1px;
 	}
 </style>

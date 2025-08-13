@@ -147,6 +147,7 @@
 	}
 
 	document.body.addEventListener("keydown", onkeydown);
+	document.documentElement.dataset.theme = SaverLoader.getTheme();
 </script>
 
 <main>

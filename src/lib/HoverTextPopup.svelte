@@ -9,7 +9,7 @@
 		position: absolute;
 		top: -20px;
 
-		background: black;
+		background: var(--hoverTextBackground);
 		border-radius: 4px;
 		padding: 1px 2px;
 	}

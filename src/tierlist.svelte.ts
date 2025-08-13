@@ -1,13 +1,29 @@
-import {
-	SaverLoader,
-	type Snapshot,
-	type Snapshots,
-} from "./saverloader.svelte";
+import { SaverLoader } from "./saverloader.svelte";
+import type { Snapshot, Snapshots } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
 import { default_tierlist } from "./defaults.svelte";
 import { exportTierlistAsImage } from "./images.svelte";
-import type { TierColorType, TierlistType, TierType } from "./types";
+
+export type TierlistType = {
+	name: string;
+	tiers: Array<TierType>;
+};
+
+export type TierType = {
+	id: number;
+	name: string;
+	champions: Array<string>;
+	color: TierColorType;
+};
+
+export type TierColorType =
+	| "tomato"
+	| "deepskyblue"
+	| "limegreen"
+	| "greenyellow"
+	| "yellow"
+	| "orange";
 
 export type ChampionDataSource = "tier" | "champion_selection";
 

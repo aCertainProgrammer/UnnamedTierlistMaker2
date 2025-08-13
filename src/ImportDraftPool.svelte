@@ -41,7 +41,7 @@
 </script>
 
 <div
-	class="export-draft-pool-overlay"
+	class="overlay"
 	onclick={() => {
 		program_state.import_pool_overlay_open = false;
 	}}
@@ -93,20 +93,6 @@
 </div>
 
 <style>
-	.export-draft-pool-overlay {
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		height: 100vh;
-		width: 100vw;
-		background-color: rgba(0, 0, 0, 0.3);
-		z-index: 1;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
 	.export-draft-pool-panel {
 		min-width: 500px;
 		min-height: 200px;

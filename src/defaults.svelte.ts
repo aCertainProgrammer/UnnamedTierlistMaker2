@@ -1,5 +1,5 @@
 import type { SaveData } from "./saverloader.svelte";
-import { type TierlistType } from "./types";
+import type { TierlistType } from "./tierlist.svelte";
 
 export const default_tierlist: TierlistType = {
 	name: "",
@@ -32,5 +32,6 @@ export const default_config: SaveData = {
 		showChampionNamesOnHover: true,
 		useLegacySearch: false,
 		appendToSnapshotsOnImport: true,
+		theme: "legacy-dark",
 	},
 };

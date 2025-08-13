@@ -1,4 +1,4 @@
-import type { TierlistType, TierType } from "./types";
+import type { TierlistType, TierType } from "./tierlist.svelte";
 import { capitalize, exportImage } from "./util";
 import { getTierlist } from "./tierlist.svelte";
 

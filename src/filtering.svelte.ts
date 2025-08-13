@@ -1,6 +1,6 @@
 import { default_data } from "./default_data";
 import type { Snapshots } from "./saverloader.svelte";
-import type { TierlistType } from "./types";
+import type { TierlistType } from "./tierlist.svelte";
 
 type Key = keyof typeof default_data;
 export const all_champions: Array<string> = [];
