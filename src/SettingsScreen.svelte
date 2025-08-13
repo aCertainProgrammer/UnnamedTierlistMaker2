@@ -3,6 +3,17 @@
 	import { program_state } from "./state.svelte";
 
 	let settings = $state(SaverLoader.getSettings());
+
+	function setTheme(event: any) {
+		if (event.target == null) {
+			throw "Theme picker null when it shouldn't be";
+		}
+
+		settings.theme = event.target.value;
+		SaverLoader.saveSettings(settings);
+
+		document.documentElement.dataset.theme = settings.theme;
+	}
 </script>
 
 <div class="settings-screen">
@@ -21,48 +32,73 @@
 			settings = SaverLoader.getSettings();
 		}}
 	>
-		<button
-			class="text-button {settings.disableDelete ? 'on' : 'off'}"
-			onclick={() => {
-				settings.disableDelete = !settings.disableDelete;
-				SaverLoader.saveSettings(settings);
-			}}>Stop delete from clearing the tierlist</button
-		>
-		<button
-			class="text-button {settings.clearSearchBarsOnFocus ? 'on' : 'off'}"
-			onclick={() => {
-				settings.clearSearchBarsOnFocus =
-					!settings.clearSearchBarsOnFocus;
-				SaverLoader.saveSettings(settings);
-			}}>Clear search bar on focus</button
-		>
-		<button
-			class="text-button {settings.showChampionNamesOnHover
-				? 'on'
-				: 'off'}"
-			onclick={() => {
-				settings.showChampionNamesOnHover =
-					!settings.showChampionNamesOnHover;
-				SaverLoader.saveSettings(settings);
-			}}>Show champion names on hover</button
-		>
-		<button
-			class="text-button {settings.useLegacySearch ? 'on' : 'off'}"
-			onclick={() => {
-				settings.useLegacySearch = !settings.useLegacySearch;
-				SaverLoader.saveSettings(settings);
-			}}>Use legacy search</button
-		>
-		<button
-			class="text-button {settings.appendToSnapshotsOnImport
-				? 'on'
-				: 'off'}"
-			onclick={() => {
-				settings.appendToSnapshotsOnImport =
-					!settings.appendToSnapshotsOnImport;
-				SaverLoader.saveSettings(settings);
-			}}>Append to snapshots on import</button
-		>
+		<div class="settings-column">
+			<div class="settings-column-title">Program behaviour</div>
+			<div class="settings-column-content">
+				<button
+					class="text-button {settings.disableDelete ? 'on' : 'off'}"
+					onclick={() => {
+						settings.disableDelete = !settings.disableDelete;
+						SaverLoader.saveSettings(settings);
+					}}>Stop delete from clearing the tierlist</button
+				>
+				<button
+					class="text-button {settings.clearSearchBarsOnFocus
+						? 'on'
+						: 'off'}"
+					onclick={() => {
+						settings.clearSearchBarsOnFocus =
+							!settings.clearSearchBarsOnFocus;
+						SaverLoader.saveSettings(settings);
+					}}>Clear search bar on focus</button
+				>
+				<button
+					class="text-button {settings.useLegacySearch
+						? 'on'
+						: 'off'}"
+					onclick={() => {
+						settings.useLegacySearch = !settings.useLegacySearch;
+						SaverLoader.saveSettings(settings);
+					}}>Use legacy search</button
+				>
+				<button
+					class="text-button {settings.appendToSnapshotsOnImport
+						? 'on'
+						: 'off'}"
+					onclick={() => {
+						settings.appendToSnapshotsOnImport =
+							!settings.appendToSnapshotsOnImport;
+						SaverLoader.saveSettings(settings);
+					}}>Append to snapshots on import</button
+				>
+			</div>
+		</div>
+		<div class="settings-column">
+			<div class="settings-column-title">Looks</div>
+			<div class="settings-column-content">
+				<button
+					class="text-button {settings.showChampionNamesOnHover
+						? 'on'
+						: 'off'}"
+					onclick={() => {
+						settings.showChampionNamesOnHover =
+							!settings.showChampionNamesOnHover;
+						SaverLoader.saveSettings(settings);
+					}}>Show champion names on hover</button
+				>
+				<select oninput={setTheme} bind:value={settings.theme}>
+					{#each SaverLoader.getAllThemes() as theme}
+						<option value={theme}>Theme: {theme}</option>
+					{/each}
+				</select>
+			</div>
+		</div>
+		<div class="settings-column">
+			<div class="settings-column-title">Keybinds</div>
+			<div class="settings-column-content">
+				<button class="text-button">there will be binds here</button>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -85,7 +121,7 @@
 
 	.settings-content {
 		display: flex;
-		flex-flow: column nowrap;
+		flex-flow: row nowrap;
 		align-items: start;
 		height: 100%;
 		width: 100%;
@@ -94,5 +130,44 @@
 		overflow: hidden;
 
 		padding: 0px 30px;
+	}
+
+	.settings-column {
+		height: 100%;
+
+		width: 33%;
+
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: start;
+		justify-content: start;
+
+		gap: 10px;
+	}
+
+	.settings-column-title {
+		height: 30px;
+		width: 100%;
+
+		font-size: 20px;
+		text-align: center;
+	}
+
+	.settings-column-content {
+		height: 100%;
+		width: 100%;
+
+		display: flex;
+		flex-flow: column nowrap;
+		align-items: center;
+		justify-content: start;
+
+		gap: 10px;
+
+		padding: 0px 10px;
+	}
+
+	.settings-column-content > * {
+		width: 100%;
 	}
 </style>

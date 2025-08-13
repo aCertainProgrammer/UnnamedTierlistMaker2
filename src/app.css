@@ -16,7 +16,7 @@
 	--generalBorderRadius: 6px;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme="legacy-dark"] {
 	--scrollbarColor: white;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
 	--buttonBackgroundColor: #06145e;
@@ -148,4 +148,13 @@ input[type="text"] {
 
 .off {
 	background: darkred;
+}
+
+select {
+	background-color: var(--buttonBackgroundColor);
+	border-radius: var(--generalBorderRadius);
+	border: 1px solid var(--generalBorderColor);
+	height: 1.5rem;
+	font-size: 1rem;
+	text-align: center;
 }

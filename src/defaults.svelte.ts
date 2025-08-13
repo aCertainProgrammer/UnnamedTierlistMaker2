@@ -32,5 +32,6 @@ export const default_config: SaveData = {
 		showChampionNamesOnHover: true,
 		useLegacySearch: false,
 		appendToSnapshotsOnImport: true,
+		theme: "legacy-dark",
 	},
 };

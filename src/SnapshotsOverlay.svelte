@@ -269,15 +269,6 @@
 		font-size: 1rem;
 	}
 
-	.page-items-select {
-		background-color: var(--buttonBackgroundColor);
-		border-radius: var(--generalBorderRadius);
-		border: 1px solid var(--generalBorderColor);
-		height: 100%;
-		font-size: 1rem;
-		text-align: center;
-	}
-
 	.snapshots-top-bar-center {
 		width: 100%;
 
