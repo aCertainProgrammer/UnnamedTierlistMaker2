@@ -192,6 +192,8 @@
 		border: none;
 		border-right: 2px solid var(--tierBorderColor);
 		cursor: pointer;
+
+		opacity: var(--tierNameOpacity);
 	}
 
 	.tier-name > span {
@@ -229,7 +231,7 @@
 	}
 
 	.color-picker-button {
-		border: 1px solid black;
+		border: 1px solid var(--colorPickerBorderColor);
 		border-radius: 4px;
 		height: 40px;
 		width: 40px;

@@ -17,26 +17,68 @@
 }
 
 :root[data-theme="legacy-dark"] {
-	--scrollbarColor: white;
+	/* Program-wide colors */
+	--generalTextColor: #cccccc;
+	--generalBorderColor: #707070;
+	--generalScrollbarColor: white;
+
+	--bodyBackgroundColor: #0d1117;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
 	--inputElementBackground: #06145e;
-	--generalBorderColor: #707070;
-	--bodyBackgroundColor: #0d1117;
+
 	--errorColor: darkred;
 	--successColor: darkgreen;
 	--offColor: darkred;
 	--onColor: darkgreen;
+
+	/* Overlays */
 	--overlayBackground: rgba(0, 0, 0, 0.3);
 	--panelOpacity: 0.9;
+
+	/* Tierlist */
 	--dragHandleOpacity: 0.7;
-	--hoverTextBackground: black;
 	--tierBackground: #0a0440;
 	--tierNameColor: black;
+	--tierNameOpacity: 1;
 	--tierBorderColor: black;
+	--colorPickerBorderColor: black;
 
+	/* Misc */
 	--snapshotBorderColor: #aaaaaa;
+	--hoverTextBackground: black;
 }
 
+:root[data-theme="modern-dark"] {
+	/* Program-wide colors */
+	--generalTextColor: #cccccc;
+	--generalBorderColor: #707070;
+	--generalScrollbarColor: white;
+
+	--bodyBackgroundColor: #0d1117;
+	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
+	--inputElementBackground: #151515;
+
+	--errorColor: darkred;
+	--successColor: darkgreen;
+	--offColor: darkred;
+	--onColor: darkgreen;
+
+	/* Overlays */
+	--overlayBackground: rgba(0, 0, 0, 0.3);
+	--panelOpacity: 0.9;
+
+	/* Tierlist */
+	--dragHandleOpacity: 0.7;
+	--tierBackground: #202020;
+	--tierNameColor: black;
+	--tierNameOpacity: 0.9;
+	--tierBorderColor: black;
+	--colorPickerBorderColor: black;
+
+	/* Misc */
+	--snapshotBorderColor: #aaaaaa;
+	--hoverTextBackground: black;
+}
 body {
 	margin: 0;
 	display: flex;
@@ -55,9 +97,9 @@ body {
 }
 
 * {
-	color: #cccccc;
+	color: var(--generalTextColor);
 	box-sizing: border-box;
-	scrollbar-color: var(--scrollbarColor);
+	scrollbar-color: var(--generalScrollbarColor);
 }
 
 img {
