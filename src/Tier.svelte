@@ -8,7 +8,7 @@
 		removeTier,
 	} from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
-	import { type TierlistType, type TierType } from "./types";
+	import { type TierlistType, type TierType } from "./tierlist.svelte";
 
 	type Props = {
 		tier_id: number;

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { exportDraftPool, getTierlist } from "./tierlist.svelte";
-	import { type TierlistType } from "./types";
+	import { type TierlistType } from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
 
 	let tierlist: TierlistType = $derived.by(() => {

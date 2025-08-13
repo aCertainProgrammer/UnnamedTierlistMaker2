@@ -1,4 +1,4 @@
-import type { TierlistType } from "./types";
+import type { TierlistType } from "./tierlist.svelte";
 import { default_tierlist, default_config } from "./defaults.svelte";
 
 const local_storage_string = "UTM2";
