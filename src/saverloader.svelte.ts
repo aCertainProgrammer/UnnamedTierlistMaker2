@@ -19,6 +19,7 @@ export type Settings = {
 	useLegacySearch: boolean;
 	appendToSnapshotsOnImport: boolean;
 	theme: Theme;
+	binds: Binds;
 };
 
 export type SaveData = {
@@ -26,6 +27,18 @@ export type SaveData = {
 	snapshots: Snapshots;
 	items_per_page: number;
 	settings: Settings;
+};
+
+export type Bind = string;
+
+export type Binds = {
+	toggleToplaneFilterBind: Bind;
+	toggleJungleFilterBind: Bind;
+	toggleMidlaneFilterBind: Bind;
+	toggleBotlaneFilterBind: Bind;
+	toggleSupportFilterBind: Bind;
+	toggleSnapshotOverlayBind: Bind;
+	saveSnapshotBind: Bind;
 };
 
 export class SaverLoader {
@@ -165,14 +178,15 @@ export class SaverLoader {
 			return default_config.settings;
 		}
 
-		type SettingsKey = keyof typeof default_config.settings;
-		for (const property in default_config.settings) {
-			if (settings[property as SettingsKey] == null) {
-				settings[property as SettingsKey] =
-					default_config.settings[property as SettingsKey];
+		(
+			Object.keys(default_config.settings) as Array<
+				keyof typeof default_config.settings
+			>
+		).forEach((property) => {
+			if (settings[property] == null) {
+				settings[property] = default_config.settings[property];
 			}
-		}
-
+		});
 		return settings;
 	}
 
@@ -194,5 +208,16 @@ export class SaverLoader {
 		}
 
 		return settings.theme;
+	}
+
+	static getBinds(): Binds {
+		const settings = this.getSettings();
+		if (settings.binds == null) {
+			settings.binds = default_config.settings.binds;
+			this.saveSettings(settings);
+
+			return settings.binds;
+		}
+		return settings.binds;
 	}
 }

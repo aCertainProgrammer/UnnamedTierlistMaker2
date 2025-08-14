@@ -127,7 +127,7 @@
 		font-weight: 500;
 		font-family: inherit;
 
-		background: var(--inputElementBackground);
+		background: var(--addTierBackground);
 
 		cursor: pointer;
 
