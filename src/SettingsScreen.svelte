@@ -3,6 +3,17 @@
 	import { program_state } from "./state.svelte";
 
 	let settings = $state(SaverLoader.getSettings());
+	let bindsArray = $derived.by(() => {
+		const binds = SaverLoader.getBinds();
+
+		return [
+			{
+				property: "saveSnapshotBind",
+				bind: binds.saveSnapshotBind,
+				text: "Save snapshots",
+			},
+		];
+	});
 
 	function setTheme(event: any) {
 		if (event.target == null) {
@@ -96,7 +107,26 @@
 		<div class="settings-column">
 			<div class="settings-column-title">Keybinds</div>
 			<div class="settings-column-content">
-				<button class="text-button">there will be binds here</button>
+				{#each bindsArray as bind_data}
+					<div class="bind-container">
+						<div>{bind_data.text}</div>
+						<input
+							type="text"
+							class="text-input"
+							maxlength="1"
+							value={bind_data.bind.toUpperCase()}
+							oninput={(event: any) => {
+								const bind = event.target.value.toUpperCase();
+								if (bind.lenght < 1) {
+									return;
+								}
+
+								settings.binds[bind_data.property] = bind;
+								SaverLoader.saveSettings(settings);
+							}}
+						/>
+					</div>
+				{/each}
 			</div>
 		</div>
 	</div>
