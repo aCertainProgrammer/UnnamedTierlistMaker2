@@ -170,9 +170,9 @@
 					bind:value={items_per_page}
 					onchange={saveItemsPerPage}
 				>
-					<option selected={items_per_page == 20}>20</option>
-					<option selected={items_per_page == 50}>50</option>
-					<option selected={items_per_page == 100}>100</option>
+					<option>20</option>
+					<option>50</option>
+					<option>100</option>
 				</select>
 			</div>
 			<button
