@@ -52,7 +52,9 @@
 				);
 				snapshotSearchBar.blur();
 			} else if (document.activeElement != snapshotSearchBar) {
-				snapshotSearchBar.value = "";
+				if (settings.clearSearchBarsOnFocus) {
+					snapshotSearchBar.value = "";
+				}
 				snapshotSearchBar.focus();
 			}
 
@@ -135,7 +137,9 @@
 						} else if (
 							document.activeElement != championSelectionSearchBar
 						) {
-							championSelectionSearchBar.value = "";
+							if (settings.clearSearchBarsOnFocus) {
+								championSelectionSearchBar.value = "";
+							}
 							championSelectionSearchBar.focus();
 						}
 					}

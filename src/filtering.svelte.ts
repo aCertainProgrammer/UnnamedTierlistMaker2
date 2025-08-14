@@ -1,5 +1,5 @@
 import { default_data } from "./default_data";
-import type { Snapshots } from "./saverloader.svelte";
+import { SaverLoader, type Snapshots } from "./saverloader.svelte";
 import type { TierlistType } from "./tierlist.svelte";
 
 type Key = keyof typeof default_data;
@@ -32,6 +32,66 @@ function passesLegacyQuery(string: string, query: string): boolean {
 	return false;
 }
 
+function getLegacyQueryChampions(
+	query: string,
+	champions: Array<string>,
+): Array<string> {
+	champions = champions.sort();
+
+	let clean_query = query.replace(/\s/g, "");
+	clean_query = clean_query.toLowerCase();
+	if (clean_query == "") {
+		return champions;
+	}
+
+	return champions.filter((current) => passesLegacyQuery(current, query));
+}
+
+function getModernQueryChampions(
+	query: string,
+	champions: Array<string>,
+): Array<string> {
+	champions = champions.sort();
+
+	let clean_query = query.replace(/\s/g, "");
+	clean_query = clean_query.toLowerCase();
+
+	if (clean_query == "") {
+		return champions;
+	}
+
+	const filtered_champions: Array<string> = [];
+
+	for (const champion of champions) {
+		if (champion == clean_query) {
+			filtered_champions.push(champion);
+		}
+	}
+
+	for (const champion of champions) {
+		if (champion.includes(clean_query)) {
+			filtered_champions.push(champion);
+		}
+	}
+
+	for (const champion of champions) {
+		let query_index = 0;
+
+		for (let i = 0; i < champion.length; i++) {
+			const letter = champion[i];
+			if (clean_query[query_index] == letter) {
+				query_index += 1;
+			}
+			if (query_index == clean_query.length) {
+				filtered_champions.push(champion);
+				break;
+			}
+		}
+	}
+
+	return filtered_champions;
+}
+
 export function getFilteredChampions(
 	query: string,
 	role: string,
@@ -44,9 +104,13 @@ export function getFilteredChampions(
 		champions = all_champions;
 	}
 
-	let filtered_champions = champions.filter((current) =>
-		passesLegacyQuery(current, query),
-	);
+	let filtered_champions: Array<string> = [];
+	const settings = SaverLoader.getSettings();
+	if (settings.useLegacySearch) {
+		filtered_champions = getLegacyQueryChampions(query, champions);
+	} else {
+		filtered_champions = getModernQueryChampions(query, champions);
+	}
 
 	if (filtered_champions.length === 0) {
 		filtered_champions = all_champions.filter((current) =>

@@ -50,7 +50,7 @@
 						settings.clearSearchBarsOnFocus =
 							!settings.clearSearchBarsOnFocus;
 						SaverLoader.saveSettings(settings);
-					}}>Clear search bar on focus</button
+					}}>Clear search bars on focus</button
 				>
 				<button
 					class="text-button {settings.useLegacySearch

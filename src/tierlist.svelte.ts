@@ -344,6 +344,7 @@ export function exportSnapshots() {
 export async function importSnapshots(file: File): Promise<Snapshots | null> {
 	let snapshots = SaverLoader.getSnapshots();
 	const new_snapshots_json = await readFile(file);
+	const settings = SaverLoader.getSettings();
 
 	try {
 		const new_snapshots = JSON.parse(new_snapshots_json);
@@ -352,7 +353,11 @@ export async function importSnapshots(file: File): Promise<Snapshots | null> {
 			snapshots.length,
 		);
 
-		snapshots = [...snapshots, ...validated_snapshots];
+		if (settings.appendToSnapshotsOnImport) {
+			snapshots = [...snapshots, ...validated_snapshots];
+		} else {
+			snapshots = [...validated_snapshots];
+		}
 		SaverLoader.saveSnapshots(snapshots);
 		return snapshots;
 	} catch (e) {
