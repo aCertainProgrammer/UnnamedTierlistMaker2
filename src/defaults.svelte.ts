@@ -33,5 +33,14 @@ export const default_config: SaveData = {
 		useLegacySearch: false,
 		appendToSnapshotsOnImport: true,
 		theme: "legacy-dark",
+		binds: {
+			toggleToplaneFilterBind: "!",
+			toggleJungleFilterBind: "@",
+			toggleMidlaneFilterBind: "#",
+			toggleBotlaneFilterBind: "$",
+			toggleSupportFilterBind: "%",
+			toggleSnapshotOverlayBind: "G",
+			saveSnapshotBind: "V",
+		},
 	},
 };

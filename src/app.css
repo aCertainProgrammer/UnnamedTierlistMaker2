@@ -42,6 +42,7 @@
 	--tierNameOpacity: 1;
 	--tierBorderColor: black;
 	--colorPickerBorderColor: black;
+	--addTierBackground: var(--inputElementBackground);
 
 	/* Misc */
 	--snapshotBorderColor: #aaaaaa;
@@ -56,7 +57,7 @@
 
 	--bodyBackgroundColor: #0d1117;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
-	--inputElementBackground: #151515;
+	--inputElementBackground: #091648;
 
 	--errorColor: darkred;
 	--successColor: darkgreen;
@@ -69,11 +70,12 @@
 
 	/* Tierlist */
 	--dragHandleOpacity: 0.7;
-	--tierBackground: #202020;
+	--tierBackground: #131620;
 	--tierNameColor: black;
 	--tierNameOpacity: 0.9;
 	--tierBorderColor: black;
 	--colorPickerBorderColor: black;
+	--addTierBackground: #1f2333;
 
 	/* Misc */
 	--snapshotBorderColor: #aaaaaa;
