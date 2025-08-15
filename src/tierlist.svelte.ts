@@ -2,8 +2,10 @@ import { SaverLoader } from "./saverloader.svelte";
 import type { Snapshot, Snapshots } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
-import { default_tierlist } from "./defaults.svelte";
+import { default_config, default_tierlist } from "./defaults.svelte";
 import { exportTierlistAsImage } from "./images.svelte";
+import { all_champions } from "./filtering.svelte";
+import { default_data } from "./default_data";
 
 export type TierlistType = {
 	name: string;
@@ -437,6 +439,98 @@ export function clearAllTiers() {
 	tierlist.tiers.forEach((tier) => {
 		tier.champions = [];
 	});
+
+	setTierlist(tierlist);
+}
+
+export function importPoolFromOpgg(text: string) {
+	resetTierlist();
+	useDraftPoolTemplate();
+
+	const words = text.split(/\s/).filter((word) => word.length != 0);
+	const tiers: any = [
+		{ champions: [] },
+		{ champions: [] },
+		{ champions: [] },
+		{ champions: [] },
+		{ champions: [] },
+	];
+
+	let tierIndex = -1;
+	for (let i = 0; i < words.length; i++) {
+		const word = words[i];
+
+		if (word.includes("#")) {
+			tierIndex += 1;
+		}
+
+		let champion = word.replace(/'/g, "");
+		champion = champion.toLowerCase();
+
+		if (champion == "mundo") {
+			champion = "drmundo";
+		} else if (champion == "fortune") {
+			champion = "missfortune";
+		} else if (champion == "sin") {
+			champion = "leesin";
+		} else if (champion == "zhao") {
+			champion = "xinzhao";
+		} else if (champion == "sol") {
+			champion = "aurelionsol";
+		} else if (champion == "kench") {
+			champion = "tahmkench";
+		} else if (champion == "fate") {
+			champion = "twistedfate";
+		} else if (champion == "yi") {
+			champion = "masteryi";
+		}
+
+		if (
+			all_champions.includes(champion) &&
+			(words[i + 2] == "KDA" || words[i + 3] == "KDA")
+		) {
+			tiers[tierIndex].champions.push(champion);
+		}
+	}
+
+	const roleTiers = [
+		default_data.top,
+		default_data.jungle,
+		default_data.mid,
+		default_data.adc,
+		default_data.support,
+	];
+
+	const tierCounters = [
+		[0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0],
+		[0, 0, 0, 0, 0],
+	];
+	for (let j = 0; j < tierCounters.length; j++) {
+		for (const champion of tiers[j].champions) {
+			for (let i = 0; i < roleTiers.length; i++) {
+				if (roleTiers[i].includes(champion)) {
+					tierCounters[j][i] += 1;
+				}
+			}
+		}
+	}
+
+	for (let roleIndex = 0; roleIndex < tierCounters.length; roleIndex++) {
+		let max = -1;
+		let maxIndex = -1;
+		for (let i = 0; i < tiers.length; i++) {
+			if (tierCounters[i][roleIndex] > max) {
+				max = tierCounters[i][roleIndex];
+				maxIndex = i;
+			}
+		}
+
+		tierlist.tiers[roleIndex].champions = tiers[maxIndex].champions;
+		tierCounters[maxIndex] = [-1, -1, -1, -1, -1];
+	}
 
 	setTierlist(tierlist);
 }
