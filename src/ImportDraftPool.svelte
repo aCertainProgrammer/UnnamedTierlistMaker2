@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { importDraftPool } from "./tierlist.svelte";
+	import { importDraftPool, importPoolFromOpgg } from "./tierlist.svelte";
 
 	import { program_state } from "./state.svelte";
+	import HoverTextPopup from "./lib/HoverTextPopup.svelte";
 
 	let ally_error = $state("");
 	let enemy_error = $state("");
@@ -37,6 +38,17 @@
 			default:
 				return enemy_error;
 		}
+	}
+
+	function wrapImportPoolFromOPGG() {
+		const text = prompt(
+			"Paste the multi selection [NOT THE LINK IT WILL NOT WORK]",
+		);
+		if (!text) {
+			return;
+		}
+
+		importPoolFromOpgg(text);
 	}
 </script>
 
@@ -88,6 +100,9 @@
 			}}
 		>
 			{getEnemyString()}</button
+		>
+		<button class="text-button" onclick={wrapImportPoolFromOPGG}
+			>Import from op.gg - DO NOT USE THIS IF YOU DON'T KNOW HOW TO</button
 		>
 	</div>
 </div>
