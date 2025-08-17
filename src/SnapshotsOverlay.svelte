@@ -170,9 +170,9 @@
 					bind:value={items_per_page}
 					onchange={saveItemsPerPage}
 				>
-					<option>20</option>
-					<option>50</option>
-					<option>100</option>
+					<option value="20">20</option>
+					<option value="50">50</option>
+					<option value="100">100</option>
 				</select>
 			</div>
 			<button
@@ -275,5 +275,9 @@
 		justify-content: center;
 
 		gap: 4px;
+	}
+
+	.snapshots-bot-bar > button {
+		max-height: 2rem;
 	}
 </style>
