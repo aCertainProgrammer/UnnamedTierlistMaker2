@@ -196,6 +196,10 @@
 		opacity: var(--tierNameOpacity);
 	}
 
+	.tier-name:hover {
+		filter: brightness(120%);
+	}
+
 	.tier-name > span {
 		color: var(--tierNameColor);
 		font-size: 1.2rem;
