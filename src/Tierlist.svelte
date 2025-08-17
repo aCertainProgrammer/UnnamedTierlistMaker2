@@ -62,7 +62,7 @@
 		onfinalize={handleDndFinalize}
 	>
 		{#each items as item (item.id)}
-			<div>
+			<div class="tier-wrapper">
 				<Tier tier_id={item.tier.id} />
 				<div use:dragHandle class="drag-handle">
 					<img src="./img/drag_handle.webp" alt="drag-handle" />
@@ -96,6 +96,10 @@
 
 	.tiers-container {
 		overflow-y: auto;
+
+		padding-top: 15px;
+		padding-left: 5px;
+		padding-right: 5px;
 	}
 
 	.tiers-container,
@@ -108,10 +112,20 @@
 	}
 
 	.drag-handle {
-		height: 15px;
-		position: absolute;
-		top: calc(50% - 7.5px);
-		right: 10px;
+		position: relative;
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		padding: 4px;
+
+		background: var(--tierBackground);
+		border: 2px solid var(--tierBorderColor);
+		border-left: none;
+	}
+
+	.drag-handle > img {
 		opacity: var(--dragHandleOpacity);
 	}
 
@@ -137,5 +151,10 @@
 		justify-content: center;
 
 		margin-top: 1px;
+	}
+
+	.tier-wrapper {
+		display: flex;
+		flex-flow: row nowrap;
 	}
 </style>

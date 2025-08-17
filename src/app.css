@@ -229,3 +229,7 @@ select {
 	align-items: center;
 	justify-content: center;
 }
+
+button:hover {
+	filter: brightness(120%);
+}
