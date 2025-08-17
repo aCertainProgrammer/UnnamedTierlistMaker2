@@ -155,6 +155,7 @@
 						class="tier-name-input"
 						type="text"
 						placeholder="Tier name"
+						value={tier.name}
 						oninput={changeTierName}
 					/>
 				</div>
@@ -179,6 +180,7 @@
 		display: flex;
 		border: 2px solid var(--tierBorderColor);
 		border-top: none;
+		border-right: none;
 	}
 
 	.tier-name {
@@ -212,14 +214,13 @@
 		flex-wrap: wrap;
 		gap: 2px;
 		padding-left: 4px;
+		padding-right: 4px;
 
 		min-height: var(--championIconWidth);
 		width: 100%;
 
 		background: var(--tierBackground);
 		flex: 1;
-
-		padding-right: 25px;
 	}
 
 	.tier-editor-panel {
