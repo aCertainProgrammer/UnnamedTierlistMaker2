@@ -96,6 +96,10 @@
 
 	.tiers-container {
 		overflow-y: auto;
+
+		/* this is to make champion icon hovers work in the top tier */
+		padding-top: 15px;
+		margin-top: -15px;
 	}
 
 	.tiers-container,
