@@ -44,7 +44,7 @@
 	function getOpggString(): string {
 		switch (opgg_error) {
 			case "":
-				return "Import from op.gg - DO NOT USE THIS IF YOU DON'T KNOW HOW TO";
+				return "Import from op.gg";
 			case "success":
 				return "Success!";
 			default:
@@ -57,10 +57,12 @@
 			"Paste the multi selection [NOT THE LINK IT WILL NOT WORK]",
 		);
 		if (!text) {
+			opgg_error = "";
 			return;
 		}
 
 		importPoolFromOpgg(text);
+		opgg_error = "success";
 	}
 </script>
 
@@ -115,6 +117,12 @@
 		>
 			{getEnemyString()}</button
 		>
+		<div>
+			Here is a <a
+				href="https://www.youtube.com/watch?v=fyIHIANFhPY&feature=youtu.be"
+				target="_blank">guide</a
+			> on how to import from op.gg
+		</div>
 		<button
 			class="text-button {getErrorState(opgg_error)}"
 			onclick={() => {
@@ -122,7 +130,6 @@
 				enemy_error = "";
 				try {
 					wrapImportPoolFromOPGG();
-					opgg_error = "success";
 				} catch (e) {
 					opgg_error = e as string;
 				}
