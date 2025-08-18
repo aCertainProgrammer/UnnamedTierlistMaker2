@@ -6,6 +6,7 @@
 
 	let ally_error = $state("");
 	let enemy_error = $state("");
+	let opgg_error = $state("");
 
 	function getErrorState(string: string): string {
 		switch (string) {
@@ -40,15 +41,28 @@
 		}
 	}
 
+	function getOpggString(): string {
+		switch (opgg_error) {
+			case "":
+				return "Import from op.gg";
+			case "success":
+				return "Success!";
+			default:
+				return opgg_error;
+		}
+	}
+
 	function wrapImportPoolFromOPGG() {
 		const text = prompt(
 			"Paste the multi selection [NOT THE LINK IT WILL NOT WORK]",
 		);
 		if (!text) {
+			opgg_error = "";
 			return;
 		}
 
 		importPoolFromOpgg(text);
+		opgg_error = "success";
 	}
 </script>
 
@@ -77,6 +91,7 @@
 			class="text-button {getErrorState(ally_error)}"
 			onclick={() => {
 				enemy_error = "";
+				opgg_error = "";
 				try {
 					importDraftPool("ally");
 					ally_error = "success";
@@ -91,6 +106,7 @@
 			class="text-button {getErrorState(enemy_error)}"
 			onclick={() => {
 				ally_error = "";
+				opgg_error = "";
 				try {
 					importDraftPool("enemy");
 					enemy_error = "success";
@@ -101,8 +117,23 @@
 		>
 			{getEnemyString()}</button
 		>
-		<button class="text-button" onclick={wrapImportPoolFromOPGG}
-			>Import from op.gg - DO NOT USE THIS IF YOU DON'T KNOW HOW TO</button
+		<div>
+			Here is a <a
+				href="https://www.youtube.com/watch?v=fyIHIANFhPY&feature=youtu.be"
+				target="_blank">guide</a
+			> on how to import from op.gg
+		</div>
+		<button
+			class="text-button {getErrorState(opgg_error)}"
+			onclick={() => {
+				ally_error = "";
+				enemy_error = "";
+				try {
+					wrapImportPoolFromOPGG();
+				} catch (e) {
+					opgg_error = e as string;
+				}
+			}}>{getOpggString()}</button
 		>
 	</div>
 </div>

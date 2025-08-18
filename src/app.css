@@ -21,6 +21,7 @@
 	--generalTextColor: #cccccc;
 	--generalBorderColor: #707070;
 	--generalScrollbarColor: white;
+	--generalLinkColor: cornflowerblue;
 
 	--bodyBackgroundColor: #0d1117;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
@@ -54,6 +55,7 @@
 	--generalTextColor: #cccccc;
 	--generalBorderColor: #707070;
 	--generalScrollbarColor: white;
+	--generalLinkColor: cornflowerblue;
 
 	--bodyBackgroundColor: #0d1117;
 	--selectionBoxShadow: 0px 0px 2px 2px #0b2ee5;
@@ -232,4 +234,8 @@ select {
 
 button:hover {
 	filter: brightness(120%);
+}
+
+a {
+	color: var(--generalLinkColor);
 }

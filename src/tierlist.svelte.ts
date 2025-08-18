@@ -483,6 +483,10 @@ export function importPoolFromOpgg(text: string) {
 			all_champions.includes(champion) &&
 			(words[i + 2] == "KDA" || words[i + 3] == "KDA")
 		) {
+			if (tierIndex == -1) {
+				// This fixes a bad opgg selection by the user, where we start from the champions and not the player
+				tierIndex = 0;
+			}
 			tiers[tierIndex].champions.push(champion);
 		}
 	}
