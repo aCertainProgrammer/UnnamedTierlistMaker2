@@ -8,7 +8,7 @@ type ProgramState = {
 };
 
 export const program_state: ProgramState = $state({
-	current_screen: "manual_screen",
+	current_screen: "main_screen",
 	tier_editor_open: false,
 	currently_edited_tier_id: 0,
 	export_pool_overlay_open: false,
