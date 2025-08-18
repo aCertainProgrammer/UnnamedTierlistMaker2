@@ -6,6 +6,7 @@
 
 	let ally_error = $state("");
 	let enemy_error = $state("");
+	let opgg_error = $state("");
 
 	function getErrorState(string: string): string {
 		switch (string) {
@@ -37,6 +38,17 @@
 				return "Success!";
 			default:
 				return enemy_error;
+		}
+	}
+
+	function getOpggString(): string {
+		switch (opgg_error) {
+			case "":
+				return "Import from op.gg - DO NOT USE THIS IF YOU DON'T KNOW HOW TO";
+			case "success":
+				return "Success!";
+			default:
+				return opgg_error;
 		}
 	}
 
@@ -77,6 +89,7 @@
 			class="text-button {getErrorState(ally_error)}"
 			onclick={() => {
 				enemy_error = "";
+				opgg_error = "";
 				try {
 					importDraftPool("ally");
 					ally_error = "success";
@@ -91,6 +104,7 @@
 			class="text-button {getErrorState(enemy_error)}"
 			onclick={() => {
 				ally_error = "";
+				opgg_error = "";
 				try {
 					importDraftPool("enemy");
 					enemy_error = "success";
@@ -101,8 +115,18 @@
 		>
 			{getEnemyString()}</button
 		>
-		<button class="text-button" onclick={wrapImportPoolFromOPGG}
-			>Import from op.gg - DO NOT USE THIS IF YOU DON'T KNOW HOW TO</button
+		<button
+			class="text-button {getErrorState(opgg_error)}"
+			onclick={() => {
+				ally_error = "";
+				enemy_error = "";
+				try {
+					wrapImportPoolFromOPGG();
+					opgg_error = "success";
+				} catch (e) {
+					opgg_error = e as string;
+				}
+			}}>{getOpggString()}</button
 		>
 	</div>
 </div>
