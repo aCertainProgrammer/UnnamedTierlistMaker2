@@ -30,6 +30,7 @@
 		"vitest": "^3.2.4"
 	},
 	"dependencies": {
-		"vitest-browser-svelte": "^1.0.0"
+		"vitest-browser-svelte": "^1.0.0",
+		"zero-md": "^3.1.7"
 	}
 }

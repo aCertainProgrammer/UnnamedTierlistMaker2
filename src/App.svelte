@@ -6,6 +6,18 @@
 	import { clearAllTiers, pickChampion } from "./tierlist.svelte";
 	import { first_champion } from "./filtering.svelte";
 	import { SaverLoader } from "./saverloader.svelte";
+	import ManualScreen from "./ManualScreen.svelte";
+
+	import ZeroMd, { STYLES } from "zero-md";
+	customElements.define(
+		"zero-md",
+		class extends ZeroMd {
+			async load() {
+				await super.load();
+				this.template = STYLES.preset("dark");
+			}
+		},
+	);
 
 	setContext("role-filter", "none");
 
@@ -154,6 +166,7 @@
 		<MainScreen />
 	{:else if program_state.current_screen == "settings_screen"}
 		<SettingsScreen />
+	{:else if program_state.current_screen == "manual_screen"}<ManualScreen />
 	{/if}
 </main>
 
