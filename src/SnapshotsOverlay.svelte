@@ -170,9 +170,9 @@
 					bind:value={items_per_page}
 					onchange={saveItemsPerPage}
 				>
-					<option value="20">20</option>
-					<option value="50">50</option>
-					<option value="100">100</option>
+					{#each SaverLoader.getAllPageCounterOptions() as option}
+						<option value={option}>{option}</option>
+					{/each}
 				</select>
 			</div>
 			<button

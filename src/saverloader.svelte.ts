@@ -220,4 +220,8 @@ export class SaverLoader {
 		}
 		return settings.binds;
 	}
+
+	static getAllPageCounterOptions(): Array<number> {
+		return [20, 50, 100];
+	}
 }
