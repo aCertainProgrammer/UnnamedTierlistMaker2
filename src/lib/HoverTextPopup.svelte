@@ -12,5 +12,7 @@
 		background: var(--hoverTextBackground);
 		border-radius: 4px;
 		padding: 1px 2px;
+
+		z-index: 1;
 	}
 </style>
