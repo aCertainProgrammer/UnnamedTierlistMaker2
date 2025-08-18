@@ -9,7 +9,7 @@ const tier_name_width_px = champion_width_px;
 const tierlist_name_height_px = 50;
 
 const tierlist_name_font_size = 32;
-const tier_name_font_size = 24;
+const tier_name_font_size = 18;
 const max_image_width_px = 1920;
 const max_image_heigth_px = 1920;
 const min_image_width_px = 600;
