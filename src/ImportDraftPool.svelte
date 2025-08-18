@@ -2,7 +2,8 @@
 	import { importDraftPool, importPoolFromOpgg } from "./tierlist.svelte";
 
 	import { program_state } from "./state.svelte";
-	import HoverTextPopup from "./lib/HoverTextPopup.svelte";
+
+	const timeoutBeforeResetMs = 1500;
 
 	let ally_error = $state("");
 	let enemy_error = $state("");
@@ -95,6 +96,9 @@
 				try {
 					importDraftPool("ally");
 					ally_error = "success";
+					window.setTimeout(() => {
+						ally_error = "";
+					}, timeoutBeforeResetMs);
 				} catch (e) {
 					ally_error = e as string;
 				}
@@ -110,6 +114,10 @@
 				try {
 					importDraftPool("enemy");
 					enemy_error = "success";
+
+					window.setTimeout(() => {
+						enemy_error = "";
+					}, timeoutBeforeResetMs);
 				} catch (e) {
 					enemy_error = e as string;
 				}
@@ -130,6 +138,10 @@
 				enemy_error = "";
 				try {
 					wrapImportPoolFromOPGG();
+
+					window.setTimeout(() => {
+						opgg_error = "";
+					}, timeoutBeforeResetMs);
 				} catch (e) {
 					opgg_error = e as string;
 				}
