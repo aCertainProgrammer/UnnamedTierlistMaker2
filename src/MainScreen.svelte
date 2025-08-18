@@ -5,7 +5,6 @@
 	import {
 		getTierlist,
 		resetTierlist,
-		setTierlist,
 		exportTierlist,
 		importTierlist,
 		useDraftPoolTemplate,
@@ -53,7 +52,7 @@
 		<button
 			class="image-button"
 			onclick={() => {
-				console.log("Opening manual");
+				program_state.current_screen = "manual_screen";
 			}}
 		>
 			<img src="./img/question-mark.webp" alt="Open manual button" />
