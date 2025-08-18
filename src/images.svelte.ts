@@ -1,18 +1,15 @@
 import type { TierlistType, TierType } from "./tierlist.svelte";
 import { capitalize, exportImage } from "./util";
-import { getTierlist } from "./tierlist.svelte";
 
 const champion_width_px = 80;
 const champion_height_px = 80;
 const padding_x_px = 4;
 const padding_y_px = 4;
-const tier_gap_px = 0;
-const tier_name_height_px = champion_height_px;
 const tier_name_width_px = champion_width_px;
 const tierlist_name_height_px = 50;
 
 const tierlist_name_font_size = 32;
-const tier_name_font_size = 24;
+const tier_name_font_size = 18;
 const max_image_width_px = 1920;
 const max_image_heigth_px = 1920;
 const min_image_width_px = 600;

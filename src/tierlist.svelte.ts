@@ -2,7 +2,7 @@ import { SaverLoader } from "./saverloader.svelte";
 import type { Snapshot, Snapshots } from "./saverloader.svelte";
 import { exportData, readFile } from "./util";
 import { udt1_default_data } from "./UDT1_default_data";
-import { default_config, default_tierlist } from "./defaults.svelte";
+import { default_tierlist } from "./defaults.svelte";
 import { exportTierlistAsImage } from "./images.svelte";
 import { all_champions } from "./filtering.svelte";
 import { default_data } from "./default_data";
@@ -191,7 +191,7 @@ export function importDraftPool(team: DraftPoolTeam): void {
 	try {
 		data = JSON.parse(user_json);
 	} catch (e) {
-		throw "Failed to parse draft pool data";
+		throw "Failed to parse draft pool data: " + e;
 	}
 
 	if (data == null) {
@@ -237,11 +237,7 @@ export function exportDraftPool(
 	let data: UDT1Data = udt1_default_data;
 
 	if (user_json != null) {
-		try {
-			data = JSON.parse(user_json);
-		} catch (e) {
-			throw e;
-		}
+		data = JSON.parse(user_json);
 	}
 
 	if (data == null) {
@@ -249,14 +245,10 @@ export function exportDraftPool(
 	}
 
 	data[team] = pool;
-	try {
-		localStorage.setItem(
-			UDT1_USERDATA_LOCALSTORAGE_STRING,
-			JSON.stringify(data),
-		);
-	} catch (e) {
-		throw e;
-	}
+	localStorage.setItem(
+		UDT1_USERDATA_LOCALSTORAGE_STRING,
+		JSON.stringify(data),
+	);
 }
 
 export function changeSnapshotName(name: string, id: number) {
@@ -448,7 +440,9 @@ export function importPoolFromOpgg(text: string) {
 	useDraftPoolTemplate();
 
 	const words = text.split(/\s/).filter((word) => word.length != 0);
-	const tiers: any = [
+	const tiers: Array<{
+		champions: Array<string>;
+	}> = [
 		{ champions: [] },
 		{ champions: [] },
 		{ champions: [] },

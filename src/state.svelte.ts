@@ -7,7 +7,7 @@ type ProgramState = {
 	import_pool_overlay_open: boolean;
 };
 
-export const program_state = $state({
+export const program_state: ProgramState = $state({
 	current_screen: "main_screen",
 	tier_editor_open: false,
 	currently_edited_tier_id: 0,

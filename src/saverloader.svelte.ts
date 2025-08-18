@@ -1,8 +1,7 @@
 import type { TierlistType } from "./tierlist.svelte";
-import { default_tierlist, default_config } from "./defaults.svelte";
+import { default_config } from "./defaults.svelte";
 
 const local_storage_string = "UTM2";
-const tierlist_string = "tierlist";
 
 export type Snapshot = {
 	tierlist: TierlistType;
@@ -194,7 +193,7 @@ export class SaverLoader {
 		const save_data = this.getSaveData();
 		const valid_settings = this.validateSettings(settings);
 
-		save_data.settings = settings;
+		save_data.settings = valid_settings;
 		this.saveAllData(save_data);
 	}
 
@@ -219,5 +218,9 @@ export class SaverLoader {
 			return settings.binds;
 		}
 		return settings.binds;
+	}
+
+	static getAllPageCounterOptions(): Array<number> {
+		return [20, 50, 100];
 	}
 }
