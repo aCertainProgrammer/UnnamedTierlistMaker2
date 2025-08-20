@@ -149,7 +149,11 @@
 					}}
 				/>
 			</div>
-			<button class="text-button" onclick={closeOverlay}>Close</button>
+			<button
+				id="close-snapshots-button"
+				class="text-button"
+				onclick={closeOverlay}>Close</button
+			>
 		</div>
 		<div class="snapshots-container">
 			{#each snapshots as snapshot}

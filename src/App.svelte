@@ -8,22 +8,13 @@
 	import { SaverLoader } from "./saverloader.svelte";
 	import ManualScreen from "./ManualScreen.svelte";
 
-	import ZeroMd, { STYLES } from "zero-md";
-	customElements.define(
-		"zero-md",
-		class extends ZeroMd {
-			async load() {
-				await super.load();
-				this.template = STYLES.preset("dark");
-			}
-		},
-	);
-
 	setContext("role-filter", "none");
 
 	function onkeydown(event: KeyboardEvent) {
 		event.stopPropagation();
 		const key = event.key;
+		const isShiftKeyPressed = event.shiftKey;
+
 		const settings = SaverLoader.getSettings();
 
 		let isLetter = false;
@@ -53,17 +44,42 @@
 				)
 			) {
 				return;
-			} else if (key == "Escape") {
-				snapshotSearchBar.value = "";
-				snapshotSearchBar.dispatchEvent(
-					new Event("input", { bubbles: true }),
-				);
-				snapshotSearchBar.blur();
-			} else if (document.activeElement != snapshotSearchBar) {
-				if (settings.clearSearchBarsOnFocus) {
+			}
+			switch (key) {
+				case "Escape": {
 					snapshotSearchBar.value = "";
+					snapshotSearchBar.dispatchEvent(
+						new Event("input", { bubbles: true }),
+					);
+					snapshotSearchBar.blur();
+					break;
 				}
-				snapshotSearchBar.focus();
+				case "G": {
+					if (isShiftKeyPressed) {
+						const closeSnapshotsButton = document.getElementById(
+							"close-snapshots-button",
+						);
+
+						if (closeSnapshotsButton == null) {
+							throw "closeSnapshotsButton null when it shouldn't be";
+						}
+
+						closeSnapshotsButton.click();
+					}
+
+					break;
+				}
+				case "Shift": {
+					break;
+				}
+				default: {
+					if (document.activeElement != snapshotSearchBar) {
+						if (settings.clearSearchBarsOnFocus) {
+							snapshotSearchBar.value = "";
+						}
+						snapshotSearchBar.focus();
+					}
+				}
 			}
 
 			return;
@@ -127,6 +143,41 @@
 								new Event("input", { bubbles: true }),
 							);
 							championSelectionSearchBar.blur();
+							break;
+						}
+						case "G": {
+							if (isShiftKeyPressed) {
+								const openSnapshotsButton =
+									document.getElementById(
+										"open-snapshots-button",
+									);
+
+								if (openSnapshotsButton == null) {
+									throw "openSnapshotsButton null when it shouldn't be";
+								}
+
+								openSnapshotsButton.click();
+							}
+
+							break;
+						}
+						case "V": {
+							if (isShiftKeyPressed) {
+								const saveSnapshotButton =
+									document.getElementById(
+										"save-snapshot-button",
+									);
+
+								if (saveSnapshotButton == null) {
+									throw "saveSnapshotButton null when it shouldn't be";
+								}
+
+								saveSnapshotButton.click();
+							}
+
+							break;
+						}
+						case "Shift": {
 							break;
 						}
 						default: {
