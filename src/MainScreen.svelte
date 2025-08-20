@@ -126,10 +126,15 @@
 		{#if program_state.export_pool_overlay_open}
 			<ExportDraftPool />
 		{/if}
-		<button class="text-button" onclick={saveSnapshot}>Save snapshot</button
+		<button
+			id="save-snapshot-button"
+			class="text-button"
+			onclick={saveSnapshot}>Save snapshot</button
 		>
-		<button class="text-button" onclick={openSnapshotOverlay}
-			>Open snapshots</button
+		<button
+			id="open-snapshots-button"
+			class="text-button"
+			onclick={openSnapshotOverlay}>Open snapshots</button
 		>
 		{#if program_state.snapshot_overlay_open}<SnapshotsOverlay />{/if}
 	</div>
