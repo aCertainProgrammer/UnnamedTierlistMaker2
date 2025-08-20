@@ -145,7 +145,6 @@
 	}
 
 	.tier-preview {
-		min-height: var(--previewChampionIconWidth);
 		width: 100%;
 		display: flex;
 
@@ -173,12 +172,11 @@
 	}
 
 	.preview-tier-champions {
-		width: 100%;
 		min-height: var(--previewChampionIconWidth);
+		width: 100%;
 
 		display: flex;
 		flex-flow: row wrap;
-		flex: 1;
 
 		gap: 2px;
 		padding-left: 4px;
