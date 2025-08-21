@@ -151,6 +151,12 @@
 		<div class="settings-column">
 			<div class="settings-column-title">Keybinds</div>
 			<div class="settings-column-content">
+				<div>
+					All of the keybinds in here require <span
+						style="color:lightgreen">Shift</span
+					> to be pressed in order to work
+				</div>
+
 				{#each bindsArray as bind_data (bind_data.property)}
 					<div class="bind-container">
 						<div>{bind_data.text}</div>
