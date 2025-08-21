@@ -113,6 +113,7 @@
 		<div id="role-icons">
 			{#each roles as role}
 				<button
+					id="{role}-filtering-button"
 					onclick={(event: any) => setRoleFilter(event, role)}
 					class="image-button {role_query === role ? 'selected' : ''}"
 				>
@@ -183,5 +184,9 @@
 		align-items: start;
 
 		gap: 50px;
+	}
+
+	#champion-selection-search-bar {
+		min-width: 100px;
 	}
 </style>

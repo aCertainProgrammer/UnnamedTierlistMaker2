@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { default_config } from "./defaults.svelte";
 	import { SaverLoader } from "./saverloader.svelte";
 	import { program_state } from "./state.svelte";
 
 	let settings = $state(SaverLoader.getSettings());
 	let bindsArray = $derived.by(() => {
-		const binds = SaverLoader.getBinds();
+		const binds = settings.binds;
 
 		return [
 			{
@@ -12,7 +13,50 @@
 				bind: binds.saveSnapshotBind,
 				text: "Save snapshots",
 			},
+			{
+				property: "toggleSnapshotOverlayBind",
+				bind: binds.toggleSnapshotOverlayBind,
+				text: "Show/hide snapshots",
+			},
+			{
+				property: "toggleToplaneFilterBind",
+				bind: binds.toggleToplaneFilterBind,
+				text: "Toggle toplane champions filter",
+			},
+			{
+				property: "toggleJungleFilterBind",
+				bind: binds.toggleJungleFilterBind,
+				text: "Toggle jungle champions filter",
+			},
+			{
+				property: "toggleMidlaneFilterBind",
+				bind: binds.toggleMidlaneFilterBind,
+				text: "Toggle midlane champions filter",
+			},
+			{
+				property: "toggleBotlaneFilterBind",
+				bind: binds.toggleBotlaneFilterBind,
+				text: "Toggle botlane champions filter",
+			},
+			{
+				property: "toggleSupportFilterBind",
+				bind: binds.toggleSupportFilterBind,
+				text: "Toggle support champions filter",
+			},
 		];
+	});
+
+	let disabledDefault = $derived.by(() => {
+		const default_binds = default_config.settings.binds;
+
+		for (const bind_element of bindsArray) {
+			if (bind_element.bind != default_binds[bind_element.property]) {
+				console.log("not default");
+				return false;
+			}
+		}
+
+		return true;
 	});
 
 	function setTheme(event: any) {
@@ -107,7 +151,7 @@
 		<div class="settings-column">
 			<div class="settings-column-title">Keybinds</div>
 			<div class="settings-column-content">
-				{#each bindsArray as bind_data}
+				{#each bindsArray as bind_data (bind_data.property)}
 					<div class="bind-container">
 						<div>{bind_data.text}</div>
 						<input
@@ -127,6 +171,12 @@
 						/>
 					</div>
 				{/each}
+				<button
+					disabled={disabledDefault}
+					class="text-button"
+					onclick={() => SaverLoader.resetBinds()}
+					>Reset binds to default</button
+				>
 			</div>
 		</div>
 	</div>
@@ -199,5 +249,20 @@
 
 	.settings-column-content > * {
 		width: 100%;
+	}
+
+	.bind-container {
+		display: flex;
+		flex-flow: row nowrap;
+		gap: 10px;
+	}
+
+	.bind-container > div {
+		width: 100%;
+		display: flex;
+	}
+
+	.bind-container > input {
+		width: 30px;
 	}
 </style>
