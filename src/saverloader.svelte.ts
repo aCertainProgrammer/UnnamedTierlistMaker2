@@ -86,7 +86,9 @@ export class SaverLoader {
 			console.warn(
 				"Couldn't read save_data.tierlist, using default value",
 			);
-			save_data.tierlist = default_config.tierlist;
+			save_data.tierlist = JSON.parse(
+				JSON.stringify(default_config.tierlist),
+			);
 			this.saveTierlist(default_config.tierlist);
 		}
 
@@ -101,7 +103,9 @@ export class SaverLoader {
 				"Couldn't read save_data.snapshots, using default value",
 			);
 
-			save_data.snapshots = default_config.snapshots;
+			save_data.snapshots = JSON.parse(
+				JSON.stringify(default_config.snapshots),
+			);
 			this.saveAllData(save_data);
 		}
 
@@ -212,12 +216,24 @@ export class SaverLoader {
 	static getBinds(): Binds {
 		const settings = this.getSettings();
 		if (settings.binds == null) {
-			settings.binds = default_config.settings.binds;
+			settings.binds = JSON.parse(
+				JSON.stringify(default_config.settings.binds),
+			);
+
 			this.saveSettings(settings);
 
 			return settings.binds;
 		}
 		return settings.binds;
+	}
+
+	static resetBinds(): void {
+		const settings = this.getSettings();
+		settings.binds = JSON.parse(
+			JSON.stringify(default_config.settings.binds),
+		);
+
+		this.saveSettings(settings);
 	}
 
 	static getAllPageCounterOptions(): Array<number> {

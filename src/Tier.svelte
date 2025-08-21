@@ -9,6 +9,7 @@
 	} from "./tierlist.svelte";
 	import { program_state } from "./state.svelte";
 	import { type TierlistType, type TierType } from "./tierlist.svelte";
+	import { SaverLoader } from "./saverloader.svelte";
 
 	type Props = {
 		tier_id: number;
@@ -88,8 +89,43 @@
 		tierlist.tiers[tier_id].name = tier_name;
 		setTierlist(tierlist);
 	}
+
+	function tierEditorOnkeydown(event: KeyboardEvent) {
+		if (!program_state.tier_editor_open) {
+			return;
+		}
+
+		event.stopPropagation();
+
+		const key = event.key.toLowerCase();
+
+		const tierNameInput = document.getElementById(
+			"tier-name-input",
+		) as HTMLInputElement;
+		if (tierNameInput == null) {
+			console.error("tierNameInput null when it shouldn't be");
+			return;
+		}
+
+		switch (key.toLowerCase()) {
+			case "escape": {
+				program_state.tier_editor_open = false;
+				break;
+			}
+			default: {
+				if (document.activeElement != tierNameInput) {
+					tierNameInput.value = "";
+					tierNameInput.dispatchEvent(
+						new Event("input", { bubbles: true }),
+					);
+					tierNameInput.focus();
+				}
+			}
+		}
+	}
 </script>
 
+<svelte:window onkeydown={tierEditorOnkeydown} />
 <div
 	class="tier"
 	style={tier_id == 0 ? "border-top: 2px solid var(--tierBorderColor);" : ""}

@@ -2,12 +2,15 @@
 	import ChampionSelection from "./ChampionSelection.svelte";
 	import Tierlist from "./Tierlist.svelte";
 	import { program_state } from "./state.svelte";
+	import { first_champion } from "./filtering.svelte";
 	import {
 		getTierlist,
 		resetTierlist,
 		exportTierlist,
 		importTierlist,
 		useDraftPoolTemplate,
+		clearAllTiers,
+		pickChampion,
 	} from "./tierlist.svelte";
 	import { exportTierlistAsImage } from "./images.svelte";
 	import ExportDraftPool from "./ExportDraftPool.svelte";
@@ -37,8 +40,124 @@
 		const tierlist = getTierlist();
 		SaverLoader.saveSnapshot(tierlist);
 	}
+
+	function onkeydown(event: KeyboardEvent) {
+		if (program_state.current_screen != "main_screen") {
+			return;
+		}
+
+		if (
+			program_state.snapshot_overlay_open ||
+			program_state.tier_editor_open ||
+			program_state.export_pool_overlay_open ||
+			program_state.import_pool_overlay_open
+		) {
+			return;
+		}
+
+		event.stopPropagation();
+
+		const key = event.key.toLowerCase();
+		const isShiftKeyPressed = event.shiftKey;
+		const settings = SaverLoader.getSettings();
+
+		//let isLetter = false;
+		let isNumber = false;
+
+		//const letterRegex = /^[A-Za-z]$/;
+		//if (key.match(letterRegex)) {
+		//	isLetter = true;
+		//}
+
+		const numberRegex = /^[0-9]$/;
+		if (key.match(numberRegex)) {
+			isNumber = true;
+		}
+
+		const tierlistNameInput = document.getElementById(
+			"tierlist-name-input",
+		) as HTMLInputElement;
+
+		const championSelectionSearchBar = document.getElementById(
+			"champion-selection-search-bar",
+		) as HTMLInputElement;
+
+		if (tierlistNameInput == null) {
+			console.error("tierlistNameInput is null!");
+			return;
+		}
+		if (championSelectionSearchBar == null) {
+			console.error("championSelectionSearchBar is null!");
+			return;
+		}
+
+		if (document.activeElement == tierlistNameInput) {
+			return;
+		}
+
+		if (key === "delete") {
+			if (settings.disableDelete) {
+				return;
+			}
+
+			clearAllTiers();
+			championSelectionSearchBar.blur();
+			return;
+		} else if (key === "escape") {
+			championSelectionSearchBar.value = "";
+			championSelectionSearchBar.dispatchEvent(
+				new Event("input", { bubbles: true }),
+			);
+			championSelectionSearchBar.blur();
+			return;
+		}
+
+		if (isShiftKeyPressed) {
+			if (
+				key === settings.binds.toggleSnapshotOverlayBind.toLowerCase()
+			) {
+				const openSnapshotsButton = document.getElementById(
+					"open-snapshots-button",
+				);
+
+				if (openSnapshotsButton == null) {
+					throw "openSnapshotsButton null when it shouldn't be";
+				}
+				openSnapshotsButton.click();
+				return;
+			} else if (key === settings.binds.saveSnapshotBind.toLowerCase()) {
+				const saveSnapshotButton = document.getElementById(
+					"save-snapshot-button",
+				);
+
+				if (saveSnapshotButton == null) {
+					throw "saveSnapshotButton null when it shouldn't be";
+				}
+
+				saveSnapshotButton.click();
+				return;
+			}
+		} else {
+			if (isNumber) {
+				championSelectionSearchBar.blur();
+
+				const champion = first_champion;
+				if (champion == null) {
+					return;
+				}
+
+				pickChampion(champion, Number(key) - 1);
+			} else if (document.activeElement != championSelectionSearchBar) {
+				if (settings.clearSearchBarsOnFocus) {
+					championSelectionSearchBar.value = "";
+				}
+				championSelectionSearchBar.focus();
+			}
+		}
+	}
 </script>
 
+<svelte:window {onkeydown} />
 <div class="main-content">
 	<div class="top-buttons">
 		<button

@@ -66,8 +66,67 @@
 	function saveItemsPerPage() {
 		SaverLoader.saveItemsPerPage(items_per_page);
 	}
+
+	function onkeydown(event: KeyboardEvent) {
+		if (!program_state.snapshot_overlay_open) {
+			return;
+		}
+
+		event.stopPropagation();
+
+		const key = event.key.toLowerCase();
+		const isShiftKeyPressed = event.shiftKey;
+		const settings = SaverLoader.getSettings();
+
+		const snapshotSearchBar = document.getElementById(
+			"snapshots-search-bar",
+		) as HTMLInputElement;
+
+		if (
+			document.activeElement?.classList.contains("tierlist-name-preview")
+		) {
+			return;
+		}
+
+		if (key === "escape") {
+			snapshotSearchBar.value = "";
+			snapshotSearchBar.dispatchEvent(
+				new Event("input", { bubbles: true }),
+			);
+			snapshotSearchBar.blur();
+
+			return;
+		}
+
+		if (isShiftKeyPressed) {
+			if (
+				key === settings.binds.toggleSnapshotOverlayBind.toLowerCase()
+			) {
+				const closeSnapshotsButton = document.getElementById(
+					"close-snapshots-button",
+				);
+
+				if (closeSnapshotsButton == null) {
+					throw "closeSnapshotsButton null when it shouldn't be";
+				}
+
+				closeSnapshotsButton.click();
+				return;
+			}
+		} else {
+			if (document.activeElement != snapshotSearchBar) {
+				if (settings.clearSearchBarsOnFocus) {
+					snapshotSearchBar.value = "";
+				}
+				snapshotSearchBar.focus();
+			}
+		}
+
+		return;
+	}
 </script>
 
+<svelte:window {onkeydown} />
 <div class="snapshots-overlay" role="none" onclick={closeOverlay}>
 	<div class="panel snapshots-panel" onclick={stopPropagation} role="none">
 		<div class="snapshots-top-bar">
