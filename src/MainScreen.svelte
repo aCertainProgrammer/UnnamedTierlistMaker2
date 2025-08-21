@@ -91,6 +91,38 @@
 			return;
 		}
 
+		const toplaneRoleFilteringButton = document.getElementById(
+			"top-filtering-button",
+		);
+		const jungleRoleFilteringButton = document.getElementById(
+			"jungle-filtering-button",
+		);
+		const midlaneRoleFilteringButton = document.getElementById(
+			"mid-filtering-button",
+		);
+		const botlaneRoleFilteringButton = document.getElementById(
+			"adc-filtering-button",
+		);
+		const supportRoleFilteringButton = document.getElementById(
+			"support-filtering-button",
+		);
+
+		if (toplaneRoleFilteringButton == null) {
+			throw "toplaneRoleFilteringButton null when it shouldn't be";
+		}
+		if (jungleRoleFilteringButton == null) {
+			throw "jungleRoleFilteringButton null when it shouldn't be";
+		}
+		if (midlaneRoleFilteringButton == null) {
+			throw "midlaneRoleFilteringButton null when it shouldn't be";
+		}
+		if (botlaneRoleFilteringButton == null) {
+			throw "botlaneRoleFilteringButton null when it shouldn't be";
+		}
+		if (supportRoleFilteringButton == null) {
+			throw "supportRoleFilteringButton null when it shouldn't be";
+		}
+
 		if (document.activeElement == tierlistNameInput) {
 			return;
 		}
@@ -123,6 +155,8 @@
 				if (openSnapshotsButton == null) {
 					throw "openSnapshotsButton null when it shouldn't be";
 				}
+
+				championSelectionSearchBar.blur();
 				openSnapshotsButton.click();
 				return;
 			} else if (key === settings.binds.saveSnapshotBind.toLowerCase()) {
@@ -134,7 +168,38 @@
 					throw "saveSnapshotButton null when it shouldn't be";
 				}
 
+				championSelectionSearchBar.blur();
 				saveSnapshotButton.click();
+				return;
+			} else if (
+				key === settings.binds.toggleToplaneFilterBind.toLowerCase()
+			) {
+				championSelectionSearchBar.blur();
+				toplaneRoleFilteringButton.click();
+				return;
+			} else if (
+				key === settings.binds.toggleJungleFilterBind.toLowerCase()
+			) {
+				championSelectionSearchBar.blur();
+				jungleRoleFilteringButton.click();
+				return;
+			} else if (
+				key === settings.binds.toggleMidlaneFilterBind.toLowerCase()
+			) {
+				championSelectionSearchBar.blur();
+				midlaneRoleFilteringButton.click();
+				return;
+			} else if (
+				key === settings.binds.toggleBotlaneFilterBind.toLowerCase()
+			) {
+				championSelectionSearchBar.blur();
+				botlaneRoleFilteringButton.click();
+				return;
+			} else if (
+				key === settings.binds.toggleSupportFilterBind.toLowerCase()
+			) {
+				championSelectionSearchBar.blur();
+				supportRoleFilteringButton.click();
 				return;
 			}
 		} else {

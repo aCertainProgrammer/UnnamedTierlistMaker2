@@ -88,7 +88,23 @@
 			return;
 		}
 
+		const closeSnapshotsButton = document.getElementById(
+			"close-snapshots-button",
+		);
+
+		if (closeSnapshotsButton == null) {
+			throw "closeSnapshotsButton null when it shouldn't be";
+		}
+
 		if (key === "escape") {
+			if (
+				snapshotSearchBar.value == "" &&
+				document.activeElement != snapshotSearchBar
+			) {
+				closeSnapshotsButton.click();
+				return;
+			}
+
 			snapshotSearchBar.value = "";
 			snapshotSearchBar.dispatchEvent(
 				new Event("input", { bubbles: true }),
@@ -102,14 +118,6 @@
 			if (
 				key === settings.binds.toggleSnapshotOverlayBind.toLowerCase()
 			) {
-				const closeSnapshotsButton = document.getElementById(
-					"close-snapshots-button",
-				);
-
-				if (closeSnapshotsButton == null) {
-					throw "closeSnapshotsButton null when it shouldn't be";
-				}
-
 				closeSnapshotsButton.click();
 				return;
 			}

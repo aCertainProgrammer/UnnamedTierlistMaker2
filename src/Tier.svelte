@@ -108,6 +108,7 @@
 		}
 
 		switch (key.toLowerCase()) {
+			case "enter":
 			case "escape": {
 				program_state.tier_editor_open = false;
 				break;
