@@ -236,6 +236,11 @@ button:hover {
 	filter: brightness(120%);
 }
 
+button[disabled=""] {
+	filter: brightness(100%);
+	opacity: 0.8;
+}
+
 a {
 	color: var(--generalLinkColor);
 }

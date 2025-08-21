@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { default_config } from "./defaults.svelte";
 	import { SaverLoader } from "./saverloader.svelte";
 	import { program_state } from "./state.svelte";
 
@@ -43,6 +44,19 @@
 				text: "Toggle support champions filter",
 			},
 		];
+	});
+
+	let disabledDefault = $derived.by(() => {
+		const default_binds = default_config.settings.binds;
+
+		for (const bind_element of bindsArray) {
+			if (bind_element.bind != default_binds[bind_element.property]) {
+				console.log("not default");
+				return false;
+			}
+		}
+
+		return true;
 	});
 
 	function setTheme(event: any) {
@@ -158,6 +172,7 @@
 					</div>
 				{/each}
 				<button
+					disabled={disabledDefault}
 					class="text-button"
 					onclick={() => SaverLoader.resetBinds()}
 					>Reset binds to default</button
