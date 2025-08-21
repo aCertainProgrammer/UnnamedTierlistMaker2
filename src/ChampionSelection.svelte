@@ -185,4 +185,8 @@
 
 		gap: 50px;
 	}
+
+	#champion-selection-search-bar {
+		min-width: 100px;
+	}
 </style>
