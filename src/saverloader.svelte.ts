@@ -38,6 +38,7 @@ export type Binds = {
 	toggleSupportFilterBind: Bind;
 	toggleSnapshotOverlayBind: Bind;
 	saveSnapshotBind: Bind;
+	prepMacroBind: Bind;
 };
 
 export class SaverLoader {
@@ -169,6 +170,7 @@ export class SaverLoader {
 		const save_data = this.getSaveData();
 		const valid_settings = this.validateSettings(save_data.settings);
 
+		this.saveSettings(valid_settings);
 		return valid_settings;
 	}
 
@@ -190,6 +192,9 @@ export class SaverLoader {
 				settings[property] = default_config.settings[property];
 			}
 		});
+
+		settings.binds = this.validateBinds(settings.binds);
+
 		return settings;
 	}
 
@@ -224,7 +229,10 @@ export class SaverLoader {
 
 			return settings.binds;
 		}
-		return settings.binds;
+
+		const valid_binds = this.validateBinds(settings.binds);
+		this.saveSettings(settings);
+		return valid_binds;
 	}
 
 	static resetBinds(): void {
@@ -234,6 +242,24 @@ export class SaverLoader {
 		);
 
 		this.saveSettings(settings);
+	}
+
+	static validateBinds(binds: Binds): Binds {
+		if (binds == null) {
+			console.warn(
+				"couldnt read binds in validateBinds, using default ones",
+			);
+
+			return default_config.settings.binds;
+		}
+
+		for (const property in default_config.settings.binds) {
+			if (binds[property] == null) {
+				binds[property] = default_config.settings.binds[property];
+			}
+		}
+
+		return binds;
 	}
 
 	static getAllPageCounterOptions(): Array<number> {

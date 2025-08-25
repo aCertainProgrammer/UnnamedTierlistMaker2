@@ -41,6 +41,7 @@ export const default_config: SaveData = {
 			toggleSupportFilterBind: "%",
 			toggleSnapshotOverlayBind: "G",
 			saveSnapshotBind: "V",
+			prepMacroBind: "A",
 		},
 	},
 };

@@ -123,6 +123,26 @@
 			throw "supportRoleFilteringButton null when it shouldn't be";
 		}
 
+		const openExportPoolOverlayButton = document.getElementById(
+			"open-export-pool-overlay-button",
+		);
+		const takeScreenshotButton = document.getElementById(
+			"take-screenshot-button",
+		);
+		const exportTierlistButton = document.getElementById(
+			"export-tierlist-button",
+		);
+
+		if (openExportPoolOverlayButton == null) {
+			throw "openExportPoolOverlayButton null when it shouldn't be";
+		}
+		if (takeScreenshotButton == null) {
+			throw "takeScreenshotButton null when it shouldn't be";
+		}
+		if (exportTierlistButton == null) {
+			throw "exportTierlistButton null when it shouldn't be";
+		}
+
 		if (document.activeElement == tierlistNameInput) {
 			return;
 		}
@@ -201,6 +221,10 @@
 				championSelectionSearchBar.blur();
 				supportRoleFilteringButton.click();
 				return;
+			} else if (key == settings.binds.prepMacroBind.toLowerCase()) {
+				takeScreenshotButton.click();
+				exportTierlistButton.click();
+				openExportPoolOverlayButton.click();
 			}
 		} else {
 			if (isNumber) {
@@ -242,7 +266,11 @@
 			<img src="./img/question-mark.webp" alt="Open manual button" />
 		</button>
 
-		<button class="image-button" onclick={takeScreenshot}>
+		<button
+			id="take-screenshot-button"
+			class="image-button"
+			onclick={takeScreenshot}
+		>
 			<img src="./img/screenshot.webp" alt="Take screenshot button" />
 		</button>
 		<button
@@ -277,6 +305,7 @@
 			id="import-tierlist-file-input"
 		/>
 		<button
+			id="export-tierlist-button"
 			class="text-button"
 			onclick={() => {
 				const tierlist = getTierlist();
@@ -300,6 +329,7 @@
 			<ImportDraftPool />
 		{/if}
 		<button
+			id="open-export-pool-overlay-button"
 			class="text-button"
 			onclick={() => {
 				program_state.export_pool_overlay_open = true;
