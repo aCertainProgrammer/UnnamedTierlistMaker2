@@ -43,6 +43,11 @@
 				bind: binds.toggleSupportFilterBind,
 				text: "Toggle support champions filter",
 			},
+			{
+				property: "prepMacroBind",
+				bind: binds.prepMacroBind,
+				text: "Take screenshot + export tierlist + open draft pool export modal",
+			},
 		];
 	});
 
