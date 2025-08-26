@@ -225,6 +225,10 @@
 				takeScreenshotButton.click();
 				exportTierlistButton.click();
 				openExportPoolOverlayButton.click();
+				return;
+			} else if (key == settings.binds.takeScreenshotBind.toLowerCase()) {
+				takeScreenshotButton.click();
+				return;
 			}
 		} else {
 			if (isNumber) {

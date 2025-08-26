@@ -39,6 +39,7 @@ export type Binds = {
 	toggleSnapshotOverlayBind: Bind;
 	saveSnapshotBind: Bind;
 	prepMacroBind: Bind;
+	takeScreenshotBind: Bind;
 };
 
 export class SaverLoader {

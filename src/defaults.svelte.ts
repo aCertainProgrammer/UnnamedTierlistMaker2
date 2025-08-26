@@ -42,6 +42,7 @@ export const default_config: SaveData = {
 			toggleSnapshotOverlayBind: "G",
 			saveSnapshotBind: "V",
 			prepMacroBind: "A",
+			takeScreenshotBind: "L",
 		},
 	},
 };
