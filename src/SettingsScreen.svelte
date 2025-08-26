@@ -48,6 +48,11 @@
 				bind: binds.prepMacroBind,
 				text: "Take screenshot + export tierlist + open draft pool export modal",
 			},
+			{
+				property: "takeScreenshotBind",
+				bind: binds.takeScreenshotBind,
+				text: "Take screenshot",
+			},
 		];
 	});
 

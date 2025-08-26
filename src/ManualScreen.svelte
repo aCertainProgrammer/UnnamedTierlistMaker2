@@ -46,5 +46,10 @@
 		height: 100%;
 		width: max(50%, 900px);
 		overflow-y: auto;
+		padding: 20px 10px;
+	}
+
+	zero-md {
+		text-align: start;
 	}
 </style>
