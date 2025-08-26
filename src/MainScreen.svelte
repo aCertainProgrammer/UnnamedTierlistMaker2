@@ -144,6 +144,10 @@
 		}
 
 		if (document.activeElement == tierlistNameInput) {
+			if (key == "escape") {
+				tierlistNameInput.blur();
+			}
+
 			return;
 		}
 
