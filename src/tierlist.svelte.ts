@@ -227,8 +227,12 @@ export function exportDraftPool(
 		support: tierlist.tiers[4].champions,
 	};
 
+	const name =
+		tierlist.name.length < 200 && tierlist.name.length > 0
+			? tierlist.name + " pool"
+			: "pool";
 	if (team == null) {
-		exportData(pool, "pool.json");
+		exportData(pool, name + ".json");
 		return;
 	}
 
