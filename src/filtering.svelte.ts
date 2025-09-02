@@ -133,6 +133,15 @@ export function getFilteredChampions(
 		first_champion = null;
 	}
 
+	let clean_query = query.replace(/\s/g, "");
+	clean_query = clean_query.toLowerCase();
+
+	for (const champion of filtered_champions) {
+		if (champion == clean_query) {
+			first_champion = champion;
+		}
+	}
+
 	return no_duplicates;
 }
 
