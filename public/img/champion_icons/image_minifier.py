@@ -34,7 +34,7 @@ for filename in os.listdir(input_directory):
 
         img = Image.open(input_image_path)
 
-        resized_img = img.resize(target_size, Image.ANTIALIAS)
+        resized_img = img.resize(target_size)
 
         base_name = os.path.splitext(filename)[0]
         normalized_name = normalize_filename(base_name)
