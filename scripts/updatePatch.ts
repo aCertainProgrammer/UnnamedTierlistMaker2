@@ -26,15 +26,19 @@ const champions = await fetch(
 	.then((data) => data.json())
 	.then((json) => json.data);
 
-async function processChampion(champion: String, i: number) {
+let startedIndex = 1;
+let finishedIndex = 1;
+
+async function processChampion(champion: String) {
 	console.log(
 		"Working on " +
 			champion +
 			" - " +
-			i +
+			startedIndex +
 			"/" +
 			Object.keys(champions).length,
 	);
+	startedIndex += 1;
 
 	const smallChampionResponse = await fetch(
 		smallApiPath + champion + smallPostfix,
@@ -57,19 +61,17 @@ async function processChampion(champion: String, i: number) {
 		"Done with " +
 			champion +
 			" - " +
-			i +
+			finishedIndex +
 			"/" +
 			Object.keys(champions).length,
 	);
+	finishedIndex += 1;
 }
 
 const promises: Array<Promise<void>> = [];
-let i = 1;
 for (let champion in champions) {
-	const promise = processChampion(champion, i);
+	const promise = processChampion(champion);
 	promises.push(promise);
-
-	i += 1;
 }
 
 await Promise.all(promises);
