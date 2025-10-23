@@ -111,3 +111,8 @@ Start typing to search, you can search by the snapshot name or by the champions 
 - `Shift` + `G` to open the snapshot menu
 - `Shift` + `L` to take a screenshot
 - `Shift` + `A` to take a screenshot + export tierlist + open draft pool export modal
+
+
+<hr>
+UnnamedTierlistMaker2 isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc.
+UnnamedTierlistMaker2 was created under Riot Games' "Legal Jibber Jabber" policy using assets owned by Riot Games.  Riot Games does not endorse or sponsor this project.
