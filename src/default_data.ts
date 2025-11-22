@@ -59,6 +59,7 @@ export const default_data = {
 		"yone",
 		"yorick",
 		"zac",
+		"zaahen",
 	],
 	jungle: [
 		"amumu",
@@ -114,6 +115,7 @@ export const default_data = {
 		"zac",
 		"zed",
 		"zyra",
+		"zaahen",
 	],
 	mid: [
 		"ahri",
