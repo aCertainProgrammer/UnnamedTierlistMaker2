@@ -175,6 +175,8 @@ type UDT1Data = {
 };
 
 const UDT1_USERDATA_LOCALSTORAGE_STRING = "user_data";
+const UDT1_CHAMPION_POOL_UPDATE_LOCALSTORAGE_STRING = "championPoolUpdated";
+
 export function importDraftPool(team: DraftPoolTeam): void {
 	if (team == null) {
 		throw "Team is null when it shouldn't be";
@@ -252,6 +254,10 @@ export function exportDraftPool(
 	localStorage.setItem(
 		UDT1_USERDATA_LOCALSTORAGE_STRING,
 		JSON.stringify(data),
+	);
+	localStorage.setItem(
+		UDT1_CHAMPION_POOL_UPDATE_LOCALSTORAGE_STRING,
+		JSON.stringify(true),
 	);
 }
 
