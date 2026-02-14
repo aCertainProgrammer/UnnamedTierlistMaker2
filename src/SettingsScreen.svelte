@@ -89,6 +89,20 @@
 				program_state.current_screen = "main_screen";
 			}}>Close settings</button
 		>
+		<a href="https://github.com/aCertainProgrammer/UnnamedTierlistMaker2">
+			<img
+				src="./img/github.svg"
+				alt="repository link"
+				style="height: 30px; width: 30px"
+			/>
+		</a>
+		<a href="https://ko-fi.com/rycer">
+			<img
+				src="./img/kofi.png"
+				alt="kofi link"
+				style="height: 30px; width: 30px"
+			/>
+		</a>
 	</div>
 	<div
 		class="settings-content"
@@ -212,7 +226,8 @@
 	.settings-top-buttons {
 		display: flex;
 		flex-flow: row wrap;
-		gap: 4px;
+		gap: 10px;
+		align-items: center;
 	}
 
 	.settings-content {
