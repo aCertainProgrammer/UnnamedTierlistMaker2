@@ -123,6 +123,7 @@ export const default_data = {
 		"zaahen",
 		"zed",
 		"zyra",
+		"zaahen",
 	],
 	mid: [
 		"ahri",
